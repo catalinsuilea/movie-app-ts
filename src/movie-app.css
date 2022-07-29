@@ -1,0 +1,44 @@
+.movie-app {
+  display: block;
+}
+.card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+
+  margin: 20px auto;
+}
+.card-content {
+  display: flex;
+  justify-content: flex-start;
+  border-radius: 10px;
+  border: 1px solid #fff;
+  width: 100%;
+  height: 100%;
+  margin: 10px auto;
+  padding: 0;
+  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.2);
+}
+
+.card-img img {
+  width: 100%;
+  margin: 0;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+}
+.card:hover {
+  cursor: pointer;
+  box-shadow: 4px 4px 6px 3px rgba(0, 0, 0, 0.2);
+}
+.overview {
+  width: 100%;
+  text-align: left;
+  margin: 5px 10px;
+  text-decoration: none;
+}
+
+.overview span {
+  font-size: 23px;
+  font-weight: 500;
+}
