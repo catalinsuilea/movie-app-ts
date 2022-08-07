@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./MovieDetails.css";
-import Cast from "./types-modules/Cast";
-import Crew from "./types-modules/Crew";
-import MovieInfo from "./types-modules/MovieInfo";
+import Cast from "../../../types-modules/Cast";
+import Crew from "../../../types-modules/Crew";
+import MovieInfo from "../../../types-modules/MovieInfo";
 import { Box, Flex, Image } from "@chakra-ui/react";
 interface CastInfo {
   id?: number;

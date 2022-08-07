@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Outlet, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import MovieCard from "./MovieCard";
+import MovieCard from "../MovieCard/MovieCard";
 import "./movie-app.css";
-import Movies from "./types-modules/movies";
-import { ChakraProvider } from "@chakra-ui/react";
+import Movies from "../../../types-modules/movies";
 const GetMovies = () => {
   const [movies, setMovie] = useState<Movies[]>([]);
   const { genreID } = useParams();

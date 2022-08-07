@@ -1,6 +1,6 @@
 import React from "react";
 import ContentLoader from "react-content-loader";
-import LoaderInterface from "./types-modules/LoaderInterface";
+import LoaderInterface from "../../../types-modules/LoaderInterface";
 const Loader: React.FC<any> = (props) => (
   <ContentLoader
     speed={2}

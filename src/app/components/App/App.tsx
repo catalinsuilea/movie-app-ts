@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import GetMovies from "./GetMovies";
-import MovieDetails from "./MovieDetails";
-import GetGenres from "./GetGenres";
-import WelcomePage from "./WelcomePage";
+import GetMovies from "../GetMovies/GetMovies";
+import MovieDetails from "../MovieDetails/MovieDetails";
+import GetGenres from "../GetGenres/GetGenres";
+import WelcomePage from "../WelcomePage/WelcomePage";
 import { ChakraProvider } from "@chakra-ui/react";
-import Popularity from "./Popularity";
-import { myNewTheme } from "./styles/theme";
+import Popularity from "../Popularity/Popularity";
+import { myNewTheme } from "../../../styles/theme";
 function App() {
   return (
     <div className="App">

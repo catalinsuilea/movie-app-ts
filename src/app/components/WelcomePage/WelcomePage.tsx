@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, IconButton, Input } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { Outlet } from "react-router-dom";
-import PlacementExample from "./Drawer";
+import PlacementExample from "../Drawer/Drawer";
 
 const WelcomePage = () => {
   return (

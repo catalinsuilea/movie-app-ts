@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Loader from "./Loader";
-import Card from "./types-modules/Card";
+import Loader from "../Loader/Loader";
+import Card from "../../../types-modules/Card";
 import { Box, Image } from "@chakra-ui/react";
-//import { CPseudoBox } from '@chakra-ui/vue';
 
 const MovieCard: React.FC<Card> = (props) => {
   const [isLoading, setisLoading] = useState(true);

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import MovieCard from "./MovieCard";
-import Movies from "./types-modules/movies";
+import MovieCard from "../MovieCard/MovieCard";
+import Movies from "../../../types-modules/movies";
 import { Box, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 interface TopRatedMovies {

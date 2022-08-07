@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Outlet } from "react-router-dom";
-import Genres from "./types-modules/genres";
+import Genres from "../../../types-modules/genres";
 import { Box, Select } from "@chakra-ui/react";
-import { ArrowDownIcon } from "@chakra-ui/icons";
 
 const GetGenres: React.FC = () => {
   const [genre, setGenre] = useState<Genres[]>([]);
