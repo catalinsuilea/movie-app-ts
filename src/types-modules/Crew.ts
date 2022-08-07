@@ -7,5 +7,5 @@ interface Crew {
   original_name: string;
   job: string;
 }
-[];
+
 export default Crew;

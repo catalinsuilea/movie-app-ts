@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom";
 import Genres from "./types-modules/genres";
+import { Box, Select } from "@chakra-ui/react";
+import { ArrowDownIcon } from "@chakra-ui/icons";
+
 const GetGenres: React.FC = () => {
   const [genre, setGenre] = useState<Genres[]>([]);
   useEffect(() => {
@@ -16,13 +19,19 @@ const GetGenres: React.FC = () => {
   }, []);
   const navigate = useNavigate();
   function handleChange(name: string, id: number) {
-    navigate(`/movies/${name}/${id}`);
+    navigate(`movies/${name}/${id}`);
   }
   return (
     <div>
-      <div className="movie-app">
-        <h1>Pick movies by genre!</h1>
-        <select
+      <Box width="30vw" textAlign="center" margin="20px auto">
+        <Box margin="20px 0" fontSize="22px" fontWeight="500">
+          <h1>Pick movies by genre!</h1>
+        </Box>
+        <Select
+          data-testid="genres-id"
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
           onChange={(e: React.ChangeEvent) => {
             const movie = genre.filter(
               (item) => item.name === (e.target! as HTMLOptionElement).value
@@ -32,13 +41,15 @@ const GetGenres: React.FC = () => {
             console.log(genreId);
             handleChange(obj.name, genreId);
           }}
+          placeholder="Select genre..."
+          _hover={{ cursor: "pointer" }}
         >
-          <option></option>
           {genre.map((item) => (
             <option key={item.id}> {item.name}</option>
           ))}
-        </select>
-      </div>
+        </Select>
+      </Box>
+      <Outlet />
     </div>
   );
 };
