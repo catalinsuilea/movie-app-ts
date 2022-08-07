@@ -5,14 +5,19 @@ import "./MovieDetails.css";
 import Cast from "./types-modules/Cast";
 import Crew from "./types-modules/Crew";
 import MovieInfo from "./types-modules/MovieInfo";
+import { Box, Flex, Image } from "@chakra-ui/react";
 interface CastInfo {
-  id: number;
-  cast: Cast;
-  crew: Crew;
+  id?: number;
+  cast?: Cast[];
+  crew?: Crew[];
 }
 const MovieDetails = () => {
   const { id } = useParams();
-  const [castInfo, setCastInfo] = useState<CastInfo | null>(null);
+  const [castInfo, setCastInfo] = useState<CastInfo>({
+    id: undefined,
+    cast: undefined,
+    crew: undefined,
+  });
   const [movieInfo, setMovieInfo] = useState<MovieInfo | null>(null);
   console.log(id);
   useEffect(() => {
@@ -38,54 +43,70 @@ const MovieDetails = () => {
     };
     fetchMovieInfo();
   }, []);
-  const { cast, crew } = castInfo;
   console.log(castInfo);
-  console.log(cast, crew);
+  const { cast, crew } = castInfo;
+  console.log(cast);
 
   return (
     <div>
-      <div
-        className="movie-description-container"
+      <Box
         style={{
-          backgroundImage: `url(https://www.themoviedb.org/t/p/w780/${
-            movieInfo!.poster_path
-          })`,
+          backgroundImage: `url(https://www.themoviedb.org/t/p/w780/${movieInfo?.poster_path})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
-
           backgroundPosition: "center",
           position: "relative",
           zIndex: "-1",
         }}
+        position="relative"
+        _after={{
+          content: `""`,
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          bg: "black",
+          top: "0",
+          left: "0",
+          right: "0",
+          opacity: "0.7",
+          zIndex: "-1",
+        }}
       >
-        <div className="movie-about">
+        <Box
+          display="flex"
+          position="relative"
+          width="100%"
+          alignItems="center"
+          color="#fff"
+          // flexFlow={["column", "column", "column", "column"]}
+        >
           <div className="img-movie-description">
-            <img
-              src={`https://www.themoviedb.org/t/p/w780/${
-                movieInfo!.backdrop_path
-              }`}
-            ></img>
+            <Image
+              m="0 10px"
+              width="40vw"
+              src={`https://www.themoviedb.org/t/p/w780/${movieInfo?.backdrop_path}`}
+            />
           </div>
           <div className="movie-info">
             <h1>
-              {movieInfo!.title}{" "}
-              {`(${movieInfo!.release_date?.split("-").slice(0, 1)})`}{" "}
+              {movieInfo?.title}{" "}
+              {`(${movieInfo?.release_date?.split("-").slice(0, 1)})`}{" "}
             </h1>
             <div className="movie-details">
               <span>PG</span>
-              <p className="release-date">{movieInfo!.release_date} </p>
-              {`(${movieInfo!.original_language?.toUpperCase()})`}
+              <p className="release-date">{movieInfo?.release_date} </p>
+              {`(${movieInfo?.original_language?.toUpperCase()})`}
               <li>
-                {movieInfo!.genres?.map((genre) => (
+                {movieInfo?.genres?.map((genre) => (
                   <span className="genres">{genre.name},</span>
                 ))}
               </li>
             </div>
-            <span className="tagline space">{movieInfo!.tagline}</span>
+            <span className="tagline space">{movieInfo?.tagline}</span>
             <span className="overview-title space">Overview</span>
-            <p className="overview-content space">{movieInfo!.overview}</p>
+            <p className="overview-content space">{movieInfo?.overview}</p>
             <div className="movie-crew space">
-              {crew?.map((member: any, i: any) =>
+              {crew?.map((member: Crew, i: number) =>
                 i >= 4 ? (
                   ""
                 ) : (
@@ -97,17 +118,28 @@ const MovieDetails = () => {
               )}
             </div>
           </div>
-        </div>
-      </div>
-      <div className="cast-and-others">
+        </Box>
+      </Box>
+      <Box
+        display="flex"
+        justify-content="flex-start"
+        align-items="center"
+        width="90%"
+        margin="30px auto"
+        flexFlow={{ xs: "column", md: "row !important" }}
+      >
         <div className="cast">
           <h2>Top Billed Cast</h2>
-          <div className="characters-cards-container">
-            {cast?.map((item: any) => (
+          <Box className="characters-cards-container">
+            {cast?.map((item: Cast) => (
               <div className="charcacter-card">
                 <div className="character-img">
                   <img
-                    src={`https://www.themoviedb.org/t/p/w780/${item.profile_path}`}
+                    src={
+                      item.profile_path
+                        ? `https://www.themoviedb.org/t/p/w780/${item.profile_path}`
+                        : "https://www.dcrc.co/wp-content/uploads/2019/04/blank-head-profile-pic-for-a-man.jpg"
+                    }
                   ></img>
                 </div>
                 <div className="character-names">
@@ -124,32 +156,32 @@ const MovieDetails = () => {
               </div>
             ))}
             ;
-          </div>
+          </Box>
         </div>
         <div className="revenue-and-about">
           <div className="data">
             <div>
-              <span>Status</span> <p>{movieInfo!.status}</p>
+              <span>Status</span> <p>{movieInfo?.status}</p>
             </div>
             <div>
               <span>Original Language</span>{" "}
-              <p>{movieInfo!.original_language?.toUpperCase()}</p>
+              <p>{movieInfo?.original_language?.toUpperCase()}</p>
             </div>
             <div>
               <span>Release date:</span>
-              <p>{movieInfo!.release_date}</p>
+              <p>{movieInfo?.release_date}</p>
             </div>
             <div>
               <span>Budget</span>
-              <p>{`$${movieInfo!.budget}`}</p>
+              <p>{`$${movieInfo?.budget}`}</p>
             </div>
             <div>
               <span>Revenue</span>
-              <p>{`$${movieInfo!.revenue}`}</p>
+              <p>{`$${movieInfo?.revenue}`}</p>
             </div>
           </div>
         </div>
-      </div>
+      </Box>
     </div>
   );
 };

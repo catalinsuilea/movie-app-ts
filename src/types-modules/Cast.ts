@@ -12,5 +12,5 @@ interface Cast {
   popularity: number;
   profile_path: string;
 }
-[];
+
 export default Cast;
