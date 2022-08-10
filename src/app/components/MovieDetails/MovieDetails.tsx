@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./MovieDetails.css";
-import Cast from "./types-modules/Cast";
-import Crew from "./types-modules/Crew";
-import MovieInfo from "./types-modules/MovieInfo";
+import Cast from "../../../types-modules/Cast";
+import Crew from "../../../types-modules/Crew";
+import MovieInfo from "../../../types-modules/MovieInfo";
 import { Box, Flex, Image } from "@chakra-ui/react";
+import { afterTheme, flexTheme } from "../../../styles/theme";
 interface CastInfo {
   id?: number;
   cast?: Cast[];
@@ -59,24 +60,12 @@ const MovieDetails = () => {
           zIndex: "-1",
         }}
         position="relative"
-        _after={{
-          content: `""`,
-          position: "absolute",
-          width: "100%",
-          height: "100%",
-          bg: "black",
-          top: "0",
-          left: "0",
-          right: "0",
-          opacity: "0.7",
-          zIndex: "-1",
-        }}
+        {...afterTheme}
       >
         <Box
-          display="flex"
+          {...flexTheme}
           position="relative"
           width="100%"
-          alignItems="center"
           color="#fff"
           // flexFlow={["column", "column", "column", "column"]}
         >

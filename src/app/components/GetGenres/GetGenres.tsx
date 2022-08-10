@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Outlet } from "react-router-dom";
-import Genres from "./types-modules/genres";
+import Genres from "../../../types-modules/genres";
 import { Box, Select } from "@chakra-ui/react";
-import { ArrowDownIcon } from "@chakra-ui/icons";
+import { flexTheme } from "../../../styles/theme";
 
-const GetGenres: React.FC = () => {
+const GetGenres = () => {
   const [genre, setGenre] = useState<Genres[]>([]);
   useEffect(() => {
     const getGenre = async function () {
@@ -29,9 +29,7 @@ const GetGenres: React.FC = () => {
         </Box>
         <Select
           data-testid="genres-id"
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
+          {...flexTheme}
           onChange={(e: React.ChangeEvent) => {
             const movie = genre.filter(
               (item) => item.name === (e.target! as HTMLOptionElement).value

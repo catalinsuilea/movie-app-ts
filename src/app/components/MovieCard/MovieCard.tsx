@@ -1,25 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Loader from "./Loader";
-import Card from "./types-modules/Card";
+import Loader from "../Loader/Loader";
+import Card from "../../../types-modules/Card";
 import { Box, Image } from "@chakra-ui/react";
-//import { CPseudoBox } from '@chakra-ui/vue';
+import { flexTheme } from "../../../styles/theme";
 
-const MovieCard: React.FC<Card> = (props) => {
+const MovieCard = (props: Card) => {
   const [isLoading, setisLoading] = useState(true);
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setisLoading(!isLoading);
     }, 1000);
+    return () => {
+      clearTimeout(timeout);
+    };
   }, []);
   return (
-    <Box
-      data-testid="movie-card"
-      margin="2.5em auto"
-      w="100%"
-      display="flex"
-      justifyContent="center"
-    >
+    <Box data-testid="movie-card" margin="2.5em auto" w="100%" {...flexTheme}>
       <Link
         to={`/${props.title}/${props.id}`}
         style={{ textDecoration: "none", color: "black" }}

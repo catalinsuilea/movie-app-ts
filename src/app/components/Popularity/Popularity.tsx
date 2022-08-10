@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import MovieCard from "./MovieCard";
-import Movies from "./types-modules/movies";
+import MovieCard from "../MovieCard/MovieCard";
+import Movies from "../../../types-modules/movies";
 import { Box, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { flexTheme } from "../../../styles/theme";
 interface TopRatedMovies {
   page?: number;
   results?: Movies[];
@@ -59,12 +60,7 @@ const Popularity = () => {
           id={movie.id}
         />
       ))}
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        margin="40px"
-      >
+      <Box {...flexTheme} margin="40px">
         <Link
           to={`/top-rated-movies/page=${
             currentPage <= 1 ? 1 : currentPage - 1

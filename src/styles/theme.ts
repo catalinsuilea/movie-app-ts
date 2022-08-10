@@ -10,3 +10,22 @@ export const myNewTheme = extendTheme({
   },
   components: {},
 });
+export const flexTheme = extendTheme({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+});
+export const afterTheme = extendTheme({
+  _after: {
+    content: `""`,
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    bg: "black",
+    top: "0",
+    left: "0",
+    right: "0",
+    opacity: "0.7",
+    zIndex: "-1",
+  },
+});
