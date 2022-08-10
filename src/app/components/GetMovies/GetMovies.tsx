@@ -6,6 +6,7 @@ import "./movie-app.css";
 import Movies from "../../../types-modules/movies";
 const GetMovies = () => {
   const [movies, setMovie] = useState<Movies[]>([]);
+  console.log(movies);
   const { genreID } = useParams();
   useEffect(() => {
     const fetchMovies = async () => {
