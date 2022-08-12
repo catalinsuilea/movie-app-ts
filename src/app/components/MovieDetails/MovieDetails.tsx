@@ -5,7 +5,7 @@ import "./MovieDetails.css";
 import Cast from "../../../types-modules/Cast";
 import Crew from "../../../types-modules/Crew";
 import MovieInfo from "../../../types-modules/MovieInfo";
-import { Box, Flex, Image } from "@chakra-ui/react";
+import { Box, Image } from "@chakra-ui/react";
 import { afterTheme, flexTheme } from "../../../styles/theme";
 interface CastInfo {
   id?: number;
@@ -14,11 +14,7 @@ interface CastInfo {
 }
 const MovieDetails = () => {
   const { id } = useParams();
-  const [castInfo, setCastInfo] = useState<CastInfo>({
-    id: undefined,
-    cast: undefined,
-    crew: undefined,
-  });
+  const [castInfo, setCastInfo] = useState<CastInfo>({});
   const [movieInfo, setMovieInfo] = useState<MovieInfo | null>(null);
   console.log(id);
   useEffect(() => {
@@ -31,7 +27,7 @@ const MovieDetails = () => {
       setCastInfo(data);
     };
     fetchCastInfo();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const fetchMovieInfo = async () => {
@@ -43,7 +39,7 @@ const MovieDetails = () => {
       setMovieInfo(data);
     };
     fetchMovieInfo();
-  }, []);
+  }, [id]);
   console.log(castInfo);
   const { cast, crew } = castInfo;
   console.log(cast);
@@ -60,7 +56,7 @@ const MovieDetails = () => {
           zIndex: "-1",
         }}
         position="relative"
-        {...afterTheme}
+        {...afterTheme.demo}
       >
         <Box
           {...flexTheme}
@@ -74,6 +70,7 @@ const MovieDetails = () => {
               m="0 10px"
               width="40vw"
               src={`https://www.themoviedb.org/t/p/w780/${movieInfo?.backdrop_path}`}
+              alt="movie-original-poster"
             />
           </div>
           <div className="movie-info">
@@ -129,6 +126,7 @@ const MovieDetails = () => {
                         ? `https://www.themoviedb.org/t/p/w780/${item.profile_path}`
                         : "https://www.dcrc.co/wp-content/uploads/2019/04/blank-head-profile-pic-for-a-man.jpg"
                     }
+                    alt="character-img"
                   ></img>
                 </div>
                 <div className="character-names">

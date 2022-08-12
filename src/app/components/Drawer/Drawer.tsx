@@ -1,16 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Icon } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
-import { Radio, RadioGroup, useDisclosure } from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { useParams, Outlet } from "react-router-dom";
 import {
   Drawer,
   DrawerBody,
-  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
@@ -18,7 +16,6 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 function DrawerExample() {
-  const page = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef: any = React.useRef();
   const hamburger = faBars as IconProp;

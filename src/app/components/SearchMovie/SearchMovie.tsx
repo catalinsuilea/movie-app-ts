@@ -5,19 +5,14 @@ import MovieCard from "../MovieCard/MovieCard";
 import { MovieNameContext } from "../App/App";
 import Results from "../../../types-modules/MovieSearchResults";
 
-interface movieSearch {
-  page: number | undefined;
-  results: Results[] | undefined;
-  total_pages: number | undefined;
-  total_results: number | undefined;
+interface MovieSearch {
+  page?: number;
+  results?: Results[];
+  total_pages?: number;
+  total_results?: number;
 }
 const SearchMovie = () => {
-  const [movieSearch, setMovieSearch] = useState<movieSearch>({
-    page: undefined,
-    results: undefined,
-    total_pages: undefined,
-    total_results: undefined,
-  });
+  const [movieSearch, setMovieSearch] = useState<MovieSearch>({});
   const movieTitle = useContext(MovieNameContext);
   useEffect(() => {
     const fetchMovies = async () => {

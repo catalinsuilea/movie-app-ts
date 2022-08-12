@@ -12,20 +12,27 @@ const GetGenres = () => {
       const res = await axios.get(
         "https://api.themoviedb.org/3/genre/movie/list?api_key=380f962505ebde6dee08b0b646fe05f1&language=en-US"
       );
-      const data = await res?.data;
+      const data = await res.data;
       setGenre(data.genres);
+      console.log(data);
     };
+
     getGenre();
   }, []);
   const navigate = useNavigate();
   function handleChange(name: string, id: number) {
     navigate(`movies/${name}/${id}`);
   }
+  console.log(genre);
+  if (genre?.length === 0) {
+    return <h1 data-testid="loading">Loading...</h1>;
+  }
+
   return (
     <div>
       <Box width="30vw" textAlign="center" margin="20px auto">
         <Box margin="20px 0" fontSize="22px" fontWeight="500">
-          <h1>Pick movies by genre!</h1>
+          <h1 data-testid="test">Pick movies by genre!</h1>
         </Box>
         <Select
           data-testid="genres-id"

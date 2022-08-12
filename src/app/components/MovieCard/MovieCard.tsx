@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import Card from "../../../types-modules/Card";
 import { Box, Image } from "@chakra-ui/react";
-import { flexTheme } from "../../../styles/theme";
+import { flexTheme, MovieCardTheme } from "../../../styles/theme";
 
 const MovieCard = (props: Card) => {
   const [isLoading, setisLoading] = useState(true);
@@ -24,17 +24,8 @@ const MovieCard = (props: Card) => {
         <Box>
           <Box
             flexFlow={["column", "column", "column", "row"]}
-            display="flex"
-            justifyContent="flex-start"
             w={["90vw", "85vw"]}
-            margin="10px auto"
-            p="0"
-            boxShadow="0 0 4px 2px rgba(0,0,0,0.2)"
-            borderRadius="10px"
-            _hover={{
-              cursor: "pointer",
-              boxShadow: "0 0 6px 4px rgba(0,0,0,0.2)",
-            }}
+            {...MovieCardTheme}
           >
             {isLoading ? (
               <Loader />
