@@ -17,6 +17,7 @@ const WelcomePage = (props: setMovieTitle) => {
     const changeTitleInput = input?.split(" ").join("%20");
     console.log(changeTitleInput);
     props.setMovieTitle(changeTitleInput);
+    setInput("");
   };
   const navigate = useNavigate();
   function handleNavigate(value: string) {
@@ -46,11 +47,14 @@ const WelcomePage = (props: setMovieTitle) => {
                 placeholder="Search movie..."
                 width="70vw"
                 onChange={handleInput}
+                value={input}
               />
             </form>
           </Box>
           <Box>
             <IconButton
+              data-testid="search"
+              name="search"
               borderTopLeftRadius="0"
               borderBottomLeftRadius="0"
               size="lg"
@@ -60,6 +64,7 @@ const WelcomePage = (props: setMovieTitle) => {
               onClick={(e) => {
                 e.preventDefault();
                 searchByInput();
+                handleNavigate(input);
               }}
             />
           </Box>
