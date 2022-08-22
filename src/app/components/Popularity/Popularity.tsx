@@ -14,12 +14,7 @@ interface TopRatedMovies {
 }
 
 const Popularity = () => {
-  const [popularMovies, setPopularMovies] = useState<TopRatedMovies>({
-    page: undefined,
-    results: undefined,
-    total_pages: undefined,
-    total_results: undefined,
-  });
+  const [popularMovies, setPopularMovies] = useState<TopRatedMovies>({});
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
@@ -52,7 +47,7 @@ const Popularity = () => {
       {movies?.map((movie: Movies) => (
         <MovieCard
           key={movie.id}
-          imgSrc={movie.backdrop_path}
+          imgSrc={movie.poster_path}
           title={movie.title}
           description={movie.overview}
           rating={movie.vote_average}

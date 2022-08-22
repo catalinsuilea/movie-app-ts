@@ -30,7 +30,7 @@ const SearchMovie = () => {
       {movieSearch?.results?.map((movie) => (
         <MovieCard
           key={movie.id}
-          imgSrc={movie.backdrop_path}
+          imgSrc={movie.poster_path}
           title={movie.title}
           description={movie.overview}
           rating={movie.vote_average}

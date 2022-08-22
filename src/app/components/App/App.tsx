@@ -10,6 +10,7 @@ import { myNewTheme } from "../../../styles/theme";
 import SearchMovie from "../SearchMovie/SearchMovie";
 import { createContext } from "react";
 import { useState } from "react";
+import CarouselComponent from "../Carousel/carousel";
 export const MovieNameContext = createContext("");
 function App() {
   const [movieTitle, setMovieTitle] = useState("");
@@ -21,7 +22,9 @@ function App() {
           path="/"
           element={
             <ChakraProvider theme={myNewTheme}>
-              <WelcomePage setMovieTitle={setMovieTitle} />
+              <>
+                <WelcomePage setMovieTitle={setMovieTitle} />
+              </>
             </ChakraProvider>
           }
         >

@@ -31,10 +31,10 @@ const MovieCard = (props: Card) => {
               <Loader />
             ) : (
               <>
-                <Box>
+                <Box height="auto">
                   {" "}
                   <Image
-                    width={[null, "auto", "100%", "100%"]}
+                    width={[null, "auto", "100%", "200px"]}
                     m="0"
                     borderTopLeftRadius="10px"
                     borderBottomLeftRadius="10px"
