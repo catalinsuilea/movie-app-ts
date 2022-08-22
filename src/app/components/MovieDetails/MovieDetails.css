@@ -58,7 +58,7 @@ body {
   margin: 20px 0;
 }
 .img-movie-description img {
-  width: auto;
+  width: 350px;
   border-radius: 10px;
 }
 .movie-info {
@@ -104,6 +104,7 @@ li {
 }
 .overview-content {
   margin-right: 25px;
+  letter-spacing: 1.2px;
 }
 .cast-and-others {
   display: flex;
@@ -124,7 +125,7 @@ li {
 .revenue-and-about {
   margin-left: 50px;
   text-align: left;
-  margin-top: 50px;
+  margin-top: 85px;
 }
 .revenue-and-about span {
   font-weight: 500;

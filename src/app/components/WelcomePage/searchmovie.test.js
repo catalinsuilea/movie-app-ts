@@ -17,7 +17,7 @@ describe("Search bar", () => {
     expect(searchInput.value).toBe("test");
   });
 
-  it("should clear the input when search buttin is clicked", () => {
+  it("should clear the input when search button is clicked", () => {
     const mockProp = jest.fn(() => {});
     render(
       <BrowserRouter>

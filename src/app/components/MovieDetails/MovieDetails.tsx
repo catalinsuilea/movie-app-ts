@@ -48,7 +48,7 @@ const MovieDetails = () => {
     <div>
       <Box
         style={{
-          backgroundImage: `url(https://www.themoviedb.org/t/p/w780/${movieInfo?.poster_path})`,
+          backgroundImage: `url(https://www.themoviedb.org/t/p/w780/${movieInfo?.backdrop_path})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -68,8 +68,7 @@ const MovieDetails = () => {
           <div className="img-movie-description">
             <Image
               m="0 10px"
-              width="40vw"
-              src={`https://www.themoviedb.org/t/p/w780/${movieInfo?.backdrop_path}`}
+              src={`https://www.themoviedb.org/t/p/w780/${movieInfo?.poster_path}`}
               alt="movie-original-poster"
             />
           </div>
@@ -93,7 +92,7 @@ const MovieDetails = () => {
             <p className="overview-content space">{movieInfo?.overview}</p>
             <div className="movie-crew space">
               {crew?.map((member: Crew, i: number) =>
-                i >= 4 ? (
+                i >= 6 ? (
                   ""
                 ) : (
                   <div className="crew">
