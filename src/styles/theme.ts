@@ -80,4 +80,55 @@ export const HeaderTheme = extendTheme({
     marginRight: "25px",
     color: "#fff",
   },
+  linksContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    left: "50%",
+    transform: "translate(0,10%)",
+    margin: "0 4em",
+  },
+});
+export const SignUpTheme = extendTheme({
+  heading: {
+    borderTopLeftRadius: "10px",
+    borderTopRightRadius: "10px",
+    backgroundColor: "#4286f4",
+    color: "#fff",
+    fontSize: "22px",
+    p: "20px 10px",
+    textAlign: "left",
+  },
+  benefits: {
+    display: "flex",
+    justifyContent: "flex-start",
+    flexDirection: "column",
+    textAlign: "left",
+  },
+});
+export const SearchBarTheme = extendTheme({
+  welcomeText: {
+    textAlign: "left",
+    fontWeight: "700",
+    fontSize: "44px",
+    color: "#fff",
+    letterSpacing: "1.2px",
+  },
+  paragraphText: {
+    letterSpacing: "1.1px",
+    textAlign: "left",
+    fontSize: "34px",
+    color: "#fff",
+  },
+});
+
+export const WelcomePageTheme = extendTheme({
+  moviePosterContainer: {
+    position: "relative",
+    height: "auto",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: " 100% 100%",
+    objectFit: "cover",
+    zIndex: "1",
+  },
 });

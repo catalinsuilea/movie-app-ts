@@ -11,6 +11,8 @@ import SearchMovie from "../SearchMovie/SearchMovie";
 import { createContext } from "react";
 import { useState } from "react";
 import CarouselComponent from "../Carousel/carousel";
+import SignUp from "../SignUp/signup";
+import SearchBar from "../WelcomePage/searchBar";
 export const MovieNameContext = createContext("");
 function App() {
   const [movieTitle, setMovieTitle] = useState("");
@@ -23,19 +25,12 @@ function App() {
           element={
             <ChakraProvider theme={myNewTheme}>
               <>
-                <WelcomePage setMovieTitle={setMovieTitle} />
+                <WelcomePage />
               </>
             </ChakraProvider>
           }
         >
-          <Route
-            path="/movie/:value"
-            element={
-              <MovieNameContext.Provider value={movieTitle}>
-                <SearchMovie />
-              </MovieNameContext.Provider>
-            }
-          ></Route>
+          <Route path="/movie/:value" element={<SearchMovie />}></Route>
           <Route path="/top-rated-movies" element={<Popularity />}>
             <Route
               path="/top-rated-movies/page=:page"
@@ -48,6 +43,17 @@ function App() {
         </Route>
 
         <Route path="/:movieName/:id" element={<MovieDetails />}></Route>
+        <Route
+          path="/signup"
+          element={
+            <ChakraProvider>
+              {" "}
+              <SignUp />
+            </ChakraProvider>
+          }
+        >
+          {" "}
+        </Route>
       </Routes>
     </div>
   );

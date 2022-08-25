@@ -13,16 +13,7 @@ const Header = () => {
       height="80px"
       position="relative"
     >
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        // position="absolute"
-        // top="50%"
-        left="50%"
-        transform="translate(0,10%)"
-        margin="0 4em"
-      >
+      <Box {...HeaderTheme.linksContainer}>
         <Box {...flexTheme}>
           <Image
             cursor="pointer"
@@ -42,7 +33,14 @@ const Header = () => {
         </Box>
         <Box {...flexTheme}>
           <Link {...HeaderTheme.link}>Login</Link>
-          <Link {...HeaderTheme.link}>Join</Link>
+          <Link
+            onClick={() => {
+              navigate("/signup");
+            }}
+            {...HeaderTheme.link}
+          >
+            Join
+          </Link>
         </Box>
       </Box>
     </Heading>

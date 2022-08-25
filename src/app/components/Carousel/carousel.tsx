@@ -68,7 +68,7 @@ const CarouselComponent = () => {
       >
         {latestMovies?.results?.map((item: any) => (
           <>
-            <Box {...afterTheme.carousel} position="relative">
+            <Box key={item.id} {...afterTheme.carousel} position="relative">
               <Link
                 zIndex="2"
                 color="#fff"

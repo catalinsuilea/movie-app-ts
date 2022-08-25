@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react";
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import MovieCard from "../MovieCard/MovieCard";
-import { MovieNameContext } from "../App/App";
+import { MovieNameContext } from "../WelcomePage/WelcomePage";
 import Results from "../../../types-modules/MovieSearchResults";
 
 interface MovieSearch {
@@ -14,6 +14,7 @@ interface MovieSearch {
 const SearchMovie = () => {
   const [movieSearch, setMovieSearch] = useState<MovieSearch>({});
   const movieTitle = useContext(MovieNameContext);
+  console.log(movieTitle);
   useEffect(() => {
     const fetchMovies = async () => {
       const res = await axios.get(
