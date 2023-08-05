@@ -12,8 +12,6 @@ const SignUpForm = () => {
   const [formErrors, setFormErrors] = useState<any>({});
   const [isSubmit, setIsSubmit] = useState(false);
   const handleInputValue = (e: React.ChangeEvent) => {
-    // setFormValue((e.target! as HTMLInputElement).value);
-    // const { name, value }: any = e.target;
     setFormValue({
       ...formValue,
       [(e.target! as HTMLInputElement).name]: (e.target! as HTMLInputElement)
@@ -24,7 +22,6 @@ const SignUpForm = () => {
     e.preventDefault();
     setFormErrors(checkInputs(formValue));
     setIsSubmit(true);
-    //console.log("test");
   };
 
   const checkInputs = (values: any) => {
@@ -75,7 +72,7 @@ const SignUpForm = () => {
             onChange={handleInputValue}
           />
         </Box>
-        <Box color="red">
+        <Box color="red" mt="8px">
           {" "}
           <p>{formErrors.username}</p>
         </Box>
@@ -93,7 +90,7 @@ const SignUpForm = () => {
             onChange={handleInputValue}
           />
         </Box>
-        <Box color="red">
+        <Box color="red" mt="8px">
           {" "}
           <p>{formErrors.email}</p>
         </Box>
@@ -112,7 +109,7 @@ const SignUpForm = () => {
             onChange={handleInputValue}
           />
         </Box>
-        <Box color="red">
+        <Box color="red" mt="8px">
           <p>{formErrors.password}</p>
         </Box>
         <Box>
@@ -129,7 +126,7 @@ const SignUpForm = () => {
             onChange={handleInputValue}
           />
         </Box>
-        <Box color="red">
+        <Box color="red" mt="8px">
           <p>{formErrors.passwordConfirm}</p>
         </Box>
         <Button mt="20px" type="submit">
