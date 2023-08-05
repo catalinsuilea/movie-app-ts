@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, Icon, Image, Link } from "@chakra-ui/react";
-import Carousel from "nuka-carousel";
+import Carousel, { ScrollMode } from "nuka-carousel";
 import axios from "axios";
 import { afterTheme, flexTheme } from "../../../styles/theme";
 import {
@@ -30,6 +30,7 @@ const CarouselComponent = () => {
   return (
     <Box position="relative" m="1.25em auto">
       <Carousel
+        scrollMode={ScrollMode.remainder}
         slidesToShow={3}
         autoplay={true}
         autoplayInterval={3000}
@@ -105,7 +106,7 @@ const CarouselComponent = () => {
                 </Box>
                 {/* <Box {...flexTheme} flexDirection="column"> */}
 
-                <ShowHideText overview={item.overview} id={item.id} />
+                <ShowHideText {...item} />
                 {/* </Box> */}
               </Box>
             </Box>
