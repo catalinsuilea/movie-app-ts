@@ -1,7 +1,7 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, useMemo } from "react";
 import { Box, IconButton, Input } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
-import { Outlet, useNavigate, Routes, Route } from "react-router-dom";
+import { Outlet, Routes, Route, useLocation } from "react-router-dom";
 import PlacementExample from "../Drawer/Drawer";
 import CarouselComponent from "../Carousel/carousel";
 import Header from "../Header/Header";
@@ -15,19 +15,24 @@ import moviePosters from "../../../helpers/posters";
 import getRandomPoster from "../../../helpers/random";
 import SearchBar from "./searchBar";
 import SearchMovie from "../SearchMovie/SearchMovie";
-// interface setMovieTitle {
-//   setMovieTitle: (input: string) => void;
-// }
+
 export const MovieNameContext = createContext("");
 const WelcomePage = () => {
   const [movieTitle, setMovieTitle] = useState("");
 
+  const randomImage = useMemo(() => {
+    return getRandomPoster(moviePosters);
+  }, [moviePosters]);
+
+  console.log("hey", getRandomPoster(moviePosters));
+  const defaultImage =
+    "https://assets.teenvogue.com/photos/6436c21b4ea1fdd79f2d6c94/4:3/w_1499,h_1124,c_limit/StrangerThings_S3_Illustrated_Vertical_FINAL_RGB_Digital__EN.jpg";
   return (
     <Box>
       <Header />
       <Box margin="0 5em">
         <Box
-          backgroundImage={`${getRandomPoster(moviePosters)}`}
+          backgroundImage={randomImage}
           {...WelcomePageTheme.moviePosterContainer}
           {...afterTheme.searchContainer}
         >

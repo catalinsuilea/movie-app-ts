@@ -1,10 +1,7 @@
 const moviePosters = [
-  "https://www.thyquotes.com/img/og/doctor-who.jpg?ezimgfmt=rs:1440x900/rscb4/ng:webp/ngcb4",
-  "https://www.thyquotes.com/img/og/breaking-bad.jpg?ezimgfmt=rs:1440x900/rscb4/ng:webp/ngcb4",
-  "https://www.thyquotes.com/img/og/sons-of-anarchy.jpg?ezimgfmt=rs:1440x900/rscb4/ng:webp/ngcb4",
-  "https://www.thyquotes.com/img/og/game-of-thrones.jpg?ezimgfmt=rs:1440x900/rscb4/ng:webp/ngcb4",
-  "https://www.thyquotes.com/img/og/stranger-things.jpg?ezimgfmt=rs:1440x900/rscb4/ng:webp/ngcb4",
-  "https://www.thyquotes.com/img/og/better-call-saul.jpg?ezimgfmt=rs:1440x900/rscb4/ng:webp/ngcb4",
+  "https://imageio.forbes.com/specials-images/imageserve/64b00d4c98de686543e9bcfd/Universal-Studios--Halloween-Horror-Nights--Netflix--Stranger-Things--Hollywood-/1920x1080.jpg?format=jpg&width=1400",
+  "https://images2.alphacoders.com/893/thumbbig-893929.webp",
+  "https://images.hdqwalls.com/wallpapers/breaking-bad-poster.jpg",
 ];
 
 export default moviePosters;

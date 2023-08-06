@@ -29,8 +29,9 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: auto;
-  margin: 5px;
+  width: 100%;
+  margin: 8px 0;
+  font-size: 15px;
 }
 .character-real-name {
   font-weight: 500;

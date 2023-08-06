@@ -96,6 +96,7 @@ const CarouselComponent = () => {
                 bottom="0"
                 {...flexTheme}
                 justifyContent="space-evenly"
+                alignItems="start"
               >
                 <Box>
                   <Image
