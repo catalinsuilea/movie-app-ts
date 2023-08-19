@@ -9,52 +9,38 @@ import Popularity from "../Popularity/Popularity";
 import { myNewTheme } from "../../../styles/theme";
 import SearchMovie from "../SearchMovie/SearchMovie";
 import { createContext } from "react";
-import { useState } from "react";
-import CarouselComponent from "../Carousel/carousel";
 import SignUp from "../SignUp/signup";
-import SearchBar from "../WelcomePage/searchBar";
+import { SignInFormComponent } from "../SignUp/SignInFormComponent";
+import { AuthProvider } from "../SignUp/AuthenticationContext";
+
 export const MovieNameContext = createContext("");
 function App() {
-  const [movieTitle, setMovieTitle] = useState("");
-  // console.log(movieTitle);
   return (
     <div className="App">
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <ChakraProvider theme={myNewTheme}>
-              <>
-                <WelcomePage />
-              </>
-            </ChakraProvider>
-          }
-        >
-          <Route path="/movie/:value" element={<SearchMovie />}></Route>
-          <Route path="/top-rated-movies" element={<Popularity />}>
-            <Route
-              path="/top-rated-movies/page=:page"
-              element={<Popularity />}
-            />
-          </Route>
-          <Route path="genres" element={<GetGenres />}>
-            <Route path="movies/:genreName/:genreID" element={<GetMovies />} />
-          </Route>
-        </Route>
-
-        <Route path="/:movieName/:id" element={<MovieDetails />}></Route>
-        <Route
-          path="/signup"
-          element={
-            <ChakraProvider>
-              {" "}
-              <SignUp />
-            </ChakraProvider>
-          }
-        >
-          {" "}
-        </Route>
-      </Routes>
+      <ChakraProvider theme={myNewTheme}>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<WelcomePage />}>
+              <Route path="/movie/:value" element={<SearchMovie />}></Route>
+              <Route path="/top-rated-movies" element={<Popularity />}>
+                <Route
+                  path="/top-rated-movies/page=:page"
+                  element={<Popularity />}
+                />
+              </Route>
+              <Route path="genres" element={<GetGenres />}>
+                <Route
+                  path="movies/:genreName/:genreID"
+                  element={<GetMovies />}
+                />
+              </Route>
+            </Route>
+            <Route path="/:movieName/:id" element={<MovieDetails />}></Route>
+            <Route path="/signIn" element={<SignInFormComponent />}></Route>
+            <Route path="/signUp" element={<SignUp />}></Route>
+          </Routes>
+        </AuthProvider>
+      </ChakraProvider>
     </div>
   );
 }

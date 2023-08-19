@@ -4,8 +4,12 @@ import { flexTheme, HeaderTheme } from "../../../styles/theme";
 import logo from "../../../logo/movie-pilot.svg";
 import Navbar from "../menuHover/menuHover";
 import { useNavigate } from "react-router-dom";
+import { useAuthenticationContext } from "../SignUp/AuthenticationContext";
+
 const Header = () => {
   const navigate = useNavigate();
+  const { authUser, handleSignOut } = useAuthenticationContext();
+
   return (
     <Heading
       zIndex="2"
@@ -32,15 +36,26 @@ const Header = () => {
           <Link {...HeaderTheme.link}>More</Link>
         </Box>
         <Box {...flexTheme}>
-          <Link {...HeaderTheme.link}>Login</Link>
-          <Link
-            onClick={() => {
-              navigate("/signup");
-            }}
-            {...HeaderTheme.link}
-          >
-            Join
-          </Link>
+          {!authUser ? (
+            <>
+              {" "}
+              <Link onClick={() => navigate("/signIn")} {...HeaderTheme.link}>
+                Login
+              </Link>
+              <Link
+                onClick={() => {
+                  navigate("/signUp");
+                }}
+                {...HeaderTheme.link}
+              >
+                Join
+              </Link>
+            </>
+          ) : (
+            <Link {...HeaderTheme.link} onClick={() => handleSignOut()}>
+              Logout
+            </Link>
+          )}
         </Box>
       </Box>
     </Heading>

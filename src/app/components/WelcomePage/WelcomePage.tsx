@@ -15,18 +15,21 @@ import moviePosters from "../../../helpers/posters";
 import getRandomPoster from "../../../helpers/random";
 import SearchBar from "./searchBar";
 import SearchMovie from "../SearchMovie/SearchMovie";
+import { useAuthenticationContext } from "../SignUp/AuthenticationContext";
 
 export const MovieNameContext = createContext("");
 const WelcomePage = () => {
   const [movieTitle, setMovieTitle] = useState("");
+  const { authUser } = useAuthenticationContext();
 
   const randomImage = useMemo(() => {
     return getRandomPoster(moviePosters);
   }, [moviePosters]);
 
-  console.log("hey", getRandomPoster(moviePosters));
-  const defaultImage =
-    "https://assets.teenvogue.com/photos/6436c21b4ea1fdd79f2d6c94/4:3/w_1499,h_1124,c_limit/StrangerThings_S3_Illustrated_Vertical_FINAL_RGB_Digital__EN.jpg";
+  const displayWelcomeMessage = authUser
+    ? `Welcome, ${authUser.displayName}`
+    : "Welcome";
+
   return (
     <Box>
       <Header />
@@ -38,7 +41,7 @@ const WelcomePage = () => {
         >
           <Box {...flexTheme} alignItems="unset" flexDirection="column">
             <Box width="81%" m="40px auto">
-              <Box {...SearchBarTheme.welcomeText}>Welcome.</Box>
+              <Box {...SearchBarTheme.welcomeText}>{displayWelcomeMessage}</Box>
               <Box {...SearchBarTheme.paragraphText}>
                 Millions of movies, TV shows and people to discover.Explore now!
               </Box>

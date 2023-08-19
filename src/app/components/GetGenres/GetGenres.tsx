@@ -14,7 +14,6 @@ const GetGenres = () => {
       );
       const data = await res.data;
       setGenre(data.genres);
-      console.log(data);
     };
 
     getGenre();
@@ -23,7 +22,6 @@ const GetGenres = () => {
   function handleChange(name: string, id: number) {
     navigate(`movies/${name}/${id}`);
   }
-  console.log(genre);
   if (genre?.length === 0) {
     return <h1 data-testid="loading">Loading...</h1>;
   }
@@ -43,7 +41,6 @@ const GetGenres = () => {
             );
             const [obj] = movie;
             let genreId = obj.id;
-            console.log(genreId);
             handleChange(obj.name, genreId);
           }}
           placeholder="Select genre..."

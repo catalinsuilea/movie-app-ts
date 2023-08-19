@@ -1,10 +1,11 @@
 import React from "react";
 import { Box, Heading, Icon } from "@chakra-ui/react";
 import Header from "../Header/Header";
-import { flexTheme, SignUpTheme } from "../../../styles/theme";
-
+import { SignUpTheme } from "../../../styles/theme";
 import { CheckIcon } from "@chakra-ui/icons";
-import SignUpForm from "./signupForm";
+import { SignUpFormComponent } from "./SignUpFormComponent";
+import { useAuthenticationContext } from "./AuthenticationContext";
+
 const SignUp = () => {
   return (
     <Box>
@@ -96,7 +97,7 @@ const SignUp = () => {
             </p>
           </Box>
           <Box m="20px 0">
-            <SignUpForm />
+            <SignUpFormComponent />
           </Box>
         </Box>
       </Box>
