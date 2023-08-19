@@ -26,10 +26,11 @@ const CarouselComponent = () => {
     };
     fetchLatestMovies();
   }, []);
-  console.log(latestMovies);
+
   return (
     <Box position="relative" m="1.25em auto">
       <Carousel
+        wrapAround
         scrollMode={ScrollMode.remainder}
         slidesToShow={3}
         autoplay={true}
@@ -42,8 +43,8 @@ const CarouselComponent = () => {
         }}
         renderCenterLeftControls={({ previousSlide }) => (
           <Button
+            border="none"
             zIndex="2"
-            border="1px solid black"
             background="none"
             ml="5px"
             p={3}
@@ -55,10 +56,10 @@ const CarouselComponent = () => {
         )}
         renderCenterRightControls={({ nextSlide }) => (
           <Button
+            border="none"
             zIndex="2"
             onClick={nextSlide}
             p={3}
-            border="1px solid black"
             background="none"
             mr="5px"
             _hover={{ backgroundColor: "none" }}
@@ -105,19 +106,11 @@ const CarouselComponent = () => {
                     boxShadow="0 28px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)"
                   />
                 </Box>
-                {/* <Box {...flexTheme} flexDirection="column"> */}
-
                 <ShowHideText {...item} />
-                {/* </Box> */}
               </Box>
             </Box>
           </>
         ))}
-
-        {/* <img src="https://chico.ca.us/sites/main/files/imagecache/lightbox/main-images/dog_license.jpg" />
-      <img src="https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iGjNRh3032kw/v0/1200x-1.jpg" />
-      <img src="https://cdn.theatlantic.com/thumbor/mVxQkCl7YPBtSBVBvo0BkSOTB-w=/249x0:1749x1125/1200x900/media/img/mt/2019/03/Dr._Puppers/original.jpg" />
-      <img src="https://ichef.bbci.co.uk/news/976/cpsprodpb/17638/production/_124800859_gettyimages-817514614.jpg" /> */}
       </Carousel>
     </Box>
   );

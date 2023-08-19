@@ -15,7 +15,6 @@ const SearchBar = (props: setMovieTitle) => {
   };
   const searchByInput = () => {
     const changeTitleInput = input?.split(" ").join("%20");
-    console.log(changeTitleInput);
     props.setMovieTitle(changeTitleInput);
     setInput("");
   };
@@ -29,7 +28,6 @@ const SearchBar = (props: setMovieTitle) => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            // console.log(movieTitle);
             searchByInput();
             handleNavigate(input);
           }}

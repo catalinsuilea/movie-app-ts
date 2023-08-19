@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import "./MovieDetails.css";
 import Cast from "../../../types-modules/Cast";
 import Crew from "../../../types-modules/Crew";
 import MovieInfo from "../../../types-modules/MovieInfo";
-import { Box, Image } from "@chakra-ui/react";
-import { afterTheme, flexTheme } from "../../../styles/theme";
+import { Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
+import {
+  afterTheme,
+  flexTheme,
+  MovieDetailsTheme,
+} from "../../../styles/theme";
 interface CastInfo {
   id?: number;
   cast?: Cast[];
@@ -16,14 +19,13 @@ const MovieDetails = () => {
   const { id } = useParams();
   const [castInfo, setCastInfo] = useState<CastInfo>({});
   const [movieInfo, setMovieInfo] = useState<MovieInfo | null>(null);
-  console.log(id);
+
   useEffect(() => {
     const fetchCastInfo = async () => {
       const res = await axios.get(
         `https://api.themoviedb.org/3/movie/${id}/credits?api_key=380f962505ebde6dee08b0b646fe05f1&language=en-US`
       );
       const data = await res.data;
-      console.log(data);
       setCastInfo(data);
     };
     fetchCastInfo();
@@ -35,17 +37,15 @@ const MovieDetails = () => {
         `https://api.themoviedb.org/3/movie/${id}?api_key=380f962505ebde6dee08b0b646fe05f1&language=en-US`
       );
       const data = await res.data;
-      console.log(data);
       setMovieInfo(data);
     };
     fetchMovieInfo();
   }, [id]);
-  console.log(castInfo);
+
   const { cast, crew } = castInfo;
-  console.log(cast);
 
   return (
-    <div>
+    <Box>
       <Box
         style={{
           backgroundImage: `url(https://www.themoviedb.org/t/p/w780/${movieInfo?.backdrop_path})`,
@@ -65,44 +65,45 @@ const MovieDetails = () => {
           color="#fff"
           // flexFlow={["column", "column", "column", "column"]}
         >
-          <div className="img-movie-description">
+          <Box {...MovieDetailsTheme.imgMovieDescription}>
             <Image
+              width={{ base: "200px", md: "400px" }}
               m="0 10px"
               src={`https://www.themoviedb.org/t/p/w780/${movieInfo?.poster_path}`}
               alt="movie-original-poster"
             />
-          </div>
-          <div className="movie-info">
-            <h1>
+          </Box>
+          <Box {...MovieDetailsTheme.movieInfo}>
+            <Heading>
               {movieInfo?.title}{" "}
               {`(${movieInfo?.release_date?.split("-").slice(0, 1)})`}{" "}
-            </h1>
-            <div className="movie-details">
-              <span>PG</span>
-              <p className="release-date">{movieInfo?.release_date} </p>
+            </Heading>
+            <Box {...MovieDetailsTheme.movieDetails}>
+              <Text>PG</Text>
+              <Text m="0 5px">{movieInfo?.release_date} </Text>
               {`(${movieInfo?.original_language?.toUpperCase()})`}
-              <li>
+              <Flex>
                 {movieInfo?.genres?.map((genre) => (
-                  <span className="genres">{genre.name},</span>
+                  <Text m="0 5px">{genre.name},</Text>
                 ))}
-              </li>
-            </div>
-            <span className="tagline space">{movieInfo?.tagline}</span>
-            <span className="overview-title space">Overview</span>
-            <p className="overview-content space">{movieInfo?.overview}</p>
-            <div className="movie-crew space">
+              </Flex>
+            </Box>
+            <Text mt="16px">{movieInfo?.tagline}</Text>
+            <Text mt="16px">Overview</Text>
+            <Text mt="12px">{movieInfo?.overview}</Text>
+            <Flex mt="16px" {...MovieDetailsTheme.movieCrew}>
               {crew?.map((member: Crew, i: number) =>
                 i >= 6 ? (
                   ""
                 ) : (
-                  <div className="crew">
-                    <span>{member.original_name}</span>
-                    <small>{member.job}</small>
-                  </div>
+                  <Box {...MovieDetailsTheme.crew}>
+                    <Text fontWeight="bold">{member.original_name}</Text>
+                    <Text>{member.job}</Text>
+                  </Box>
                 )
               )}
-            </div>
-          </div>
+            </Flex>
+          </Box>
         </Box>
       </Box>
       <Box
@@ -113,62 +114,74 @@ const MovieDetails = () => {
         margin="30px auto"
         flexFlow={{ xs: "column", md: "row !important" }}
       >
-        <div className="cast">
+        <Box width="80%" textAlign="left">
           <h2>Top Billed Cast</h2>
-          <Box className="characters-cards-container">
+          <Box {...MovieDetailsTheme.charactersCardsContainer}>
             {cast?.map((item: Cast) => (
-              <div className="charcacter-card">
-                <div className="character-img">
-                  <img
+              <Box {...MovieDetailsTheme.charcacterCard}>
+                <Box {...MovieDetailsTheme.img}>
+                  <Image
+                    borderTopLeftRadius="15px"
+                    borderTopRightRadius="15px"
                     src={
                       item.profile_path
                         ? `https://www.themoviedb.org/t/p/w780/${item.profile_path}`
                         : "https://www.dcrc.co/wp-content/uploads/2019/04/blank-head-profile-pic-for-a-man.jpg"
                     }
                     alt="character-img"
-                  ></img>
-                </div>
-                <div className="character-names">
-                  <div>
-                    {" "}
-                    <span className="character-real-name">{item.name}</span>
-                  </div>
-                  <div>
-                    <span className="character-movie-name">
-                      {item.character}
-                    </span>
-                  </div>
-                </div>
-              </div>
+                  ></Image>
+                </Box>
+                <Box
+                  {...MovieDetailsTheme.charcacterNames}
+                  textAlign="center"
+                  height="65px"
+                >
+                  <Box>
+                    <Text fontWeight="500">{item.name}</Text>
+                  </Box>
+                  <Box>
+                    <Text fontSize="14px">{item.character}</Text>
+                  </Box>
+                </Box>
+              </Box>
             ))}
             ;
           </Box>
-        </div>
-        <div className="revenue-and-about">
-          <div className="data">
-            <div>
-              <span>Status</span> <p>{movieInfo?.status}</p>
-            </div>
-            <div>
-              <span>Original Language</span>{" "}
-              <p>{movieInfo?.original_language?.toUpperCase()}</p>
-            </div>
-            <div>
-              <span>Release date:</span>
-              <p>{movieInfo?.release_date}</p>
-            </div>
-            <div>
-              <span>Budget</span>
-              <p>{`$${movieInfo?.budget}`}</p>
-            </div>
-            <div>
-              <span>Revenue</span>
-              <p>{`$${movieInfo?.revenue}`}</p>
-            </div>
-          </div>
-        </div>
+        </Box>
+        <Box ml="50px" textAlign="left" mt="24px">
+          <Box>
+            <Text mt="6px" fontWeight="bold">
+              Status
+            </Text>
+            <Text>{movieInfo?.status}</Text>
+            <Box>
+              <Text mt="6px" fontWeight="bold">
+                Original Language
+              </Text>{" "}
+              <Text>{movieInfo?.original_language?.toUpperCase()}</Text>
+            </Box>
+            <Box>
+              <Text mt="6px" fontWeight="bold">
+                Release date:
+              </Text>
+              <Text>{movieInfo?.release_date}</Text>
+            </Box>
+            <Box>
+              <Text mt="6px" fontWeight="bold">
+                Budget
+              </Text>
+              <Text>{`$${movieInfo?.budget}`}</Text>
+            </Box>
+            <Box>
+              <Text mt="6px" fontWeight="bold">
+                Revenue
+              </Text>
+              <Text>{`$${movieInfo?.revenue}`}</Text>
+            </Box>
+          </Box>
+        </Box>
       </Box>
-    </div>
+    </Box>
   );
 };
 export default MovieDetails;

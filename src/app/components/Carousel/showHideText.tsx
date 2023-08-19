@@ -7,13 +7,13 @@ const ShowHideText = (props: any) => {
   return (
     <Box zIndex="2" width="70%" color="#fff" m="0 20px">
       {overview.split(" ").length > 2
-        ? overview.split(" ").slice(0, 10).join(" ")
+        ? overview.split(" ").slice(0, 20).join(" ")
         : overview}
       {show[id] ? (
         <Box fontSize="14.5px">
           {overview ? (
             <Box color="#fff">
-              {overview.split(" ").slice(10).join(" ")}
+              {overview.split(" ").slice(20).join(" ")}
               <Button
                 backgroundColor="transparent"
                 border="none"

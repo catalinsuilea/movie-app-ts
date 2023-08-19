@@ -23,7 +23,6 @@ const Popularity = () => {
         ` http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key=380f962505ebde6dee08b0b646fe05f1&page=${currentPage}&vote_count.gte=50`
       );
       const data = await res.data;
-      console.log(data);
       setPopularMovies(data);
     };
     fetchPopularMovies();
@@ -37,10 +36,8 @@ const Popularity = () => {
     setCurrentPage(currentPage - 1);
   };
 
-  console.log(popularMovies);
   let movies = popularMovies?.results;
   let totalPages = popularMovies?.total_pages;
-  console.log(movies);
 
   return (
     <div>

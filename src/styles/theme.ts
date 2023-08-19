@@ -132,3 +132,60 @@ export const WelcomePageTheme = extendTheme({
     zIndex: "1",
   },
 });
+
+export const MovieDetailsTheme = extendTheme({
+  imgMovieDescription: {
+    width: "auto",
+    margin: "20px 0",
+  },
+  movieInfo: {
+    textAlign: "left",
+    ml: "20px",
+    mt: "-25px",
+    width: "70%",
+  },
+  movieDetails: {
+    display: "flex",
+    justifyContent: " flex-start",
+    alignItems: " center",
+    mt: "12px",
+  },
+  charcacterCard: {
+    boxShadow: "1px 1px 6px 4px rgba(0, 0, 0, 0.1)",
+    margin: " 10px",
+    borderRadius: "15px",
+  },
+  charactersCardsContainer: {
+    display: "flex",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    overflowY: "hidden",
+    overflowX: "scroll",
+  },
+  img: {
+    width: "165px",
+    borderTopLeftRadius: "15px",
+    borderTopRightRadius: "15px",
+  },
+  characterNames: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    width: "100%",
+    margin: "8px 0",
+    fontSize: "15px",
+    textAlign: "center",
+  },
+  crew: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  movieCrew: {
+    justifyContent: "space-evenly",
+    alignItems: "start",
+    widh: "100%",
+    mt: "16px",
+  },
+});
