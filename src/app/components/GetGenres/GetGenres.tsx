@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Outlet } from "react-router-dom";
 import Genres from "../../../types-modules/genres";
-import { Box, Select } from "@chakra-ui/react";
+import { Box, Flex, Select } from "@chakra-ui/react";
 import { flexTheme } from "../../../styles/theme";
 
 const GetGenres = () => {
@@ -27,8 +27,8 @@ const GetGenres = () => {
   }
 
   return (
-    <div>
-      <Box width="30vw" textAlign="center" margin="20px auto">
+    <>
+      <Flex alignItems="center" flexDirection="column" margin="20px auto">
         <Box margin="20px 0" fontSize="22px" fontWeight="500">
           <h1 data-testid="test">Pick movies by genre!</h1>
         </Box>
@@ -50,9 +50,9 @@ const GetGenres = () => {
             <option key={item.id}> {item.name}</option>
           ))}
         </Select>
-      </Box>
+      </Flex>
       <Outlet />
-    </div>
+    </>
   );
 };
 export default GetGenres;

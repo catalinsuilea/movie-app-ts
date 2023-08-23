@@ -4,17 +4,22 @@ import Header from "../Header/Header";
 import { SignUpTheme } from "../../../styles/theme";
 import { CheckIcon } from "@chakra-ui/icons";
 import { SignUpFormComponent } from "./SignUpFormComponent";
-import { useAuthenticationContext } from "./AuthenticationContext";
+import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 
 const SignUp = () => {
   return (
     <Box>
       <Header />
-      <Box m="2em" display="flex" justifyContent="flex-start">
+      <Box
+        m="2em"
+        display="flex"
+        justifyContent="flex-start"
+        flexDirection={{ base: "column", md: "row" }}
+      >
         <Box
           borderRadius="10px"
           boxShadow="0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)"
-          width="300px"
+          width={{ base: "auto", lg: "300px" }}
         >
           <Heading {...SignUpTheme.heading}>
             <h1> Benefits of being a member</h1>
@@ -86,7 +91,11 @@ const SignUp = () => {
             </Box>
           </Box>
         </Box>
-        <Box textAlign="left" ml="50px">
+        <Box
+          textAlign={{ base: "center", md: "left" }}
+          ml={{ base: "0", md: "24px", lg: "48px" }}
+          mt={{ base: "16px", md: "unset" }}
+        >
           <Box mb="15px" fontSize="22px" fontWeight="700">
             <h1>Sign up for an account</h1>
           </Box>

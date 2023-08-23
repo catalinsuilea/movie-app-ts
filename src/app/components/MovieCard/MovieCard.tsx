@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import Card from "../../../types-modules/Card";
-import { Box, Image } from "@chakra-ui/react";
+import { Box, Flex, Image } from "@chakra-ui/react";
 import { flexTheme, MovieCardTheme } from "../../../styles/theme";
 
 const MovieCard = (props: Card) => {
@@ -16,7 +16,13 @@ const MovieCard = (props: Card) => {
     };
   }, []);
   return (
-    <Box data-testid="movie-card" margin="2.5em auto" w="100%" {...flexTheme}>
+    <Flex
+      justifyContent="center"
+      alignItems="center"
+      data-testid="movie-card"
+      margin="2.5em auto"
+      w="100%"
+    >
       <Link
         to={`/${props.title}/${props.id}`}
         style={{ textDecoration: "none", color: "black" }}
@@ -69,7 +75,7 @@ const MovieCard = (props: Card) => {
           </Box>
         </Box>
       </Link>
-    </Box>
+    </Flex>
   );
 };
 export default MovieCard;

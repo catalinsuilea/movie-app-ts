@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import axios from "axios";
 import MovieCard from "../MovieCard/MovieCard";
 import Movies from "../../../types-modules/movies";
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { flexTheme } from "../../../styles/theme";
 interface TopRatedMovies {
   page?: number;
   results?: Movies[];
@@ -40,7 +38,7 @@ const Popularity = () => {
   let totalPages = popularMovies?.total_pages;
 
   return (
-    <div>
+    <>
       {movies?.map((movie: Movies) => (
         <MovieCard
           key={movie.id}
@@ -52,20 +50,14 @@ const Popularity = () => {
           id={movie.id}
         />
       ))}
-      <Box {...flexTheme} margin="40px">
+      <Flex justify="center" alignItems="center" gap="12px">
         <Link
           to={`/top-rated-movies/page=${
             currentPage <= 1 ? 1 : currentPage - 1
           }`}
         >
           <Box fontSize="20px">
-            <Button
-              bg="secondary"
-              colorScheme="teal"
-              onClick={handlePrevioustPage}
-            >
-              Prev
-            </Button>
+            <Button onClick={handlePrevioustPage}>Prev</Button>
           </Box>
         </Link>
         <Box m="0 10px">
@@ -73,18 +65,11 @@ const Popularity = () => {
         </Box>
         <Link to={`/top-rated-movies/page=${currentPage + 1}`}>
           <Box fontSize="20px">
-            <Button
-              bg="primary"
-              variant="solid"
-              colorScheme="teal"
-              onClick={handleNextPage}
-            >
-              Next
-            </Button>
+            <Button onClick={handleNextPage}>Next</Button>
           </Box>{" "}
         </Link>
-      </Box>
-    </div>
+      </Flex>
+    </>
   );
 };
 export default Popularity;
