@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Icon } from "@chakra-ui/react";
+import { Box, Icon, Divider } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { useDisclosure } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
@@ -21,20 +21,14 @@ function DrawerExample() {
   const hamburger = faBars as IconProp;
   return (
     <>
-      <Button
-        mb="3em"
-        float="left"
-        ref={btnRef}
-        colorScheme="teal"
-        onClick={onOpen}
-      >
+      <Button ref={btnRef} colorScheme="teal" onClick={onOpen} mt="8px">
         <Box fontSize="24px">
-          <FontAwesomeIcon /*icon="fa-solid fa-bars"  */ icon={hamburger} />
+          <FontAwesomeIcon icon={hamburger} />
         </Box>
       </Button>
       <Drawer
         isOpen={isOpen}
-        placement="left"
+        placement="right"
         onClose={onClose}
         finalFocusRef={btnRef}
       >
@@ -44,7 +38,7 @@ function DrawerExample() {
           <DrawerHeader>Search movies by:</DrawerHeader>
 
           <DrawerBody>
-            <Link to="genres">
+            <Link to="/genres">
               <Box
                 display="flex"
                 justifyContent="flex-start"
@@ -65,6 +59,18 @@ function DrawerExample() {
                 {" "}
                 <Icon w={4} h={4} as={ChevronRightIcon} />
                 <p>Rating</p>
+              </Box>
+            </Link>
+            <Divider marginTop="12px" />
+            <DrawerHeader paddingX={0}>No account ?</DrawerHeader>
+            <Link to="/signUp">
+              <Box
+                display="flex"
+                justifyContent="flex-start"
+                alignItems="center"
+              >
+                <Icon w={4} h={4} as={ChevronRightIcon} />
+                <p>Join us</p>
               </Box>
             </Link>
           </DrawerBody>

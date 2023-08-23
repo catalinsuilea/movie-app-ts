@@ -11,13 +11,14 @@ import SearchMovie from "../SearchMovie/SearchMovie";
 import { createContext } from "react";
 import SignUp from "../SignUp/signup";
 import { SignInFormComponent } from "../SignUp/SignInFormComponent";
-import { AuthProvider } from "../SignUp/AuthenticationContext";
+import { AuthProvider } from "../../contexts/AuthenticationContext";
+import { DeviceTypeProvider } from "../../contexts/useDeviceTypeContext";
 
 export const MovieNameContext = createContext("");
 function App() {
   return (
-    <div className="App">
-      <ChakraProvider theme={myNewTheme}>
+    <ChakraProvider theme={myNewTheme}>
+      <DeviceTypeProvider>
         <AuthProvider>
           <Routes>
             <Route path="/" element={<WelcomePage />}>
@@ -40,8 +41,8 @@ function App() {
             <Route path="/signUp" element={<SignUp />}></Route>
           </Routes>
         </AuthProvider>
-      </ChakraProvider>
-    </div>
+      </DeviceTypeProvider>
+    </ChakraProvider>
   );
 }
 export default App;

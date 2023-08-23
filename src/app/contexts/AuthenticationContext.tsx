@@ -1,18 +1,14 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
-import { auth, db } from "../../../firebase";
+import { auth, db } from "../../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
-  getAuth,
   updateProfile,
 } from "firebase/auth";
-import { collection, addDoc, getDocs, query } from "firebase/firestore";
-import {
-  FormValue,
-  FormErrors,
-} from "../../../types-modules/SignUpFormComponent";
+import { collection, addDoc, getDocs } from "firebase/firestore";
+import { FormValue, FormErrors } from "../../types-modules/SignUpFormComponent";
 import { useNavigate } from "react-router-dom";
 
 const AuthenticationContext = createContext<any>({} as any);
@@ -44,7 +40,7 @@ export const AuthProvider = ({ children }: any) => {
 
     const querySnapshot = await getDocs(collection(db, "users"));
 
-    // If userInformation found, then we have already an account with the current username
+    // If userInformation found, then we already have an account with the current username
 
     const userInformation = querySnapshot?.docs.find(
       (user: any) =>
@@ -96,7 +92,6 @@ export const AuthProvider = ({ children }: any) => {
           }
           setError("");
           navigate("/signIn");
-          setIsUserSignedIn(true);
         })
         .catch((err) => {
           setError(err.code);

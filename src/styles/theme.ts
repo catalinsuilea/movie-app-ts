@@ -12,8 +12,8 @@ export const myNewTheme = extendTheme({
 });
 export const flexTheme = extendTheme({
   display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
+  justifyContent: "flex-start",
+  alignItems: { base: "start", md: "center", xl: "center" },
   sx: { "& .slider-frame": { overflowY: "visible !important" } },
 });
 export const afterTheme = extendTheme({
@@ -78,15 +78,16 @@ export const HeaderTheme = extendTheme({
     fontSize: "19px",
     textDecoration: "none",
     marginRight: "25px",
+    _last: { mr: "unset" },
     color: "#fff",
+    fontWeight: 500,
   },
   linksContainer: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    left: "50%",
     transform: "translate(0,10%)",
-    margin: "0 4em",
+    margin: "0 5em",
   },
 });
 export const SignUpTheme = extendTheme({
@@ -136,19 +137,23 @@ export const WelcomePageTheme = extendTheme({
 export const MovieDetailsTheme = extendTheme({
   imgMovieDescription: {
     width: "auto",
-    margin: "20px 0",
+    margin: { lg: "20px" },
   },
   movieInfo: {
     textAlign: "left",
-    ml: "20px",
-    mt: "-25px",
-    width: "70%",
+    m: { md: "20px", lg: "unset" },
+    mt: { base: "unset", lg: "-25px" },
+    width: { md: "100%", lg: "70%" },
+    display: "flex",
+    flexDirection: "column",
+    gap: { lg: "16px" },
   },
   movieDetails: {
     display: "flex",
     justifyContent: " flex-start",
     alignItems: " center",
     mt: "12px",
+    flexDirection: { base: "column", md: "row" },
   },
   charcacterCard: {
     boxShadow: "1px 1px 6px 4px rgba(0, 0, 0, 0.1)",
@@ -168,7 +173,6 @@ export const MovieDetailsTheme = extendTheme({
     borderTopRightRadius: "15px",
   },
   characterNames: {
-    display: "flex",
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
@@ -176,16 +180,19 @@ export const MovieDetailsTheme = extendTheme({
     margin: "8px 0",
     fontSize: "15px",
     textAlign: "center",
+    height: "55px",
   },
   crew: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    margin: { md: "12px auto", lg: "unset" },
   },
   movieCrew: {
     justifyContent: "space-evenly",
     alignItems: "start",
     widh: "100%",
     mt: "16px",
+    flexWrap: "wrap",
   },
 });

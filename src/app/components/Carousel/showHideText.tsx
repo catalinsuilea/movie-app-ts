@@ -17,9 +17,9 @@ const ShowHideText = (props: any) => {
               <Button
                 backgroundColor="transparent"
                 border="none"
-                ml="-10px"
+                ml="-12px"
+                mt="-4px"
                 fontSize="15.0px"
-                mb="5px"
                 _hover={{
                   backgroundColor: "transparent",
                   border: "none",
@@ -39,9 +39,9 @@ const ShowHideText = (props: any) => {
         <Button
           backgroundColor="transparent"
           border="none"
-          ml="-10px"
           fontSize="15.5px"
-          mb="5px"
+          ml="-12px"
+          mt="-4px"
           _hover={{
             backgroundColor: "transparent",
             border: "none",

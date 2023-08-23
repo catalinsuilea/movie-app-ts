@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, FormControl, Button, Input, FormLabel } from "@chakra-ui/react";
 import { checkInputs, getErrorMessage } from "../../../utils/checkFormInputs";
-import { useAuthenticationContext } from "./AuthenticationContext";
+import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 
 export const SignUpFormComponent = ({}) => {
   const {
@@ -58,7 +58,7 @@ export const SignUpFormComponent = ({}) => {
             onChange={handleInputValue}
           />
         </Box>
-        <Box color="red" mt="8px">
+        <Box color="red" textAlign="left" mt="8px">
           <p>{formRegisterErrors.username}</p>
         </Box>
         <Box>
@@ -75,7 +75,7 @@ export const SignUpFormComponent = ({}) => {
             onChange={handleInputValue}
           />
         </Box>
-        <Box color="red" mt="8px">
+        <Box color="red" textAlign="left" mt="8px">
           {" "}
           <p>{formRegisterErrors.email}</p>
         </Box>
@@ -94,7 +94,7 @@ export const SignUpFormComponent = ({}) => {
             onChange={handleInputValue}
           />
         </Box>
-        <Box color="red" mt="8px">
+        <Box color="red" textAlign="left" mt="8px">
           <p>{formRegisterErrors.password}</p>
         </Box>
         <Box>
@@ -111,10 +111,12 @@ export const SignUpFormComponent = ({}) => {
             onChange={handleInputValue}
           />
         </Box>
-        <Box color="red" mt="8px">
+        <Box color="red" textAlign="left" mt="8px">
           <p>{formRegisterErrors.passwordConfirm}</p>
         </Box>
-        <Box color="red">{getErrorMessage(error)}</Box>
+        <Box color="red" textAlign="left">
+          {getErrorMessage(error)}
+        </Box>
         <Button mt="16px" type="submit">
           Submit
         </Button>

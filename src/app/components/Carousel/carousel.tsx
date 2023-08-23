@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, Icon, Image, Link } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Icon,
+  Image,
+  Link,
+  Text,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import Carousel, { ScrollMode } from "nuka-carousel";
 import axios from "axios";
 import { afterTheme, flexTheme } from "../../../styles/theme";
@@ -10,9 +18,23 @@ import {
 } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import ShowHideText from "./showHideText";
+import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
 const CarouselComponent = () => {
-  const [latestMovies, getLatestMovies] = useState<any>({});
+  const [latestMovies, setLatestMovies] = useState<any>({});
   const navigate = useNavigate();
+  const { isMobile, isTablet } = useDeviceTypeContext();
+
+  const getSlidesToShow = () => {
+    switch (true) {
+      case isTablet:
+        return 2;
+      case isMobile:
+        return 1;
+      default:
+        return 3;
+    }
+  };
+
   const handleNavigate = (input: any) => {
     navigate(`/${input.title}/${input.id}`);
   };
@@ -22,7 +44,7 @@ const CarouselComponent = () => {
         "https://api.themoviedb.org/3/movie/upcoming?api_key=380f962505ebde6dee08b0b646fe05f1&language=en-US&page=1"
       );
       const data = res.data;
-      getLatestMovies(data);
+      setLatestMovies(data);
     };
     fetchLatestMovies();
   }, []);
@@ -32,8 +54,9 @@ const CarouselComponent = () => {
       <Carousel
         wrapAround
         scrollMode={ScrollMode.remainder}
-        slidesToShow={3}
-        autoplay={true}
+        slidesToShow={getSlidesToShow()}
+        autoplay
+        pauseOnHover
         autoplayInterval={3000}
         cellSpacing={3}
         defaultControlsConfig={{
@@ -50,6 +73,7 @@ const CarouselComponent = () => {
             p={3}
             onClick={previousSlide}
             _hover={{ backgroundColor: "none", color: "#FFD700" }}
+            display={isMobile || isTablet ? "none" : "block"}
           >
             <ArrowLeftIcon color="#fff" fontSize="23px" />
           </Button>
@@ -63,6 +87,7 @@ const CarouselComponent = () => {
             background="none"
             mr="5px"
             _hover={{ backgroundColor: "none" }}
+            display={isMobile || isTablet ? "none" : "block"}
           >
             <ArrowRightIcon color="#fff" fontSize="23px" />
           </Button>
@@ -85,7 +110,11 @@ const CarouselComponent = () => {
                 <ChevronRightIcon fontSize="27px" />
               </Link>
 
-              <Box {...flexTheme}>
+              <Box
+                {...flexTheme}
+                height={`${isMobile || isTablet ? "370px" : "unset"}`}
+                backgroundColor={{ base: "black", xl: "unset" }}
+              >
                 <Image
                   src={`https://www.themoviedb.org/t/p/w780/${item.backdrop_path}`}
                 />
@@ -101,12 +130,26 @@ const CarouselComponent = () => {
               >
                 <Box>
                   <Image
-                    width="150px"
+                    width={{ base: "200px", md: "200px" }}
                     src={`https://www.themoviedb.org/t/p/w780/${item.poster_path}`}
                     boxShadow="0 28px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)"
                   />
                 </Box>
-                <ShowHideText {...item} />
+                {isMobile || isTablet ? (
+                  <Text
+                    color="white"
+                    noOfLines={6}
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    width="100%"
+                    m="0 6px 0 12px"
+                    onClick={() => handleNavigate(item)}
+                  >
+                    {item.overview}
+                  </Text>
+                ) : (
+                  <ShowHideText {...item} />
+                )}
               </Box>
             </Box>
           </>
