@@ -66,7 +66,7 @@ const MovieCard = (props: Card) => {
                     m="15px 0"
                     fontSize={{ base: "21px", md: "19px" }}
                   >
-                    ⭐{props.rating}
+                    ⭐{props.rating.toFixed(1)}
                   </Box>
                   <Box>Release date: {props.releaseDate}</Box>
                 </Box>

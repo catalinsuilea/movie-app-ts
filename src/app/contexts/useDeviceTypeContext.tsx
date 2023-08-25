@@ -19,7 +19,7 @@ export const DeviceTypeProvider = ({ children }: any) => {
     xs: false,
     sm: false,
     md: true,
-    lg: false,
+    lg: true,
     xl: false,
   });
 

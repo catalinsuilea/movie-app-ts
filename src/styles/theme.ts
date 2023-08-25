@@ -166,6 +166,7 @@ export const MovieDetailsTheme = extendTheme({
     alignItems: "center",
     overflowY: "hidden",
     overflowX: "scroll",
+    m: { lg: "12px 0 24px 0" },
   },
   img: {
     width: "165px",
@@ -193,6 +194,7 @@ export const MovieDetailsTheme = extendTheme({
     alignItems: "start",
     widh: "100%",
     mt: "16px",
+    p: { md: "16px", xl: "unset" },
     flexWrap: "wrap",
   },
 });

@@ -4,7 +4,7 @@ import GetMovies from "../GetMovies/GetMovies";
 import MovieDetails from "../MovieDetails/MovieDetails";
 import GetGenres from "../GetGenres/GetGenres";
 import WelcomePage from "../WelcomePage/WelcomePage";
-import { ChakraProvider } from "@chakra-ui/react";
+import { Box, ChakraProvider } from "@chakra-ui/react";
 import Popularity from "../Popularity/Popularity";
 import { myNewTheme } from "../../../styles/theme";
 import SearchMovie from "../SearchMovie/SearchMovie";
@@ -13,6 +13,8 @@ import SignUp from "../SignUp/signup";
 import { SignInFormComponent } from "../SignUp/SignInFormComponent";
 import { AuthProvider } from "../../contexts/AuthenticationContext";
 import { DeviceTypeProvider } from "../../contexts/useDeviceTypeContext";
+import Header from "../Header/Header";
+import { Footer } from "./Footer";
 
 export const MovieNameContext = createContext("");
 function App() {
@@ -20,6 +22,7 @@ function App() {
     <ChakraProvider theme={myNewTheme}>
       <DeviceTypeProvider>
         <AuthProvider>
+          <Header />
           <Routes>
             <Route path="/" element={<WelcomePage />}>
               <Route path="/movie/:value" element={<SearchMovie />}></Route>
@@ -40,6 +43,7 @@ function App() {
             <Route path="/signIn" element={<SignInFormComponent />}></Route>
             <Route path="/signUp" element={<SignUp />}></Route>
           </Routes>
+          <Footer />
         </AuthProvider>
       </DeviceTypeProvider>
     </ChakraProvider>
