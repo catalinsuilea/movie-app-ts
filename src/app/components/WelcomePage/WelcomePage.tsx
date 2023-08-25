@@ -1,9 +1,7 @@
-import React, { useState, createContext, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
-import {} from "@chakra-ui/icons";
 import { Outlet, Routes, Route } from "react-router-dom";
 import CarouselComponent from "../Carousel/carousel";
-import Header from "../Header/Header";
 import {
   afterTheme,
   flexTheme,
@@ -13,15 +11,10 @@ import {
 import moviePosters from "../../../helpers/posters";
 import getRandomPoster from "../../../helpers/random";
 import SearchBar from "./searchBar";
-import SearchMovie from "../SearchMovie/SearchMovie";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
-import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
 
-export const MovieNameContext = createContext("");
 const WelcomePage = () => {
-  const [movieTitle, setMovieTitle] = useState("");
   const { authUser } = useAuthenticationContext();
-  const { isMobile } = useDeviceTypeContext();
 
   const randomImage = useMemo(() => {
     return getRandomPoster(moviePosters);
@@ -33,8 +26,7 @@ const WelcomePage = () => {
 
   return (
     <Box>
-      <Header />
-      <Box margin={{ base: "unset", md: "0 5rem" }}>
+      <Box margin={{ base: "unset", sm: "0 5rem" }}>
         <Box
           backgroundImage={randomImage}
           {...WelcomePageTheme.moviePosterContainer}
@@ -55,7 +47,7 @@ const WelcomePage = () => {
                 Millions of movies, TV shows and people to discover.Explore now!
               </Box>
             </Box>
-            <SearchBar setMovieTitle={setMovieTitle} />
+            <SearchBar />
           </Flex>
         </Box>
         <Outlet />
@@ -71,16 +63,6 @@ const WelcomePage = () => {
             </Text>
           </Box>
         </Box>
-        <Routes>
-          <Route
-            path="/movie/:value"
-            element={
-              <MovieNameContext.Provider value={movieTitle}>
-                <SearchMovie />
-              </MovieNameContext.Provider>
-            }
-          ></Route>
-        </Routes>
         <Box>
           <CarouselComponent />
         </Box>

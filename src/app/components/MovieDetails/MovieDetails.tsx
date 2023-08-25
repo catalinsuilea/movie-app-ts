@@ -5,7 +5,6 @@ import Cast from "../../../types-modules/Cast";
 import Crew from "../../../types-modules/Crew";
 import MovieInfo from "../../../types-modules/MovieInfo";
 import { Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
-import Header from "../Header/Header";
 import {
   afterTheme,
   flexTheme,
@@ -71,7 +70,6 @@ const MovieDetails = () => {
 
   return (
     <Box>
-      <Header />
       <Box
         style={{
           backgroundImage: `url(https://www.themoviedb.org/t/p/w780/${movieInfo?.backdrop_path})`,
@@ -239,13 +237,13 @@ const MovieDetails = () => {
         </Box>
       )}
       <Flex flexDirection="column" m={{ base: "unset", md: "0 2rem" }}>
-        <Text fontSize="22px" m={{ base: "24px 0 24px 32px" }}>
+        <Text fontSize="22px" m={{ base: "24px 0 0 32px" }}>
           Top Billed Cast
         </Text>
         <Flex
           flexDirection={{ base: "column", lg: "row" }}
           m="0 20px"
-          gap="24px"
+          gap={{ md: "24px" }}
         >
           <Box width={{ base: "95%", lg: "85%" }} textAlign="left">
             <Box {...MovieDetailsTheme.charactersCardsContainer}>
@@ -277,7 +275,7 @@ const MovieDetails = () => {
             </Box>
           </Box>
           <Box textAlign="left" ml={{ base: "16px", lg: "unset" }}>
-            <Box>
+            <Box mb={{ base: "16px", md: "unset" }}>
               <Text mt="6px" fontWeight="bold">
                 Status
               </Text>

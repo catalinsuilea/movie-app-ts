@@ -1,26 +1,20 @@
 import React, { useState } from "react";
 import { Box, IconButton, Input } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
-import { Outlet, useNavigate, Routes, Route } from "react-router-dom";
-import { flexTheme, SearchBarTheme } from "../../../styles/theme";
-interface setMovieTitle {
-  setMovieTitle: (input: string) => void;
-}
+import { useNavigate } from "react-router-dom";
+import { flexTheme } from "../../../styles/theme";
 
-const SearchBar = (props: setMovieTitle) => {
+const SearchBar = () => {
   const [input, setInput] = useState("");
 
   const handleInput = (e: React.ChangeEvent) => {
     setInput((e.target! as HTMLInputElement).value);
   };
-  const searchByInput = () => {
-    const changeTitleInput = input?.split(" ").join("%20");
-    props.setMovieTitle(changeTitleInput);
-    setInput("");
-  };
+
   const navigate = useNavigate();
   function handleNavigate(value: string) {
     navigate(`/movie/${value}`);
+    setInput("");
   }
   return (
     <Box {...flexTheme} alignItems="unset" mb="80px">
@@ -28,7 +22,6 @@ const SearchBar = (props: setMovieTitle) => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            searchByInput();
             handleNavigate(input);
           }}
         >
@@ -59,7 +52,6 @@ const SearchBar = (props: setMovieTitle) => {
           icon={<SearchIcon />}
           onClick={(e) => {
             e.preventDefault();
-            searchByInput();
             handleNavigate(input);
           }}
         />

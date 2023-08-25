@@ -5,6 +5,7 @@ import {
   Icon,
   Image,
   Link,
+  Skeleton,
   Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
@@ -21,6 +22,7 @@ import ShowHideText from "./showHideText";
 import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
 const CarouselComponent = () => {
   const [latestMovies, setLatestMovies] = useState<any>({});
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigate = useNavigate();
   const { isMobile, isTablet } = useDeviceTypeContext();
 
@@ -40,61 +42,70 @@ const CarouselComponent = () => {
   };
   useEffect(() => {
     const fetchLatestMovies = async () => {
-      const res = await axios.get(
-        "https://api.themoviedb.org/3/movie/upcoming?api_key=380f962505ebde6dee08b0b646fe05f1&language=en-US&page=1"
-      );
-      const data = res.data;
-      setLatestMovies(data);
+      try {
+        const res = await axios.get(
+          "https://api.themoviedb.org/3/movie/upcoming?api_key=380f962505ebde6dee08b0b646fe05f1&language=en-US&page=1"
+        );
+        const data = res.data;
+        setLatestMovies(data);
+        setIsLoading(false);
+      } catch (error: any) {
+        console.log("Error fetching the latest movies", error);
+        setIsLoading(true);
+      }
     };
     fetchLatestMovies();
   }, []);
 
   return (
     <Box position="relative" m="1.25em auto">
-      <Carousel
-        wrapAround
-        scrollMode={ScrollMode.remainder}
-        slidesToShow={getSlidesToShow()}
-        autoplay
-        pauseOnHover
-        autoplayInterval={3000}
-        cellSpacing={3}
-        defaultControlsConfig={{
-          pagingDotsStyle: {
-            fill: "#fff",
-          },
-        }}
-        renderCenterLeftControls={({ previousSlide }) => (
-          <Button
-            border="none"
-            zIndex="2"
-            background="none"
-            ml="5px"
-            p={3}
-            onClick={previousSlide}
-            _hover={{ backgroundColor: "none", color: "#FFD700" }}
-            display={isMobile || isTablet ? "none" : "block"}
-          >
-            <ArrowLeftIcon color="#fff" fontSize="23px" />
-          </Button>
-        )}
-        renderCenterRightControls={({ nextSlide }) => (
-          <Button
-            border="none"
-            zIndex="2"
-            onClick={nextSlide}
-            p={3}
-            background="none"
-            mr="5px"
-            _hover={{ backgroundColor: "none" }}
-            display={isMobile || isTablet ? "none" : "block"}
-          >
-            <ArrowRightIcon color="#fff" fontSize="23px" />
-          </Button>
-        )}
-      >
-        {latestMovies?.results?.map((item: any) => (
-          <>
+      {isLoading ? (
+        <Skeleton height="370px" width="100%" />
+      ) : (
+        <Carousel
+          wrapAround
+          scrollMode={ScrollMode.remainder}
+          slidesToShow={getSlidesToShow()}
+          autoplay
+          pauseOnHover
+          autoplayInterval={3000}
+          cellSpacing={3}
+          defaultControlsConfig={{
+            pagingDotsStyle: {
+              fill: "#fff",
+            },
+          }}
+          renderBottomCenterControls={null}
+          renderCenterLeftControls={({ previousSlide }) => (
+            <Button
+              border="none"
+              zIndex="2"
+              background="none"
+              ml="5px"
+              p={3}
+              onClick={previousSlide}
+              _hover={{ backgroundColor: "none", color: "#FFD700" }}
+              display={isMobile || isTablet ? "none" : "block"}
+            >
+              <ArrowLeftIcon color="#fff" fontSize="23px" />
+            </Button>
+          )}
+          renderCenterRightControls={({ nextSlide }) => (
+            <Button
+              border="none"
+              zIndex="2"
+              onClick={nextSlide}
+              p={3}
+              background="none"
+              mr="5px"
+              _hover={{ backgroundColor: "none" }}
+              display={isMobile || isTablet ? "none" : "block"}
+            >
+              <ArrowRightIcon color="#fff" fontSize="23px" />
+            </Button>
+          )}
+        >
+          {latestMovies?.results?.map((item: any) => (
             <Box key={item.id} {...afterTheme.carousel} position="relative">
               <Link
                 zIndex="2"
@@ -138,7 +149,7 @@ const CarouselComponent = () => {
                 {isMobile || isTablet ? (
                   <Text
                     color="white"
-                    noOfLines={6}
+                    noOfLines={5}
                     overflow="hidden"
                     textOverflow="ellipsis"
                     width="100%"
@@ -152,9 +163,9 @@ const CarouselComponent = () => {
                 )}
               </Box>
             </Box>
-          </>
-        ))}
-      </Carousel>
+          ))}
+        </Carousel>
+      )}
     </Box>
   );
 };
