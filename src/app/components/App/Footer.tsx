@@ -21,7 +21,6 @@ export const Footer = () => {
         h="100%"
         justifyContent="space-between"
         flexDirection="column"
-        // gap="8px"
       >
         <Flex justifyContent="space-between">
           <Box>
