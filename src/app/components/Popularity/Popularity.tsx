@@ -4,6 +4,8 @@ import MovieCard from "../MovieCard/MovieCard";
 import Movies from "../../../types-modules/movies";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
+import { SignInModal } from "../Modal/SignInModal";
 interface TopRatedMovies {
   page?: number;
   results?: Movies[];
@@ -13,15 +15,20 @@ interface TopRatedMovies {
 
 const Popularity = () => {
   const [popularMovies, setPopularMovies] = useState<TopRatedMovies>({});
+  const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { authUser } = useAuthenticationContext();
 
   useEffect(() => {
     const fetchPopularMovies = async () => {
+      setIsLoading(true);
       const res = await axios.get(
         ` http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key=380f962505ebde6dee08b0b646fe05f1&page=${currentPage}&vote_count.gte=50`
       );
       const data = await res.data;
       setPopularMovies(data);
+      setIsLoading(false);
     };
     fetchPopularMovies();
   }, [currentPage]);
@@ -33,6 +40,17 @@ const Popularity = () => {
     if (currentPage <= 1) return;
     setCurrentPage(currentPage - 1);
   };
+  console.log("heeeey", popularMovies);
+  // Open modal if user isn't authenticated and clicks on heart icon
+  const checkUserState = () => {
+    if (authUser) return;
+    setIsModalOpen(true);
+  };
+
+  // Close modal
+  const onCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   let movies = popularMovies?.results;
   let totalPages = popularMovies?.total_pages;
@@ -42,12 +60,12 @@ const Popularity = () => {
       {movies?.map((movie: Movies) => (
         <MovieCard
           key={movie.id}
-          imgSrc={movie.poster_path}
-          title={movie.title}
-          description={movie.overview}
-          rating={movie.vote_average}
-          releaseDate={movie.release_date}
-          id={movie.id}
+          authUser={authUser}
+          isModalOpen={isModalOpen}
+          onCloseModal={onCloseModal}
+          checkUserState={checkUserState}
+          isLoading={isLoading}
+          {...movie}
         />
       ))}
       <Flex justify="center" alignItems="center" gap="12px">
@@ -69,6 +87,7 @@ const Popularity = () => {
           </Box>{" "}
         </Link>
       </Flex>
+      <SignInModal isModalOpen={isModalOpen} onCloseModal={onCloseModal} />
     </>
   );
 };
