@@ -1,7 +1,8 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { Outlet, Routes, Route } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import CarouselComponent from "../Carousel/carousel";
+import axios from "axios";
 import {
   afterTheme,
   flexTheme,
@@ -15,6 +16,38 @@ import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 
 const WelcomePage = () => {
   const { authUser } = useAuthenticationContext();
+  const [latestMovies, setLatestMovies] = useState<any>({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  //Get lates movies
+  useEffect(() => {
+    setIsLoading(true);
+    const fetchLatestMovies = async () => {
+      try {
+        const res = await axios.get(
+          "https://api.themoviedb.org/3/movie/upcoming?api_key=380f962505ebde6dee08b0b646fe05f1&language=en-US&page=1"
+        );
+        const data = res.data;
+        setLatestMovies(data);
+        setIsLoading(false);
+      } catch (error: any) {
+        console.log("Error fetching the latest movies", error);
+      }
+    };
+    fetchLatestMovies();
+  }, []);
+
+  // Open modal if user isn't authenticated and clicks on heart icon
+  const checkUserState = () => {
+    if (authUser) return;
+    setIsModalOpen(true);
+  };
+
+  // Close modal
+  const onCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const randomImage = useMemo(() => {
     return getRandomPoster(moviePosters);
@@ -64,7 +97,13 @@ const WelcomePage = () => {
           </Box>
         </Box>
         <Box>
-          <CarouselComponent />
+          <CarouselComponent
+            isLoading={isLoading}
+            latestMovies={latestMovies}
+            isModalOpen={isModalOpen}
+            onCloseModal={onCloseModal}
+            checkUserState={checkUserState}
+          />
         </Box>
       </Box>
     </Box>

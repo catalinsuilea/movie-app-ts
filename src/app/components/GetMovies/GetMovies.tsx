@@ -3,9 +3,16 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import MovieCard from "../MovieCard/MovieCard";
 import Movies from "../../../types-modules/movies";
+import { SignInModal } from "../Modal/SignInModal";
+import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
+
 const GetMovies = () => {
   const [movies, setMovie] = useState<Movies[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const { genreID } = useParams();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { authUser } = useAuthenticationContext();
+
   useEffect(() => {
     const fetchMovies = async () => {
       const res = await axios.get(
@@ -16,20 +23,41 @@ const GetMovies = () => {
     };
     fetchMovies();
   }, [genreID]);
+
+  useEffect(() => {
+    if (movies) {
+      setIsLoading(false);
+    } else {
+      setIsLoading(true);
+    }
+  }, [movies, genreID]);
+
+  // Open modal if user isn't authenticated and clicks on heart icon
+  const checkUserState = () => {
+    if (authUser) return;
+    setIsModalOpen(true);
+  };
+
+  // Close modal
+  const onCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
-    <div>
+    <>
       {movies?.map((movie) => (
         <MovieCard
           key={movie.id}
-          imgSrc={movie.poster_path}
-          title={movie.title}
-          description={movie.overview}
-          rating={movie.vote_average}
-          releaseDate={movie.release_date}
-          id={movie.id}
+          authUser={authUser}
+          isModalOpen={isModalOpen}
+          onCloseModal={onCloseModal}
+          checkUserState={checkUserState}
+          isLoading={isLoading}
+          {...movie}
         />
       ))}
-    </div>
+      <SignInModal isModalOpen={isModalOpen} onCloseModal={onCloseModal} />
+    </>
   );
 };
 export default GetMovies;

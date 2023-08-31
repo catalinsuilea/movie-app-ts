@@ -15,6 +15,8 @@ import { AuthProvider } from "../../contexts/AuthenticationContext";
 import { DeviceTypeProvider } from "../../contexts/useDeviceTypeContext";
 import Header from "../Header/Header";
 import { Footer } from "./Footer";
+import { FavouritesPage } from "../Favourites/Favourites";
+import { FavouritesContextProvider } from "../../contexts/useFavouritesContext";
 
 export const MovieNameContext = createContext("");
 function App() {
@@ -22,28 +24,31 @@ function App() {
     <ChakraProvider theme={myNewTheme}>
       <DeviceTypeProvider>
         <AuthProvider>
-          <Header />
-          <Routes>
-            <Route path="/" element={<WelcomePage />}>
-              <Route path="/movie/:value" element={<SearchMovie />}></Route>
-              <Route path="/top-rated-movies" element={<Popularity />}>
-                <Route
-                  path="/top-rated-movies/page=:page"
-                  element={<Popularity />}
-                />
+          <FavouritesContextProvider>
+            <Header />
+            <Routes>
+              <Route path="/" element={<WelcomePage />}>
+                <Route path="/movie/:value" element={<SearchMovie />}></Route>
+                <Route path="/top-rated-movies" element={<Popularity />}>
+                  <Route
+                    path="/top-rated-movies/page=:page"
+                    element={<Popularity />}
+                  />
+                </Route>
+                <Route path="genres" element={<GetGenres />}>
+                  <Route
+                    path="movies/:genreName/:genreID"
+                    element={<GetMovies />}
+                  />
+                </Route>
               </Route>
-              <Route path="genres" element={<GetGenres />}>
-                <Route
-                  path="movies/:genreName/:genreID"
-                  element={<GetMovies />}
-                />
-              </Route>
-            </Route>
-            <Route path="/:movieName/:id" element={<MovieDetails />}></Route>
-            <Route path="/signIn" element={<SignInFormComponent />}></Route>
-            <Route path="/signUp" element={<SignUp />}></Route>
-          </Routes>
-          <Footer />
+              <Route path="/:movieName/:id" element={<MovieDetails />}></Route>
+              <Route path="/signIn" element={<SignInFormComponent />}></Route>
+              <Route path="/signUp" element={<SignUp />}></Route>
+              <Route path="/favourites" element={<FavouritesPage />}></Route>
+            </Routes>
+            <Footer />
+          </FavouritesContextProvider>
         </AuthProvider>
       </DeviceTypeProvider>
     </ChakraProvider>

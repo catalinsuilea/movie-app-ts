@@ -1,8 +1,8 @@
+import React from "react";
 import { useState } from "react";
 import { Box, Button } from "@chakra-ui/react";
 
-const ShowHideText = (props: any) => {
-  const { id, overview } = props;
+const ShowHideText = ({ overview, id }: any) => {
   const [show, setShow] = useState<any>({});
   return (
     <Box zIndex="2" width="70%" color="#fff" m="0 20px">

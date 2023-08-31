@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Icon, Divider } from "@chakra-ui/react";
+import { Box, Icon, Divider, Flex } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { useDisclosure } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
@@ -15,10 +15,14 @@ import {
   DrawerCloseButton,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
+
 function DrawerExample() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef: any = React.useRef();
   const hamburger = faBars as IconProp;
+  const { authUser } = useAuthenticationContext();
+
   return (
     <>
       <Button ref={btnRef} colorScheme="teal" onClick={onOpen} mt="8px">
@@ -61,6 +65,16 @@ function DrawerExample() {
                 <p>Rating</p>
               </Box>
             </Link>
+            {authUser && (
+              <>
+                <Divider marginTop="12px" />
+                <Flex alignItems="center" m="12px 0">
+                  <Icon w={4} h={4} as={ChevronRightIcon} />
+                  <Link to="/favourites">Your favourites</Link>
+                </Flex>
+              </>
+            )}
+
             <Divider marginTop="12px" />
             <DrawerHeader paddingX={0}>No account ?</DrawerHeader>
             <Link to="/signUp">

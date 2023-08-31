@@ -2,7 +2,6 @@ import React from "react";
 import {
   Flex,
   Box,
-  FormControl,
   FormLabel,
   Input,
   Checkbox,
@@ -42,7 +41,7 @@ export const SignInFormComponent = ({}) => {
 
   return (
     <Flex
-      minH={"100vh"}
+      minH={"80vh"}
       align={"center"}
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}

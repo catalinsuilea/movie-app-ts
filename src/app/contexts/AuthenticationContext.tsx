@@ -30,6 +30,7 @@ export const AuthProvider = ({ children }: any) => {
   const [isUserSignedIn, setIsUserSignedIn] = useState(false);
   const [isUserNameTaken, setIsUserNameTaken] = useState(false);
   const [authUser, setAuthUser] = useState(null);
+  const [documentId, setDocumentId] = useState("");
 
   const navigate = useNavigate();
 
@@ -86,6 +87,7 @@ export const AuthProvider = ({ children }: any) => {
             await addDoc(collection(db, "users"), {
               username: formRegisterValue.username,
               userId: userCredential.user.uid,
+              favourites: [],
             });
           } catch (e) {
             console.log(e);
@@ -132,22 +134,27 @@ export const AuthProvider = ({ children }: any) => {
         // Get unique user data
         const querySnapshot = await getDocs(collection(db, "users"));
         const getUserName = (id: string) => {
-          const userInformation = querySnapshot?.docs.find(
-            (user: any) =>
+          const userDocument = querySnapshot.docs.find((user: any) => {
+            return (
               user?._document?.data?.value?.mapValue?.fields?.userId
                 .stringValue === id
-          );
-          if (userInformation) {
-            return userInformation.data();
+            );
+          });
+
+          if (userDocument) {
+            return {
+              userData: userDocument.data(),
+              documentId: userDocument.id,
+            };
           }
           return null;
         };
         const loggedUser = getUserName(auth.currentUser!.uid);
-
         setAuthUser(user);
+        setDocumentId(loggedUser!.documentId);
 
         updateProfile(auth.currentUser!, {
-          displayName: loggedUser!.username,
+          displayName: loggedUser?.userData.username,
         })
           .then(() => {})
           .catch((err) => {
@@ -194,6 +201,7 @@ export const AuthProvider = ({ children }: any) => {
     error,
     authUser,
     handleSignOut,
+    documentId,
   };
 
   return (
