@@ -4,9 +4,11 @@ import MovieCard from "../MovieCard/MovieCard";
 import { useFavourites } from "../../contexts/useFavouritesContext";
 import addToFavouritesImg from "../../../images/addToFavouritesImg.jpg";
 import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
+import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 
 export const FavouritesPage = () => {
   const { favouritesMoviesFromDB } = useFavourites();
+  const { authUser } = useAuthenticationContext();
   const [isLoading, setIsLoading] = useState(true);
   const { isMobile } = useDeviceTypeContext();
   const moviesToShow = isMobile ? 2 : 3;
@@ -49,7 +51,12 @@ export const FavouritesPage = () => {
         </Flex>
       ) : (
         favouritesMoviesFromDB?.map((movie: any) => (
-          <MovieCard isLoading={isLoading} {...movie} />
+          <MovieCard
+            key={movie.id}
+            {...movie}
+            isLoading={isLoading}
+            authUser={authUser}
+          />
         ))
       )}
     </Box>
