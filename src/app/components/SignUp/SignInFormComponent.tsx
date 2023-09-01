@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FormEvent } from "react";
 import {
   Flex,
   Box,
@@ -25,7 +25,7 @@ export const SignInFormComponent = ({}) => {
     error,
   } = useAuthenticationContext();
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSignInFormErrors(checkInputs(signInFormValues));
     setIsSignInSubmit(true);

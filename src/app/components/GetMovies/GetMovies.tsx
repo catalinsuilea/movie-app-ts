@@ -48,7 +48,6 @@ const GetMovies = () => {
       {movies?.map((movie) => (
         <MovieCard
           key={movie.id}
-          authUser={authUser}
           isModalOpen={isModalOpen}
           onCloseModal={onCloseModal}
           checkUserState={checkUserState}

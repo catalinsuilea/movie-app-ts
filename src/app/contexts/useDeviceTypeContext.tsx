@@ -2,7 +2,13 @@ import React, { useContext, createContext } from "react";
 
 import { useBreakpointValue } from "@chakra-ui/react";
 
-const DeviceTypeContext = createContext<any>(false);
+interface DeviceTypeProps {
+  isMobile?: boolean;
+  isTablet?: boolean;
+  isDesktop: boolean;
+}
+
+const DeviceTypeContext = createContext<DeviceTypeProps>({} as DeviceTypeProps);
 
 export const DeviceTypeProvider = ({ children }: any) => {
   const isMobile = useBreakpointValue({
@@ -22,8 +28,8 @@ export const DeviceTypeProvider = ({ children }: any) => {
     lg: true,
     xl: false,
   });
-
   const isDesktop = !isMobile && !isTablet;
+
   return (
     <DeviceTypeContext.Provider value={{ isMobile, isTablet, isDesktop }}>
       {children}

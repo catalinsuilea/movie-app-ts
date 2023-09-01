@@ -34,7 +34,13 @@ export const HeaderMobile = () => {
             Login
           </Link>
         ) : (
-          <Link {...HeaderTheme.link} onClick={() => handleSignOut()}>
+          <Link
+            {...HeaderTheme.link}
+            onClick={() => {
+              handleSignOut();
+              navigate("/");
+            }}
+          >
             Logout
           </Link>
         )}

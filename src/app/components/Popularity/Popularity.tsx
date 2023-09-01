@@ -40,7 +40,7 @@ const Popularity = () => {
     if (currentPage <= 1) return;
     setCurrentPage(currentPage - 1);
   };
-  console.log("heeeey", popularMovies);
+
   // Open modal if user isn't authenticated and clicks on heart icon
   const checkUserState = () => {
     if (authUser) return;
@@ -60,7 +60,6 @@ const Popularity = () => {
       {movies?.map((movie: Movies) => (
         <MovieCard
           key={movie.id}
-          authUser={authUser}
           isModalOpen={isModalOpen}
           onCloseModal={onCloseModal}
           checkUserState={checkUserState}

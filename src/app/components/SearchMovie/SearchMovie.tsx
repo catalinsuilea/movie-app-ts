@@ -31,15 +31,7 @@ const SearchMovie = () => {
   return (
     <Box>
       {movieSearch?.results?.map((movie) => (
-        <MovieCard
-          key={movie.id}
-          imgSrc={movie.poster_path}
-          title={movie.title}
-          description={movie.overview}
-          rating={movie.vote_average}
-          releaseDate={movie.release_date}
-          id={movie.id}
-        />
+        <MovieCard key={movie.id} {...movie} />
       ))}
     </Box>
   );

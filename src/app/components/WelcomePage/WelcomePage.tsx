@@ -9,13 +9,18 @@ import {
   WelcomePageTheme,
   SearchBarTheme,
 } from "../../../styles/theme";
-import moviePosters from "../../../helpers/posters";
+import {
+  moviePostersDesktop,
+  moviePostersMobile,
+} from "../../../helpers/posters";
 import getRandomPoster from "../../../helpers/random";
 import SearchBar from "./searchBar";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
+import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
 
 const WelcomePage = () => {
   const { authUser } = useAuthenticationContext();
+  const { isMobile } = useDeviceTypeContext();
   const [latestMovies, setLatestMovies] = useState<any>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -49,9 +54,9 @@ const WelcomePage = () => {
     setIsModalOpen(false);
   };
 
-  const randomImage = useMemo(() => {
-    return getRandomPoster(moviePosters);
-  }, [moviePosters]);
+  const randomImage = isMobile
+    ? getRandomPoster(moviePostersMobile)
+    : getRandomPoster(moviePostersDesktop);
 
   const displayWelcomeMessage = authUser
     ? `Welcome, ${authUser.displayName}`
