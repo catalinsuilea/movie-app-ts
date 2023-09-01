@@ -12,7 +12,15 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
-export const SignInModal = ({ isModalOpen, onCloseModal }: any) => {
+interface SignInModalProps {
+  isModalOpen: boolean;
+  onCloseModal: () => void;
+}
+
+export const SignInModal = ({
+  isModalOpen,
+  onCloseModal,
+}: SignInModalProps) => {
   const navigate = useNavigate();
 
   return (

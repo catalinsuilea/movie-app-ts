@@ -6,16 +6,19 @@ import { useFavourites } from "../../contexts/useFavouritesContext";
 import { useNavigate } from "react-router-dom";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
+import { MovieCardProps } from "../../../types-modules/MovieCardProps";
+import { MovieProps } from "../../../types-modules/MovieProps";
+import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 
 const MovieCard = ({
-  authUser,
   isModalOpen,
   onCloseModal,
   checkUserState,
   isLoading,
   ...rest
-}: any) => {
+}: MovieCardProps) => {
   const { isMobile } = useDeviceTypeContext();
+  const { authUser } = useAuthenticationContext();
   const {
     imgSrc,
     title,
@@ -40,10 +43,10 @@ const MovieCard = ({
     );
   }, [favouritesMoviesFromDB, id]);
 
-  const checkIsFavourite = (id: string) => {
+  const checkIsFavourite = (id: number) => {
     if (!authUser) return;
     const favouriteMovieObj = favouritesMoviesFromDB?.find(
-      (movie: any) => movie.id === id
+      (movie: MovieProps) => movie.id === id
     );
     if (!favouriteMovieObj && !isFavourite) {
       setIsFavourite(true);

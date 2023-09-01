@@ -2,17 +2,19 @@ import React, { useState, useEffect, useContext, createContext } from "react";
 import { useAuthenticationContext } from "./AuthenticationContext";
 import { db } from "../../firebase";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
+import { MovieProps } from "../../types-modules/MovieProps";
 
-interface Movie {
-  title: string;
-  id: string;
-  vote_average: number;
-  poster_path: string;
-  release_date: number;
-  overview: string;
+interface FavoritesContextTypes {
+  /** An array of objects containing the favourite movies from database */
+  favouritesMoviesFromDB: MovieProps[];
+
+  /** Function that handles the add/remove favourites */
+  handleFavourites: (movie: MovieProps) => void;
 }
 
-const FavouritesContext = createContext<any>({});
+const FavouritesContext = createContext<FavoritesContextTypes>(
+  {} as FavoritesContextTypes
+);
 
 export const FavouritesContextProvider = ({ children }: any) => {
   const { authUser, documentId } = useAuthenticationContext();
@@ -20,13 +22,13 @@ export const FavouritesContextProvider = ({ children }: any) => {
   const [favouriteMovies, setFavouriteMovies] = useState<any>([]);
   const [favouritesMoviesFromDB, setFavouriteMoviesFromDB] = useState([]);
 
-  const handleFavourites = async (movie: Movie) => {
+  const handleFavourites = async (movie: MovieProps) => {
     if (!authUser && !documentId) return;
     else {
       const userDocRef = doc(db, "users", documentId);
 
       const isUniqueMovieInDB = favouritesMoviesFromDB.find(
-        (movieDB: Movie) => movieDB.id === movie.id
+        (movieDB: MovieProps) => movieDB.id === movie.id
       );
 
       if (!isUniqueMovieInDB) {
@@ -39,13 +41,13 @@ export const FavouritesContextProvider = ({ children }: any) => {
           await updateDoc(userDocRef, {
             favourites: updatedFavourites,
           });
-          setFavouriteMovies((prev: any) => [...prev, movie]);
+          setFavouriteMovies((prev: MovieProps[]) => [...prev, movie]);
         } catch (e) {
           console.log(e);
         }
       } else {
         const updatedFavourites = favouritesMoviesFromDB.filter(
-          (movieDB: Movie) => movieDB.id !== movie.id
+          (movieDB: MovieProps) => movieDB.id !== movie.id
         );
 
         try {

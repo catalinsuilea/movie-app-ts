@@ -7,6 +7,7 @@ import { flexTheme } from "../../../styles/theme";
 
 const GetGenres = () => {
   const [genre, setGenre] = useState<Genres[]>([]);
+
   useEffect(() => {
     const getGenre = async function () {
       const res = await axios.get(
@@ -15,7 +16,6 @@ const GetGenres = () => {
       const data = await res.data;
       setGenre(data.genres);
     };
-
     getGenre();
   }, []);
   const navigate = useNavigate();
