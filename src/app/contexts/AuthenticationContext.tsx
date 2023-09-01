@@ -93,7 +93,7 @@ export const AuthProvider = ({ children }: any) => {
             console.log(e);
           }
           setError("");
-          navigate("/signIn");
+          navigate("/");
         })
         .catch((err) => {
           setError(err.code);
