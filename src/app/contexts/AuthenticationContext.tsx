@@ -83,6 +83,8 @@ export const AuthProvider = ({ children }: any) => {
             password: "",
             passwordConfirm: "",
           });
+          // Create the user
+          // The user will be an object with an username, a userId, and an empty favourites array
           try {
             await addDoc(collection(db, "users"), {
               username: formRegisterValue.username,
@@ -127,6 +129,11 @@ export const AuthProvider = ({ children }: any) => {
         });
     }
   }, [signInFormErrors]);
+
+  // Handle the current user that is signed in
+  // Within this useEffect, I am updating the current user object with an unique username
+  // So that we can display it on the WelcomePage
+  // Also I determine the unique documentId on which the user is located
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, async (user: any) => {
