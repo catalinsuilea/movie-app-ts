@@ -177,11 +177,11 @@ export const MovieDetailsTheme = extendTheme({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
-    width: "100%",
     margin: "8px 0",
     fontSize: "15px",
     textAlign: "center",
     height: "55px",
+    width: "160px",
   },
   crew: {
     display: "flex",

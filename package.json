@@ -1,5 +1,4 @@
 {
-  "homepage": "https://catalinsuilea.github.io/movie-app-ts",
   "name": "movie-app-ts",
   "version": "0.1.0",
   "private": false,
@@ -32,7 +31,7 @@
     "react-icons": "^4.10.1",
     "react-loading-skeleton": "^3.1.0",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "^2.1.3",
+    "react-scripts": "^5.0.1",
     "typescript": "^4.7.4",
     "web-vitals": "^2.1.4"
   },

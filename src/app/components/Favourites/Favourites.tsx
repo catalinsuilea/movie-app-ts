@@ -18,18 +18,16 @@ export const FavouritesPage = () => {
       setIsLoading(true);
     }
   }, [favouritesMoviesFromDB?.length]);
+
   return (
     <Box
       height={
         favouritesMoviesFromDB?.length < moviesToShow
           ? {
-              base: `${favouritesMoviesFromDB?.length < 1 ? "unset" : "800px"}`,
-              md: "590px",
-              xl: "722px",
+              xs: `${favouritesMoviesFromDB?.length < 1 ? "unset" : "870px"}`,
             }
           : {}
       }
-      mb={{ base: "28px", lg: "unset" }}
     >
       {favouritesMoviesFromDB?.length === 0 ? (
         <Flex
@@ -48,9 +46,21 @@ export const FavouritesPage = () => {
           />
         </Flex>
       ) : (
-        favouritesMoviesFromDB?.map((movie: any) => (
-          <MovieCard key={movie.id} {...movie} isLoading={isLoading} />
-        ))
+        <Box
+          height={
+            favouritesMoviesFromDB?.length < moviesToShow
+              ? {
+                  lg: `${
+                    favouritesMoviesFromDB?.length < 3 ? "682px" : "unset"
+                  }`,
+                }
+              : {}
+          }
+        >
+          {favouritesMoviesFromDB?.map((movie: any) => (
+            <MovieCard key={movie.id} {...movie} isLoading={isLoading} />
+          ))}
+        </Box>
       )}
     </Box>
   );

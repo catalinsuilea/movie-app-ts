@@ -59,7 +59,7 @@ export const CarouselCardComponent = ({
         top="10px"
         fontSize="21px"
         justifyContent="space-between"
-        alignItems="center"
+        alignItems={{ base: "start", md: "center" }}
         width="100%"
       >
         <Link ml="12px" onClick={() => handleNavigate(title, id)}>
@@ -70,6 +70,7 @@ export const CarouselCardComponent = ({
           as={isFavourite ? FaHeart : FaRegHeart}
           boxSize={6}
           mr="12px"
+          mt={{ base: "8px", md: "unset" }}
           cursor="pointer"
           color={`${isFavourite ? "red" : "#fff"}`}
           onClick={() => {

@@ -267,7 +267,9 @@ const MovieDetails = () => {
                       <Text fontWeight="500">{item.name}</Text>
                     </Box>
                     <Box>
-                      <Text fontSize="14px">{item.character}</Text>
+                      <Text noOfLines={1} fontSize="14px">
+                        {item.character}
+                      </Text>
                     </Box>
                   </Flex>
                 </Box>
