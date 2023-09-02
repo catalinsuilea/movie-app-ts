@@ -28,7 +28,11 @@ const GetGenres = () => {
 
   return (
     <>
-      <Flex alignItems="center" flexDirection="column" margin="20px auto">
+      <Flex
+        alignItems="center"
+        flexDirection="column"
+        margin={{ base: "20px", md: "20px auto" }}
+      >
         <Box margin="20px 0" fontSize="22px" fontWeight="500">
           <h1 data-testid="test">Pick movies by genre!</h1>
         </Box>

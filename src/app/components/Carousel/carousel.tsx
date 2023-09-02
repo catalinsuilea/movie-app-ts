@@ -2,7 +2,6 @@ import React from "react";
 import { Box, Button, Skeleton } from "@chakra-ui/react";
 import Carousel, { ScrollMode } from "nuka-carousel";
 import { ArrowRightIcon, ArrowLeftIcon } from "@chakra-ui/icons";
-import { useNavigate } from "react-router-dom";
 import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
 import { SignInModal } from "../Modal/SignInModal";
 import { useFavourites } from "../../contexts/useFavouritesContext";
@@ -15,7 +14,6 @@ const CarouselComponent = ({
   onCloseModal,
   checkUserState,
 }: any) => {
-  const navigate = useNavigate();
   const { isMobile, isTablet } = useDeviceTypeContext();
   const { handleFavourites, favouritesMoviesFromDB } = useFavourites();
 
@@ -40,7 +38,7 @@ const CarouselComponent = ({
             wrapAround
             scrollMode={ScrollMode.remainder}
             slidesToShow={getSlidesToShow()}
-            autoplay
+            autoplay={false}
             pauseOnHover
             autoplayInterval={3000}
             cellSpacing={3}
