@@ -67,25 +67,28 @@ const Popularity = () => {
           {...movie}
         />
       ))}
-      <Flex justify="center" alignItems="center" gap="12px">
-        <Link
-          to={`/top-rated-movies/page=${
-            currentPage <= 1 ? 1 : currentPage - 1
-          }`}
-        >
-          <Box fontSize="20px">
-            <Button onClick={handlePrevioustPage}>Prev</Button>
+
+      {movies && (
+        <Flex justify="center" alignItems="center" gap="12px">
+          <Link
+            to={`/top-rated-movies/page=${
+              currentPage <= 1 ? 1 : currentPage - 1
+            }`}
+          >
+            <Box fontSize="20px">
+              <Button onClick={handlePrevioustPage}>Prev</Button>
+            </Box>
+          </Link>
+          <Box m="0 10px">
+            Page {currentPage} / {totalPages}
           </Box>
-        </Link>
-        <Box m="0 10px">
-          Page {currentPage} / {totalPages}
-        </Box>
-        <Link to={`/top-rated-movies/page=${currentPage + 1}`}>
-          <Box fontSize="20px">
-            <Button onClick={handleNextPage}>Next</Button>
-          </Box>{" "}
-        </Link>
-      </Flex>
+          <Link to={`/top-rated-movies/page=${currentPage + 1}`}>
+            <Box fontSize="20px">
+              <Button onClick={handleNextPage}>Next</Button>
+            </Box>{" "}
+          </Link>
+        </Flex>
+      )}
       <SignInModal isModalOpen={isModalOpen} onCloseModal={onCloseModal} />
     </>
   );
