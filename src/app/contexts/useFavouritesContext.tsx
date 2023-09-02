@@ -31,12 +31,15 @@ export const FavouritesContextProvider = ({ children }: any) => {
         (movieDB: MovieProps) => movieDB.id === movie.id
       );
 
+      // If we click on the favourite icon and movie is not in the database, then we add it
+
       if (!isUniqueMovieInDB) {
         const updatedFavourites = [
           ...favouritesMoviesFromDB,
           { ...movie, isFavourite: true },
         ];
 
+        // Update the database with the movie
         try {
           await updateDoc(userDocRef, {
             favourites: updatedFavourites,
@@ -46,6 +49,7 @@ export const FavouritesContextProvider = ({ children }: any) => {
           console.log(e);
         }
       } else {
+        // If the user clicks on the red heart icon, the movie will be removed from the database
         const updatedFavourites = favouritesMoviesFromDB.filter(
           (movieDB: MovieProps) => movieDB.id !== movie.id
         );
@@ -62,11 +66,18 @@ export const FavouritesContextProvider = ({ children }: any) => {
     }
   };
 
+  // Within this useEffect, we take the current favourites movies array from the database
+  // And everytime we add/remove a movie from favourites or the user changes, this useEffect will be triggered
+
   useEffect(() => {
+    // When an user is created, an unique documentId is created as well
+    // With that documentId, we know the current user that is logged in
     if (!documentId) return;
 
+    // Access the user from firebase
     const userDocRef = doc(db, "users", documentId);
 
+    // Get user information
     getDoc(userDocRef)
       .then((userDoc) => {
         if (userDoc.exists()) {
