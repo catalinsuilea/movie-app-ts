@@ -13,7 +13,7 @@ const SearchBar = () => {
 
   const navigate = useNavigate();
   function handleNavigate(value: string) {
-    navigate(`/movie/${value}`);
+    navigate(`/movie-app-ts/movie/${value}`);
     setInput("");
   }
   return (

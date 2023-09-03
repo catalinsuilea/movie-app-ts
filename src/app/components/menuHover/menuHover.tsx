@@ -24,10 +24,10 @@ export default function Navbar() {
         Movies
       </MenuButton>
       <MenuList onMouseEnter={onOpen} onMouseLeave={onClose}>
-        <Link to="/top-rated-movies">
+        <Link to="/movie-app-ts/top-rated-movies">
           <MenuItem color="black">Rating</MenuItem>{" "}
         </Link>
-        <Link to="/genres">
+        <Link to="/movie-app-ts/genres">
           <MenuItem color="black">Genres</MenuItem>{" "}
         </Link>
       </MenuList>

@@ -42,7 +42,7 @@ function DrawerExample() {
           <DrawerHeader>Search movies by:</DrawerHeader>
 
           <DrawerBody>
-            <Link to="/genres">
+            <Link to="/movie-app-ts/genres">
               <Box
                 display="flex"
                 justifyContent="flex-start"
@@ -54,7 +54,7 @@ function DrawerExample() {
               </Box>
             </Link>
 
-            <Link to="/top-rated-movies">
+            <Link to="/movie-app-ts/top-rated-movies">
               <Box
                 display="flex"
                 justifyContent="flex-start"

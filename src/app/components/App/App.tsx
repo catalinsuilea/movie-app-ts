@@ -18,7 +18,6 @@ import { Footer } from "./Footer";
 import { FavouritesPage } from "../Favourites/Favourites";
 import { FavouritesContextProvider } from "../../contexts/useFavouritesContext";
 
-export const MovieNameContext = createContext("");
 function App() {
   return (
     <ChakraProvider theme={myNewTheme}>
@@ -27,15 +26,15 @@ function App() {
           <FavouritesContextProvider>
             <Header />
             <Routes>
-              <Route path="/" element={<WelcomePage />}>
-                <Route path="/movie/:value" element={<SearchMovie />}></Route>
-                <Route path="/top-rated-movies" element={<Popularity />}>
+              <Route path="/movie-app-ts" element={<WelcomePage />}>
+                <Route path="movie/:value" element={<SearchMovie />}></Route>
+                <Route path="top-rated-movies" element={<Popularity />}>
                   <Route
-                    path="/top-rated-movies/page=:page"
+                    path="/movie-app-ts/top-rated-movies/page=:page"
                     element={<Popularity />}
                   />
                 </Route>
-                <Route path="genres" element={<GetGenres />}>
+                <Route path="genres/" element={<GetGenres />}>
                   <Route
                     path="movies/:genreName/:genreID"
                     element={<GetMovies />}
