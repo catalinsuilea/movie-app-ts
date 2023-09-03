@@ -55,9 +55,9 @@ const CarouselComponent = ({
                 background="none"
                 ml="5px"
                 p={3}
+                mb={{ base: "8px", md: "none" }}
                 onClick={previousSlide}
                 _hover={{ backgroundColor: "none", color: "#FFD700" }}
-                display={isMobile || isTablet ? "none" : "block"}
               >
                 <ArrowLeftIcon color="#fff" fontSize="23px" />
               </Button>
@@ -70,8 +70,8 @@ const CarouselComponent = ({
                 p={3}
                 background="none"
                 mr="5px"
+                mb={{ base: "8px", md: "none" }}
                 _hover={{ backgroundColor: "none" }}
-                display={isMobile || isTablet ? "none" : "block"}
               >
                 <ArrowRightIcon color="#fff" fontSize="23px" />
               </Button>
