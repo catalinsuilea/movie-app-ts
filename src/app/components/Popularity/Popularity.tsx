@@ -71,7 +71,7 @@ const Popularity = () => {
       {movies && (
         <Flex justify="center" alignItems="center" gap="12px">
           <Link
-            to={`/top-rated-movies/page=${
+            to={`/movie-app-ts/top-rated-movies/page=${
               currentPage <= 1 ? 1 : currentPage - 1
             }`}
           >
@@ -82,7 +82,7 @@ const Popularity = () => {
           <Box m="0 10px">
             Page {currentPage} / {totalPages}
           </Box>
-          <Link to={`/top-rated-movies/page=${currentPage + 1}`}>
+          <Link to={`/movie-app-ts/top-rated-movies/page=${currentPage + 1}`}>
             <Box fontSize="20px">
               <Button onClick={handleNextPage}>Next</Button>
             </Box>{" "}

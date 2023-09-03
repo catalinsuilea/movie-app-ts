@@ -38,7 +38,7 @@ const CarouselComponent = ({
             wrapAround
             scrollMode={ScrollMode.remainder}
             slidesToShow={getSlidesToShow()}
-            autoplay={false}
+            autoplay
             pauseOnHover
             autoplayInterval={3000}
             cellSpacing={3}

@@ -16,7 +16,7 @@ export const HeaderMobile = () => {
         <Image
           cursor="pointer"
           onClick={() => {
-            navigate("/");
+            navigate("/movie-app-ts");
           }}
           mr="20px"
           width="100px"
@@ -38,7 +38,7 @@ export const HeaderMobile = () => {
             {...HeaderTheme.link}
             onClick={() => {
               handleSignOut();
-              navigate("/");
+              navigate("/movie-app-ts");
             }}
           >
             Logout

@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }: any) => {
             console.log(e);
           }
           setError("");
-          navigate("/");
+          navigate("/movie-app-ts");
         })
         .catch((err) => {
           setError(err.code);
@@ -120,7 +120,7 @@ export const AuthProvider = ({ children }: any) => {
       )
         .then(() => {
           // Signed in
-          navigate("/");
+          navigate("/movie-app-ts");
           setIsUserSignedIn(true);
         })
         .catch((error) => {

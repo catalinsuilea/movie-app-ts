@@ -27,7 +27,7 @@ export const Footer = () => {
             <Image
               cursor="pointer"
               onClick={() => {
-                navigate("/");
+                navigate("/movie-app-ts");
               }}
               width="100px"
               src={logo}
