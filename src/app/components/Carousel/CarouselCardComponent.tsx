@@ -28,7 +28,6 @@ export const CarouselCardComponent = ({
 
   const checkIsFavourite = (id: string) => {
     if (!authUser) return;
-    console.log("haha");
     const favouriteMovieObj = favouritesMoviesFromDB?.find(
       (movie: any) => movie.id === id
     );
