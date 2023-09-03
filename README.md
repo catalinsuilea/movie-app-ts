@@ -32,13 +32,13 @@ Mobile Navigation: On mobile devices, users can access the "Favorites" page by c
 # Coming soon
 
 This app will keep be updating. The next features to come are: 
-Search suggestions when typing on the search bar, view trilers, new endpoints from The movie database to show more movies, for example: most viewed, most watched this month etc.
+Search suggestions when typing on the search bar, view trailers, new endpoints from The movie database to show more movies, for example: most viewed, most watched this month etc.
 Actors/actress details page
 TV Shows page
 Reviews
 
 # Contributors
-Catalin Șuilea -developer
+Catalin Șuilea - developer
 
 # Acknowledgments
 
