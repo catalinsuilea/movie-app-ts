@@ -20,13 +20,15 @@ export const CarouselCardComponent = ({
   const [isFavourite, setIsFavourite] = useState(false);
 
   useEffect(() => {
+    if (!authUser) return;
     setIsFavourite(
       Boolean(favouritesMoviesFromDB?.find((movie: any) => movie.id === id))
     );
-  }, [favouritesMoviesFromDB, id]);
+  }, [favouritesMoviesFromDB, id, authUser]);
 
   const checkIsFavourite = (id: string) => {
     if (!authUser) return;
+    console.log("haha");
     const favouriteMovieObj = favouritesMoviesFromDB?.find(
       (movie: any) => movie.id === id
     );
