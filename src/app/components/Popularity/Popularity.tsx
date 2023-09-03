@@ -24,7 +24,7 @@ const Popularity = () => {
     const fetchPopularMovies = async () => {
       setIsLoading(true);
       const res = await axios.get(
-        ` http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key=380f962505ebde6dee08b0b646fe05f1&page=${currentPage}&vote_count.gte=50`
+        ` https://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key=380f962505ebde6dee08b0b646fe05f1&page=${currentPage}&vote_count.gte=50`
       );
       const data = await res.data;
       setPopularMovies(data);
