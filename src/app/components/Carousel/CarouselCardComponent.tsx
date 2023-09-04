@@ -99,7 +99,7 @@ export const CarouselCardComponent = ({
       >
         <Box>
           <Image
-            width={{ base: "200px", md: "200px" }}
+            width={{ base: "200px", lg: "150px" }}
             src={`https://www.themoviedb.org/t/p/w780/${poster_path}`}
             boxShadow="0 28px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)"
           />
