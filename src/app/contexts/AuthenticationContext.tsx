@@ -209,6 +209,7 @@ export const AuthProvider = ({ children }: any) => {
     authUser,
     handleSignOut,
     documentId,
+    setAuthUser,
   };
 
   return (

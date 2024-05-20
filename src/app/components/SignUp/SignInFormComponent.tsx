@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react";
+import React, { FormEvent, useState } from "react";
 import {
   Flex,
   Box,
@@ -13,9 +13,12 @@ import {
 } from "@chakra-ui/react";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 import { checkInputs, getErrorMessage } from "../../../utils/checkFormInputs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const SignInFormComponent = ({}) => {
+  const navigate = useNavigate();
+  const [errorMsg, setErrorMsg] = useState("");
+
   const {
     signInFormValues,
     signInFormErrors,
@@ -23,6 +26,7 @@ export const SignInFormComponent = ({}) => {
     setIsSignInSubmit,
     setSignInFormValues,
     error,
+    setAuthUser,
   } = useAuthenticationContext();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -37,6 +41,37 @@ export const SignInFormComponent = ({}) => {
       [(e.target! as HTMLInputElement).name]: (e.target! as HTMLInputElement)
         .value,
     });
+  };
+
+  const onSignInClick = async () => {
+    if (Object.keys(checkInputs(signInFormValues)).length === 0) {
+      const URL = "http://localhost:5000/auth/login";
+      try {
+        const response = await fetch(URL, {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            email: signInFormValues.email,
+            password: signInFormValues.password,
+          }),
+        });
+        if (!response.ok) {
+          throw new Error(`${response.status}`);
+        }
+        const data = await response.json();
+        setAuthUser(data.user);
+        setSignInFormValues({ email: "", password: "" });
+        setErrorMsg("");
+        navigate("/movie-app-ts");
+      } catch (err: any) {
+        setErrorMsg(err.message);
+        console.log(err.message);
+      }
+    } else {
+      setSignInFormErrors(checkInputs(signInFormValues));
+    }
   };
 
   return (
@@ -84,7 +119,7 @@ export const SignInFormComponent = ({}) => {
                 <p>{signInFormErrors.password}</p>
               </Box>
               <Box color="red" textAlign="left" m="12px 0">
-                {getErrorMessage(error)}
+                {getErrorMessage(errorMsg)}
               </Box>
 
               <Stack spacing={10}>
@@ -110,7 +145,7 @@ export const SignInFormComponent = ({}) => {
                   <Checkbox>Remember me</Checkbox>
                 </Stack>
                 <Button
-                  type="submit"
+                  onClick={onSignInClick}
                   bg={"blue.400"}
                   color={"white"}
                   _hover={{
