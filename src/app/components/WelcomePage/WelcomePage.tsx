@@ -59,7 +59,7 @@ const WelcomePage = () => {
     : getRandomPoster(moviePostersDesktop);
 
   const displayWelcomeMessage = authUser
-    ? `Welcome, ${authUser.displayName}`
+    ? `Welcome, ${authUser.username}`
     : "Welcome";
 
   return (
