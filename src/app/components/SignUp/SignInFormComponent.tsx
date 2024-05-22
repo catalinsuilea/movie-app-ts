@@ -61,10 +61,26 @@ export const SignInFormComponent = ({}) => {
           throw new Error(`${response.status}`);
         }
         const data = await response.json();
-        setAuthUser(data.user);
+
+        const { token, userId, tokenExpirationDate, username } = data.user;
+        setAuthUser({ username, userId, token });
+
         setSignInFormValues({ email: "", password: "" });
         setErrorMsg("");
+
         navigate("/movie-app-ts");
+
+        if (data) {
+          localStorage.setItem(
+            "loginData",
+            JSON.stringify({
+              username: username,
+              token: token,
+              userId: userId,
+              expire: new Date(tokenExpirationDate).getTime() / 1000,
+            })
+          );
+        }
       } catch (err: any) {
         setErrorMsg(err.message);
         console.log(err.message);

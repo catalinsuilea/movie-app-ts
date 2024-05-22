@@ -1,15 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { Heading, Box, Flex, Image } from "@chakra-ui/react";
+import { Heading, Box, Flex, Image, Text } from "@chakra-ui/react";
 import MovieCard from "../MovieCard/MovieCard";
 import { useFavourites } from "../../contexts/useFavouritesContext";
 import addToFavouritesImg from "../../../images/addToFavouritesImg.jpg";
 import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
+import { useAuthenticationContext } from "../../../app/contexts/AuthenticationContext";
+import { getFavourites } from "../../../utils/getFavourites";
 
 export const FavouritesPage = () => {
   const { favouritesMoviesFromDB } = useFavourites();
   const [isLoading, setIsLoading] = useState(true);
   const { isMobile } = useDeviceTypeContext();
   const moviesToShow = isMobile ? 2 : 3;
+  const { authUser, isUserFetched } = useAuthenticationContext();
+
+  const { token } = authUser || {};
+
+  useEffect(() => {
+    if (!isUserFetched) return;
+    getFavourites(token);
+  }, [isUserFetched]);
 
   useEffect(() => {
     if (favouritesMoviesFromDB) {
@@ -19,7 +29,9 @@ export const FavouritesPage = () => {
     }
   }, [favouritesMoviesFromDB?.length]);
 
-  return (
+  return !isUserFetched && !token ? (
+    <Text>Loading...</Text>
+  ) : (
     <Box
       height={
         favouritesMoviesFromDB?.length < moviesToShow
