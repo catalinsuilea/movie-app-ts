@@ -24,40 +24,54 @@ function App() {
       <DeviceTypeProvider>
         <AuthProvider>
           <FavouritesContextProvider>
-            <Header />
-            <Routes>
-              <Route path="/movie-app-ts" element={<WelcomePage />}>
-                <Route path="movie/:value" element={<SearchMovie />}></Route>
-                <Route path="top-rated-movies" element={<Popularity />}>
+            <div className="app-container">
+              <Header />
+              <main className="main-content">
+                <Routes>
+                  <Route path="/movie-app-ts" element={<WelcomePage />}>
+                    <Route
+                      path="movie/:value"
+                      element={<SearchMovie />}
+                    ></Route>
+                    <Route path="top-rated-movies" element={<Popularity />}>
+                      <Route
+                        path="/movie-app-ts/top-rated-movies/page=:page"
+                        element={<Popularity />}
+                      />
+                    </Route>
+                    <Route path="genres/" element={<GetGenres />}>
+                      <Route
+                        path="movies/:genreName/:genreID"
+                        element={<GetMovies />}
+                      />
+                    </Route>
+                  </Route>
                   <Route
-                    path="/movie-app-ts/top-rated-movies/page=:page"
-                    element={<Popularity />}
-                  />
-                </Route>
-                <Route path="genres/" element={<GetGenres />}>
+                    path="/:movieName/:id"
+                    element={<MovieDetails />}
+                  ></Route>
                   <Route
-                    path="movies/:genreName/:genreID"
-                    element={<GetMovies />}
-                  />
-                </Route>
-              </Route>
-              <Route path="/:movieName/:id" element={<MovieDetails />}></Route>
-              <Route path="/signIn" element={<SignInFormComponent />}></Route>
-              <Route path="/signUp" element={<SignUp />}></Route>
-              <Route
-                path="/favourites"
-                element={
-                  <PrivateRoute>
-                    <FavouritesPage />
-                  </PrivateRoute>
-                }
-              ></Route>
-            </Routes>
-            <Footer />
+                    path="/signIn"
+                    element={<SignInFormComponent />}
+                  ></Route>
+                  <Route path="/signUp" element={<SignUp />}></Route>
+                  <Route
+                    path="/favourites"
+                    element={
+                      <PrivateRoute>
+                        <FavouritesPage />
+                      </PrivateRoute>
+                    }
+                  ></Route>
+                </Routes>
+              </main>
+              <Footer />
+            </div>
           </FavouritesContextProvider>
         </AuthProvider>
       </DeviceTypeProvider>
     </ChakraProvider>
   );
 }
+
 export default App;
