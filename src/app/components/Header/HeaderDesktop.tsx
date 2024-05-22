@@ -20,7 +20,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 
 export const HeaderDesktop = () => {
   const navigate = useNavigate();
-  const { authUser, handleSignOut } = useAuthenticationContext();
+  const { authUser, handleLogout } = useAuthenticationContext();
 
   return (
     <Box {...HeaderTheme.linksContainer}>
@@ -86,15 +86,7 @@ export const HeaderDesktop = () => {
                 <Text>Your favourites</Text>
               </MenuItem>
               <MenuDivider />
-              <MenuItem
-                justifyContent="center"
-                onClick={() => {
-                  {
-                    handleSignOut();
-                    navigate("/movie-app-ts");
-                  }
-                }}
-              >
+              <MenuItem justifyContent="center" onClick={handleLogout}>
                 <Text>Logout</Text>
               </MenuItem>
             </MenuList>

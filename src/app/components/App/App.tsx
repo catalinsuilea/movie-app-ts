@@ -4,11 +4,10 @@ import GetMovies from "../GetMovies/GetMovies";
 import MovieDetails from "../MovieDetails/MovieDetails";
 import GetGenres from "../GetGenres/GetGenres";
 import WelcomePage from "../WelcomePage/WelcomePage";
-import { Box, ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import Popularity from "../Popularity/Popularity";
 import { myNewTheme } from "../../../styles/theme";
 import SearchMovie from "../SearchMovie/SearchMovie";
-import { createContext } from "react";
 import SignUp from "../SignUp/signup";
 import { SignInFormComponent } from "../SignUp/SignInFormComponent";
 import { AuthProvider } from "../../contexts/AuthenticationContext";
@@ -17,6 +16,7 @@ import Header from "../Header/Header";
 import { Footer } from "./Footer";
 import { FavouritesPage } from "../Favourites/Favourites";
 import { FavouritesContextProvider } from "../../contexts/useFavouritesContext";
+import { PrivateRoute } from "../ProtectedRoute";
 
 function App() {
   return (
@@ -44,7 +44,14 @@ function App() {
               <Route path="/:movieName/:id" element={<MovieDetails />}></Route>
               <Route path="/signIn" element={<SignInFormComponent />}></Route>
               <Route path="/signUp" element={<SignUp />}></Route>
-              <Route path="/favourites" element={<FavouritesPage />}></Route>
+              <Route
+                path="/favourites"
+                element={
+                  <PrivateRoute>
+                    <FavouritesPage />
+                  </PrivateRoute>
+                }
+              ></Route>
             </Routes>
             <Footer />
           </FavouritesContextProvider>

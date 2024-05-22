@@ -10,6 +10,7 @@ import {
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { FormValue, FormErrors } from "../../types-modules/SignUpFormComponent";
 import { useNavigate } from "react-router-dom";
+import { AuthUser } from "../../types-modules/AuthenticatedUser";
 
 const AuthenticationContext = createContext<any>({} as any);
 
@@ -29,8 +30,9 @@ export const AuthProvider = ({ children }: any) => {
   const [isSignInSubmit, setIsSignInSubmit] = useState(false);
   const [isUserSignedIn, setIsUserSignedIn] = useState(false);
   const [isUserNameTaken, setIsUserNameTaken] = useState(false);
-  const [authUser, setAuthUser] = useState(null);
+  const [authUser, setAuthUser] = useState<AuthUser | null>(null);
   const [documentId, setDocumentId] = useState("");
+  const [isUserFetched, setIsUserFetched] = useState(false);
 
   const navigate = useNavigate();
 
@@ -135,54 +137,72 @@ export const AuthProvider = ({ children }: any) => {
   // So that we can display it on the WelcomePage
   // Also I determine the unique documentId on which the user is located
 
-  useEffect(() => {
-    const listen = onAuthStateChanged(auth, async (user: any) => {
-      if (user) {
-        // Get unique user data
-        const querySnapshot = await getDocs(collection(db, "users"));
-        const getUserName = (id: string) => {
-          const userDocument = querySnapshot.docs.find((user: any) => {
-            return (
-              user?._document?.data?.value?.mapValue?.fields?.userId
-                .stringValue === id
-            );
-          });
+  // useEffect(() => {
+  //   const listen = onAuthStateChanged(auth, async (user: any) => {
+  //     if (user) {
+  //       // Get unique user data
+  //       const querySnapshot = await getDocs(collection(db, "users"));
+  //       const getUserName = (id: string) => {
+  //         const userDocument = querySnapshot.docs.find((user: any) => {
+  //           return (
+  //             user?._document?.data?.value?.mapValue?.fields?.userId
+  //               .stringValue === id
+  //           );
+  //         });
 
-          if (userDocument) {
-            return {
-              userData: userDocument.data(),
-              documentId: userDocument.id,
-            };
-          }
-          return null;
-        };
-        const loggedUser = getUserName(auth.currentUser!.uid);
-        setAuthUser(user);
-        setDocumentId(loggedUser!.documentId);
+  //         if (userDocument) {
+  //           return {
+  //             userData: userDocument.data(),
+  //             documentId: userDocument.id,
+  //           };
+  //         }
+  //         return null;
+  //       };
+  //       const loggedUser = getUserName(auth.currentUser!.uid);
+  //       setAuthUser(user);
+  //       setDocumentId(loggedUser!.documentId);
 
-        updateProfile(auth.currentUser!, {
-          displayName: loggedUser?.userData.username,
-        })
-          .then(() => {})
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        setAuthUser(null);
-      }
-    });
-    return () => listen();
-  }, [isUserSignedIn]);
+  //       updateProfile(auth.currentUser!, {
+  //         displayName: loggedUser?.userData.username,
+  //       })
+  //         .then(() => {})
+  //         .catch((err) => {
+  //           console.log(err);
+  //         });
+  //     } else {
+  //       setAuthUser(null);
+  //     }
+  //   });
+  //   return () => listen();
+  // }, [isUserSignedIn]);
 
   // Logout user
 
-  const handleSignOut = () => {
-    return signOut(auth)
-      .then(() => {
-        setIsUserSignedIn(false);
-      })
-      .catch((error) => console.log(error));
+  const handleLogout = () => {
+    const isLoggedIn = localStorage.getItem("loginData");
+    if (isLoggedIn) {
+      setAuthUser(null);
+      localStorage.removeItem("loginData");
+      navigate("/movie-app-ts");
+    }
   };
+
+  // Persistent logged in user
+  useEffect(() => {
+    const user = localStorage.getItem("loginData");
+    if (user) {
+      const existingUser = JSON.parse(user);
+      const { expire, token, userId, username } = existingUser;
+      const currentDate = Math.floor(Date.now() / 1000); // current time in seconds
+      if (expire > currentDate) {
+        setAuthUser({ username, userId, token });
+      } else {
+        localStorage.removeItem("loginData");
+        setIsUserFetched(false);
+      }
+    }
+    setIsUserFetched(true);
+  }, []);
 
   const registerData = {
     formRegisterValue,
@@ -207,9 +227,10 @@ export const AuthProvider = ({ children }: any) => {
     ...signInData,
     error,
     authUser,
-    handleSignOut,
+    handleLogout,
     documentId,
     setAuthUser,
+    isUserFetched,
   };
 
   return (

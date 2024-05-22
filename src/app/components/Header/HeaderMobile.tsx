@@ -8,7 +8,7 @@ import PlacementExample from "../Drawer/Drawer";
 
 export const HeaderMobile = () => {
   const navigate = useNavigate();
-  const { authUser, handleSignOut } = useAuthenticationContext();
+  const { authUser, handleLogout } = useAuthenticationContext();
 
   return (
     <Flex alignItems="center" justifyContent="space-around">
@@ -37,7 +37,7 @@ export const HeaderMobile = () => {
           <Link
             {...HeaderTheme.link}
             onClick={() => {
-              handleSignOut();
+              handleLogout();
               navigate("/movie-app-ts");
             }}
           >

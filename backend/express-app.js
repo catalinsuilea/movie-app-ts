@@ -1,10 +1,14 @@
+require("dotenv").config();
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const MONGO_DB_URI = process.env.MONGO_DB_URI;
 
 const app = express();
 
 const authRoutes = require("./routes/auth");
+const favouritesRoutes = require("./routes/favourites");
 
 app.use(bodyParser.json());
 app.use((req, res, next) => {
@@ -17,11 +21,10 @@ app.use((req, res, next) => {
   next();
 });
 app.use("/auth", authRoutes);
+app.use("/favourites", favouritesRoutes);
 
 mongoose
-  .connect(
-    "mongodb+srv://ctnjoy1999:5D6RgwesZUIWfsj4@cluster0.sqj9cam.mongodb.net/movies-app-db?retryWrites=true&w=majority&appName=Cluster0"
-  )
+  .connect(MONGO_DB_URI)
   .then(() => {
     app.listen(5000);
   })
