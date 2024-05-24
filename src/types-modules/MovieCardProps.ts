@@ -3,6 +3,7 @@ export interface MovieCardProps {
   onCloseModal?: () => void;
   checkUserState?: () => void;
   isLoading?: boolean;
+  favouritesMoviesFromDB: any;
 
   /** Movie attributes */
   adult: boolean;

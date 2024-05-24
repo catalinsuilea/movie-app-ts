@@ -1,4 +1,7 @@
-export const getFavourites = async (token: string) => {
+export const getFavourites = async (
+  token: string,
+  setFavouritesMoviesFromDB: any
+) => {
   try {
     const URL = "http://localhost:5000/favourites/get-favourites";
     const response = await fetch(URL, {
@@ -10,6 +13,7 @@ export const getFavourites = async (token: string) => {
       throw new Error(`${response.status} ${response.statusText}`);
     }
     const data = await response.json();
+    setFavouritesMoviesFromDB(data.favourites);
   } catch (err: any) {
     console.error("Error fetching favourites:", err.message);
   }

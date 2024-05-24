@@ -47,11 +47,26 @@ exports.postLogin = async (req, res, next) => {
 exports.postSignUp = async (req, res, next) => {
   const { username, email, password } = req.body;
   try {
+    const isNotUniqueUsername = await User.find({ username: username });
+
+    if (isNotUniqueUsername.length > 0) {
+      const error = new Error("Username already taken.");
+      error.statusCode = 422;
+      throw error;
+    }
+
+    const isNotUniqueEmail = await User.find({ email: email });
+    if (isNotUniqueEmail.length > 0) {
+      const error = new Error("Email already taken.");
+      error.statusCode = 422;
+      throw error;
+    }
     const criptedPassword = await bcrypt.hash(password, 12);
     const user = new User({
       username: username,
       email: email,
       password: criptedPassword,
+      favourites: [],
     });
     const userCreated = await user.save();
     if (userCreated) {
@@ -63,10 +78,9 @@ exports.postSignUp = async (req, res, next) => {
       throw new Error(res.status);
     }
   } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      message: "An error occured while creating the user:",
-      err,
-    });
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };

@@ -8,4 +8,6 @@ const favouritesController = require("../controllers/favourites");
 
 route.get("/get-favourites", isAuth, favouritesController.getFavourites);
 
+route.post("/post-favourites", isAuth, favouritesController.postFavourites);
+
 module.exports = route;

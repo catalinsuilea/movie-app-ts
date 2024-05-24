@@ -15,8 +15,9 @@ const MovieCard = ({
   onCloseModal,
   checkUserState,
   isLoading,
+  favouritesMoviesFromDB,
   ...rest
-}: MovieCardProps) => {
+}: any) => {
   const { isMobile } = useDeviceTypeContext();
   const { authUser } = useAuthenticationContext();
   const {
@@ -32,8 +33,7 @@ const MovieCard = ({
     overview,
   } = rest;
 
-  const { favouritesMoviesFromDB, handleFavourites } = useFavourites();
-
+  const { handleFavourites } = useFavourites();
   const [isFavourite, setIsFavourite] = useState(false);
 
   const navigate = useNavigate();

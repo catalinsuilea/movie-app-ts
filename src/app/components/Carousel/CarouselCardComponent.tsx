@@ -12,17 +12,16 @@ export const CarouselCardComponent = ({
   handleFavourites,
   checkUserState,
   favouritesMoviesFromDB,
+  authUser,
   ...rest
 }: any) => {
-  const { authUser } = useAuthenticationContext();
-  const { id, title, backdrop_path, poster_path, overview } = rest;
-
   const [isFavourite, setIsFavourite] = useState(false);
+  const { id, title, backdrop_path, poster_path, overview } = rest;
 
   useEffect(() => {
     if (!authUser) return;
     setIsFavourite(
-      Boolean(favouritesMoviesFromDB?.find((movie: any) => movie.id === id))
+      Boolean(favouritesMoviesFromDB?.find((movie: any) => +movie.id === id))
     );
   }, [favouritesMoviesFromDB, id, authUser]);
 

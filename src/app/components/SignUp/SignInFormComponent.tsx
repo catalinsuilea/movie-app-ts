@@ -23,16 +23,13 @@ export const SignInFormComponent = ({}) => {
     signInFormValues,
     signInFormErrors,
     setSignInFormErrors,
-    setIsSignInSubmit,
     setSignInFormValues,
-    error,
     setAuthUser,
   } = useAuthenticationContext();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSignInFormErrors(checkInputs(signInFormValues));
-    setIsSignInSubmit(true);
   };
 
   const handleInputValue = (e: React.ChangeEvent) => {
@@ -83,7 +80,6 @@ export const SignInFormComponent = ({}) => {
         }
       } catch (err: any) {
         setErrorMsg(err.message);
-        console.log(err.message);
       }
     } else {
       setSignInFormErrors(checkInputs(signInFormValues));
