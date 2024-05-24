@@ -5,7 +5,6 @@ import { useFavourites } from "../../contexts/useFavouritesContext";
 import addToFavouritesImg from "../../../images/addToFavouritesImg.jpg";
 import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
 import { useAuthenticationContext } from "../../../app/contexts/AuthenticationContext";
-import { getFavourites } from "../../../utils/getFavourites";
 
 export const FavouritesPage = () => {
   const { favouritesMoviesFromDB } = useFavourites();
@@ -15,11 +14,6 @@ export const FavouritesPage = () => {
   const { authUser, isUserFetched } = useAuthenticationContext();
 
   const { token } = authUser || {};
-
-  useEffect(() => {
-    if (!isUserFetched) return;
-    getFavourites(token);
-  }, [isUserFetched]);
 
   useEffect(() => {
     if (favouritesMoviesFromDB) {
@@ -58,19 +52,14 @@ export const FavouritesPage = () => {
           />
         </Flex>
       ) : (
-        <Box
-          height={
-            favouritesMoviesFromDB?.length < moviesToShow
-              ? {
-                  lg: `${
-                    favouritesMoviesFromDB?.length < 3 ? "682px" : "unset"
-                  }`,
-                }
-              : {}
-          }
-        >
+        <Box>
           {favouritesMoviesFromDB?.map((movie: any) => (
-            <MovieCard key={movie.id} {...movie} isLoading={isLoading} />
+            <MovieCard
+              favouritesMoviesFromDB={favouritesMoviesFromDB}
+              key={movie.id}
+              {...movie}
+              isLoading={isLoading}
+            />
           ))}
         </Box>
       )}

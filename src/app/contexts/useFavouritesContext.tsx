@@ -3,6 +3,7 @@ import { useAuthenticationContext } from "./AuthenticationContext";
 import { db } from "../../firebase";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { MovieProps } from "../../types-modules/MovieProps";
+import { getFavourites } from "../../utils/getFavourites";
 
 interface FavoritesContextTypes {
   /** An array of objects containing the favourite movies from database */
@@ -17,82 +18,54 @@ const FavouritesContext = createContext<FavoritesContextTypes>(
 );
 
 export const FavouritesContextProvider = ({ children }: any) => {
-  const { authUser, documentId } = useAuthenticationContext();
-
-  const [favouriteMovies, setFavouriteMovies] = useState<any>([]);
+  const { authUser } = useAuthenticationContext();
+  const { token } = authUser || {};
   const [favouritesMoviesFromDB, setFavouriteMoviesFromDB] = useState([]);
 
   const handleFavourites = async (movie: MovieProps) => {
-    if (!authUser && !documentId) return;
-    else {
-      const userDocRef = doc(db, "users", documentId);
+    if (!authUser) return;
+    try {
+      const URL = "http://localhost:5000/favourites/post-favourites";
 
-      const isUniqueMovieInDB = favouritesMoviesFromDB.find(
-        (movieDB: MovieProps) => movieDB.id === movie.id
-      );
-
-      // If we click on the favourite icon and movie is not in the database, then we add it
-
-      if (!isUniqueMovieInDB) {
-        const updatedFavourites = [
-          ...favouritesMoviesFromDB,
-          { ...movie, isFavourite: true },
-        ];
-
-        // Update the database with the movie
-        try {
-          await updateDoc(userDocRef, {
-            favourites: updatedFavourites,
-          });
-          setFavouriteMovies((prev: MovieProps[]) => [...prev, movie]);
-        } catch (e) {
-          console.log(e);
-        }
-      } else {
-        // If the user clicks on the red heart icon, the movie will be removed from the database
-        const updatedFavourites = favouritesMoviesFromDB.filter(
-          (movieDB: MovieProps) => movieDB.id !== movie.id
-        );
-
-        try {
-          await updateDoc(userDocRef, {
-            favourites: updatedFavourites,
-          });
-          setFavouriteMoviesFromDB(updatedFavourites);
-        } catch (e) {
-          console.log(e);
-        }
+      const response = await fetch(URL, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ movie: movie }),
+      });
+      if (!response.ok) {
+        throw new Error(`${response.statusText}, ${response.status}`);
       }
+      const data = await response.json();
+
+      if (data.message === "Movie added to favourites.") {
+        setFavouriteMoviesFromDB((prevFavourites): any => [
+          ...prevFavourites,
+          movie,
+        ]);
+      } else if (data.message === "Movie removed from favourites") {
+        setFavouriteMoviesFromDB((prevFavourites) =>
+          prevFavourites.filter((favMovie: any) => favMovie.id !== movie.id)
+        );
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  // Within this useEffect, we take the current favourites movies array from the database
-  // And everytime we add/remove a movie from favourites or the user changes, this useEffect will be triggered
-
   useEffect(() => {
-    // When an user is created, an unique documentId is created as well
-    // With that documentId, we know the current user that is logged in
-    if (!documentId) return;
-
-    // Access the user from firebase
-    const userDocRef = doc(db, "users", documentId);
-
-    // Get user information
-    getDoc(userDocRef)
-      .then((userDoc) => {
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          setFavouriteMoviesFromDB(userData.favourites);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching user data:", error);
-      });
-  }, [documentId, favouriteMovies?.length]);
+    if (!token) return;
+    getFavourites(token, setFavouriteMoviesFromDB);
+  }, [token]);
 
   return (
     <FavouritesContext.Provider
-      value={{ favouritesMoviesFromDB, handleFavourites }}
+      value={{
+        favouritesMoviesFromDB,
+        handleFavourites,
+      }}
     >
       {children}
     </FavouritesContext.Provider>

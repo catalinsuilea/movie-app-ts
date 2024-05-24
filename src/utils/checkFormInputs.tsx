@@ -36,12 +36,10 @@ export const getErrorMessage = (error: string) => {
   switch (error) {
     case "422":
       return "Invalid email or password";
-    case "auth/email-already-in-use":
-      return "This email is already in use.";
-    case "auth/wrong-password":
-      return "Incorrect password. Try again!";
-    case "auth/user-not-found":
-      return "User not found. Email or password are incorrect";
+    case "Username already taken.":
+      return "Username already taken.";
+    case "Email already taken.":
+      return "Email already taken.";
     default:
       return "";
   }

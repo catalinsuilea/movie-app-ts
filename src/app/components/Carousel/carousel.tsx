@@ -6,6 +6,7 @@ import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
 import { SignInModal } from "../Modal/SignInModal";
 import { useFavourites } from "../../contexts/useFavouritesContext";
 import { CarouselCardComponent } from "./CarouselCardComponent";
+import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 
 const CarouselComponent = ({
   isLoading,
@@ -16,6 +17,7 @@ const CarouselComponent = ({
 }: any) => {
   const { isMobile, isTablet } = useDeviceTypeContext();
   const { handleFavourites, favouritesMoviesFromDB } = useFavourites();
+  const { authUser } = useAuthenticationContext();
 
   const getSlidesToShow = () => {
     switch (true) {
@@ -77,12 +79,13 @@ const CarouselComponent = ({
               </Button>
             )}
           >
-            {latestMovies?.results?.map((item: any) => (
+            {latestMovies?.map((item: any) => (
               <CarouselCardComponent
                 {...item}
                 checkUserState={checkUserState}
                 handleFavourites={handleFavourites}
                 favouritesMoviesFromDB={favouritesMoviesFromDB}
+                authUser={authUser}
               />
             ))}
           </Carousel>

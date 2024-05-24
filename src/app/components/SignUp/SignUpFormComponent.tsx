@@ -1,5 +1,5 @@
-import React from "react";
-import { Box, FormControl, Button, Input, FormLabel } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { Box, Button, Input, FormLabel } from "@chakra-ui/react";
 import { checkInputs, getErrorMessage } from "../../../utils/checkFormInputs";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 import { useNavigate } from "react-router-dom";
@@ -11,39 +11,27 @@ export const SignUpFormComponent = ({}) => {
     formRegisterValue,
     formRegisterErrors,
     setFormRegisterErrors,
-    checkUniqueUsername,
     isUserNameTaken,
-    setIsUserNameTaken,
   } = useAuthenticationContext();
+  const [errorMsg, setErrorMsg] = useState("");
 
   const navigate = useNavigate();
 
   const handleInputValue = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.name === "username") {
-      setFormRegisterValue({
-        ...formRegisterValue,
-        [e.target.name]: e.target.value,
-      });
-      const isTaken = await checkUniqueUsername(e.target.value);
-
-      setIsUserNameTaken(isTaken);
-    } else {
-      setFormRegisterValue({
-        ...formRegisterValue,
-        [(e.target! as HTMLInputElement).name]: (e.target! as HTMLInputElement)
-          .value,
-      });
-    }
+    setFormRegisterValue({
+      ...formRegisterValue,
+      [(e.target! as HTMLInputElement).name]: (e.target! as HTMLInputElement)
+        .value,
+    });
   };
+
   const isRegisterForm = true;
 
   const onSignUpClick = async () => {
     const URL = "http://localhost:5000/auth/signup";
 
     if (
-      Object.keys(
-        checkInputs(formRegisterValue, isRegisterForm, isUserNameTaken)
-      ).length === 0
+      Object.keys(checkInputs(formRegisterValue, isRegisterForm)).length === 0
     ) {
       try {
         setFormRegisterErrors({});
@@ -65,12 +53,14 @@ export const SignUpFormComponent = ({}) => {
           }),
         });
         if (!response.ok) {
-          throw new Error(`${response.status}, ${response.statusText}`);
+          const errorData = await response.json();
+          throw new Error(errorData.message);
         }
         const data = await response.json();
+        setErrorMsg("");
         navigate("/signIn");
-      } catch (err) {
-        console.log(`An error occured when trying to singup:${err}`);
+      } catch (error: any) {
+        setErrorMsg(error.message);
       }
     } else {
       setFormRegisterErrors(
@@ -152,7 +142,7 @@ export const SignUpFormComponent = ({}) => {
         <p>{formRegisterErrors.passwordConfirm}</p>
       </Box>
       <Box color="red" textAlign="left">
-        {getErrorMessage(error)}
+        {getErrorMessage(errorMsg)}
       </Box>
       <Button onClick={onSignUpClick} mt="16px">
         Submit

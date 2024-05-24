@@ -104,7 +104,7 @@ const WelcomePage = () => {
         <Box>
           <CarouselComponent
             isLoading={isLoading}
-            latestMovies={latestMovies}
+            latestMovies={latestMovies.results}
             isModalOpen={isModalOpen}
             onCloseModal={onCloseModal}
             checkUserState={checkUserState}
