@@ -11,6 +11,7 @@ import {
   MovieDetailsTheme,
 } from "../../../styles/theme";
 import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
+import { CardDetails } from "./CardDetails";
 interface CastInfo {
   id?: number;
   cast?: Cast[];
@@ -245,37 +246,7 @@ const MovieDetails = () => {
           m="0 20px"
           gap={{ md: "24px" }}
         >
-          <Box width={{ base: "95%", lg: "85%" }} textAlign="left">
-            <Box {...MovieDetailsTheme.charactersCardsContainer}>
-              {sortedCast?.map((item: Cast) => (
-                <Box {...MovieDetailsTheme.charcacterCard}>
-                  <Box {...MovieDetailsTheme.img}>
-                    <Image
-                      borderTopLeftRadius="15px"
-                      borderTopRightRadius="15px"
-                      height="250px"
-                      src={
-                        item.profile_path
-                          ? `https://www.themoviedb.org/t/p/w780/${item.profile_path}`
-                          : "https://www.whitechapelgallery.org/wp-content/uploads/2020/07/blank-head-profile-pic-for-a-man-300x284.jpg"
-                      }
-                      alt="character-img"
-                    ></Image>
-                  </Box>
-                  <Flex {...MovieDetailsTheme.characterNames}>
-                    <Box>
-                      <Text fontWeight="500">{item.name}</Text>
-                    </Box>
-                    <Box>
-                      <Text noOfLines={1} fontSize="14px">
-                        {item.character}
-                      </Text>
-                    </Box>
-                  </Flex>
-                </Box>
-              ))}
-            </Box>
-          </Box>
+          <CardDetails cast={sortedCast} />
           <Box textAlign="left" ml={{ base: "16px", lg: "unset" }}>
             <Box mb={{ base: "16px", md: "unset" }}>
               <Text mt="6px" fontWeight="bold">

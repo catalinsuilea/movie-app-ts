@@ -17,6 +17,7 @@ import { Footer } from "./Footer";
 import { FavouritesPage } from "../Favourites/Favourites";
 import { FavouritesContextProvider } from "../../contexts/useFavouritesContext";
 import { PrivateRoute } from "../ProtectedRoute";
+import { PersonDetails } from "../MovieDetails/PersonDetails";
 
 function App() {
   return (
@@ -49,6 +50,10 @@ function App() {
                   <Route
                     path="/:movieName/:id"
                     element={<MovieDetails />}
+                  ></Route>
+                  <Route
+                    path="/person/:personName/:id"
+                    element={<PersonDetails />}
                   ></Route>
                   <Route
                     path="/signIn"

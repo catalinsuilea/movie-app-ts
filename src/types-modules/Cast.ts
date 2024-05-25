@@ -11,6 +11,7 @@ interface Cast {
   original_name: string;
   popularity: number;
   profile_path: string;
+  poster_path: string;
 }
 
 export default Cast;

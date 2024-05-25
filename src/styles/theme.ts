@@ -159,6 +159,7 @@ export const MovieDetailsTheme = extendTheme({
     boxShadow: "1px 1px 6px 4px rgba(0, 0, 0, 0.1)",
     margin: " 10px",
     borderRadius: "15px",
+    cursor: "pointer",
   },
   charactersCardsContainer: {
     display: "flex",
@@ -196,5 +197,20 @@ export const MovieDetailsTheme = extendTheme({
     mt: "16px",
     p: { md: "16px", xl: "unset" },
     flexWrap: "wrap",
+  },
+  customScrollBar: {
+    "&::-webkit-scrollbar": { height: "6px" },
+    "&::-webkit-scrollbar-thumb": {
+      background: "#888",
+      borderRadius: "3px",
+    },
+    "&::-webkit-scrollbar-thumb:hover": {
+      background: "#555",
+    },
+    "&::-webkit-scrollbar-track": {
+      background: "transparent",
+    },
+    "& > *": { marginRight: "8px" },
+    "& > *:last-child": { marginRight: "0" },
   },
 });
