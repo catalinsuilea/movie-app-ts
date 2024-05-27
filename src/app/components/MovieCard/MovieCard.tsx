@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Loader from "../Loader/Loader";
-import { Box, Flex, Image, Icon, Link, Skeleton } from "@chakra-ui/react";
+import { Box, Flex, Image, Icon, Link, Skeleton, Text } from "@chakra-ui/react";
 import { MovieCardTheme } from "../../../styles/theme";
 import { useFavourites } from "../../contexts/useFavouritesContext";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
 import { MovieCardProps } from "../../../types-modules/MovieCardProps";
 import { MovieProps } from "../../../types-modules/MovieProps";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
+import { getCardRoute, getMediaType } from "../../../utils/searchBard.utils";
 
 const MovieCard = ({
   isModalOpen,
@@ -31,6 +32,11 @@ const MovieCard = ({
     poster_path,
     release_date,
     overview,
+    profile_path,
+    original_name,
+    media_type,
+    popularity,
+    gender,
   } = rest;
 
   const { handleFavourites } = useFavourites();
@@ -61,6 +67,10 @@ const MovieCard = ({
     }
   }, [authUser]);
 
+  const onCardClick = (route: any) => {
+    navigate(route);
+  };
+
   return (
     <Skeleton
       isLoaded={!isLoading}
@@ -72,7 +82,9 @@ const MovieCard = ({
       w="100%"
     >
       <Link
-        onClick={() => navigate(`/${title}/${id}`)}
+        onClick={() =>
+          onCardClick(getCardRoute(title || original_name, id, media_type))
+        }
         style={{ textDecoration: "none", color: "black" }}
       >
         <Box>
@@ -91,16 +103,18 @@ const MovieCard = ({
                     width={{
                       base: "100%",
                       md: "350px",
+
                       xl: "200px",
                     }}
+                    height={`${media_type === "person" ? "200px" : "unset"}`}
                     m="0"
                     borderTopLeftRadius="10px"
                     borderBottomLeftRadius={{ base: "unset", md: "10px" }}
                     borderTopRightRadius={{ base: "10px", md: "unset" }}
                     src={
-                      imgSrc || poster_path
+                      imgSrc || poster_path || profile_path
                         ? `https://www.themoviedb.org/t/p/w780/${
-                            imgSrc || poster_path
+                            imgSrc || poster_path || profile_path
                           }`
                         : "https://media.istockphoto.com/vectors/default-image-icon-vector-missing-picture-page-for-website-design-or-vector-id1357365823?k=20&m=1357365823&s=612x612&w=0&h=ZH0MQpeUoSHM3G2AWzc8KkGYRg4uP_kuu0Za8GFxdFc="
                     }
@@ -116,42 +130,58 @@ const MovieCard = ({
                   {isMobile ? (
                     <Flex alignItems="center" justifyContent="space-between">
                       <Box m="15px 0" fontSize="23px" fontWeight="500">
-                        {title}
+                        {title || original_name}
                       </Box>
-                      <Icon
-                        as={isFavourite ? FaHeart : FaRegHeart}
-                        boxSize={6}
-                        mr={{ base: "unset", lg: "12px" }}
-                        mt={{ base: "unset", lg: "12px" }}
-                        cursor="pointer"
-                        color={`${isFavourite ? "red" : "black"}`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          if (checkUserState) {
-                            checkUserState();
-                          }
-                          handleFavourites(rest);
-                          checkIsFavourite(id);
-                        }}
-                      />
+                      {media_type !== "person" && (
+                        <Icon
+                          as={isFavourite ? FaHeart : FaRegHeart}
+                          boxSize={6}
+                          mr={{ base: "unset", lg: "12px" }}
+                          mt={{ base: "unset", lg: "12px" }}
+                          cursor="pointer"
+                          color={`${isFavourite ? "red" : "black"}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (checkUserState) {
+                              checkUserState();
+                            }
+                            handleFavourites(rest);
+                            checkIsFavourite(id);
+                          }}
+                        />
+                      )}
                     </Flex>
                   ) : (
                     <Box m="15px 0" fontSize="23px" fontWeight="500">
-                      {title}
+                      {title || original_name}
                     </Box>
                   )}
 
                   <Box>{description || overview}</Box>
+                  <Text mt="12px" fontWeight="500">
+                    {getMediaType(media_type, gender)}
+                  </Text>
                   <Box
                     fontWeight="bold"
                     m="15px 0"
                     fontSize={{ base: "21px", md: "19px" }}
                   >
-                    ⭐{rating?.toFixed(1) || vote_average?.toFixed(1)}
+                    {" "}
+                    {media_type === "person" ? (
+                      <Text fontWeight={400} fontSize="lg">
+                        Popularity: ⭐{popularity.toFixed(1)}{" "}
+                      </Text>
+                    ) : (
+                      <Text fontWeight={400} fontSize="lg">
+                        ⭐{rating?.toFixed(1) || vote_average?.toFixed(1)}
+                      </Text>
+                    )}
                   </Box>
-                  <Box>Release date: {releaseDate || release_date}</Box>
+                  {media_type !== "person" && (
+                    <Box>Release date: {releaseDate || release_date}</Box>
+                  )}
                 </Box>
-                {!isMobile && (
+                {!isMobile && media_type !== "person" && (
                   <Icon
                     as={isFavourite ? FaHeart : FaRegHeart}
                     boxSize={6}

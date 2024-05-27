@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Box, Text, VStack, Image, Flex } from "@chakra-ui/react";
 import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
 import { useNavigate } from "react-router-dom";
+import { getCardRoute, getMediaType } from "../../../utils/searchBard.utils";
 
 export const MultipleResults = ({ movieSearch }: any) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -25,35 +26,8 @@ export const MultipleResults = ({ movieSearch }: any) => {
     };
   }, []);
 
-  const onCardClick = (
-    mediaTypeName: string,
-    id: number,
-    mediaType: string
-  ) => {
-    switch (mediaType) {
-      case "person":
-        return navigate(`/person/${mediaTypeName}/${id}`);
-      case "movie":
-      case "tv":
-        return navigate(`/${mediaTypeName}/${id}`);
-    }
-  };
-
-  const getMediaType = (type: string, gender?: number) => {
-    switch (type) {
-      case "movie":
-        return "Movie";
-      case "tv":
-        return "TV";
-      case "person":
-        if (gender === 1) {
-          return "Actress";
-        } else {
-          return "Actor";
-        }
-      default:
-        return "No type";
-    }
+  const onCardClick = (route: any) => {
+    navigate(route);
   };
 
   return isVisible ? (
@@ -85,9 +59,11 @@ export const MultipleResults = ({ movieSearch }: any) => {
             alignItems="center"
             onClick={() =>
               onCardClick(
-                movie.title || movie.name || movie.original_name,
-                movie.id,
-                movie.media_type
+                getCardRoute(
+                  movie.title || movie.name || movie.original_name,
+                  movie.id,
+                  movie.media_type
+                )
               )
             }
             _hover={{

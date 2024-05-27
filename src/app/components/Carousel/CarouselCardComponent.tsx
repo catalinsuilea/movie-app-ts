@@ -47,7 +47,7 @@ export const CarouselCardComponent = ({
   const { isMobile, isTablet } = useDeviceTypeContext();
 
   const handleNavigate = (title: string, id: string) => {
-    navigate(`/${title}/${id}`);
+    navigate(`/movie/${title}/${id}`);
   };
 
   return (

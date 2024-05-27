@@ -17,7 +17,7 @@ export const PersonActingCredits = ({ sortedMovies }: any) => {
         {sortedMovies.map((movie: any, index: number) => (
           <Flex flexDirection="column" width="100%">
             <Link
-              to={`/${movie.title || movie.original_title}/${movie.id}`}
+              to={`/movie/${movie.title || movie.original_title}/${movie.id}`}
               key={index}
               style={{ margin: "1rem 0" }}
             >

@@ -38,5 +38,9 @@ interface MovieInfo {
   vote_average: number;
   vote_count: number;
   tagline: string | undefined;
+  name: string;
+  first_air_date: string;
+  last_air_date: string;
+  in_production: boolean;
 }
 export default MovieInfo;

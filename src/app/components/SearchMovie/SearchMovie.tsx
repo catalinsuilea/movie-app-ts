@@ -15,18 +15,18 @@ const SearchMovie = () => {
   const [movieSearch, setMovieSearch] = useState<MovieSearch>({});
 
   // Get movie title from the url
-  const { value } = useParams();
+  const { searchValue } = useParams();
 
   useEffect(() => {
     const fetchMovies = async () => {
       const res = await axios.get(
-        `https://api.themoviedb.org/3/search/movie?api_key=380f962505ebde6dee08b0b646fe05f1&language=en-US&query=${value}&page=1&include_adult=false`
+        `https://api.themoviedb.org/3/search/multi?api_key=380f962505ebde6dee08b0b646fe05f1&query=${searchValue}&page=1&include_adult=false`
       );
       const data = await res.data;
       setMovieSearch(data);
     };
     fetchMovies();
-  }, [value]);
+  }, [searchValue]);
 
   return (
     <Box>

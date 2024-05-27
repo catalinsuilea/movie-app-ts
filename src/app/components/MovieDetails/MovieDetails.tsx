@@ -12,33 +12,36 @@ import {
 } from "../../../styles/theme";
 import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
 import { CardDetails } from "./CardDetails";
+import { TVShowDetails } from "../TVShowDetails/TvDetails";
 interface CastInfo {
   id?: number;
   cast?: Cast[];
   crew?: Crew[];
 }
 const MovieDetails = () => {
-  const { id } = useParams();
+  const { id, mediaType } = useParams();
   const [castInfo, setCastInfo] = useState<CastInfo>({});
   const [movieInfo, setMovieInfo] = useState<MovieInfo | null>(null);
 
   const { isMobile, isTablet, isDesktop } = useDeviceTypeContext();
 
+  console.log("movieDetails", mediaType, movieInfo);
+
   useEffect(() => {
     const fetchCastInfo = async () => {
       const res = await axios.get(
-        `https://api.themoviedb.org/3/movie/${id}/credits?api_key=380f962505ebde6dee08b0b646fe05f1&language=en-US`
+        `https://api.themoviedb.org/3/${mediaType}/${id}/credits?api_key=380f962505ebde6dee08b0b646fe05f1&language=en-US`
       );
       const data = await res.data;
       setCastInfo(data);
     };
     fetchCastInfo();
-  }, [id]);
+  }, [id, mediaType]);
 
   useEffect(() => {
     const fetchMovieInfo = async () => {
       const res = await axios.get(
-        `https://api.themoviedb.org/3/movie/${id}?api_key=380f962505ebde6dee08b0b646fe05f1&language=en-US`
+        `https://api.themoviedb.org/3/${mediaType}/${id}?api_key=380f962505ebde6dee08b0b646fe05f1&language=en-US`
       );
       const data = await res.data;
       setMovieInfo(data);
@@ -98,7 +101,9 @@ const MovieDetails = () => {
             </Flex>
           ) : (
             <Box m="16px">
-              <Heading fontSize="18px">{movieInfo?.title}</Heading>
+              <Heading fontSize="18px">
+                {movieInfo?.title || movieInfo?.name}
+              </Heading>
               <Flex mt="6px">
                 <Text mr="8px">
                   {`${movieInfo?.release_date?.split("-").slice(0, 1)}`}{" "}
@@ -120,8 +125,14 @@ const MovieDetails = () => {
                 gap="16px"
               >
                 <Heading fontSize={isTablet ? "24px" : "36px"}>
-                  {movieInfo?.title}{" "}
-                  {`(${movieInfo?.release_date?.split("-").slice(0, 1)})`}{" "}
+                  {movieInfo?.title || movieInfo?.name}{" "}
+                  {mediaType === "tv"
+                    ? `(${movieInfo?.first_air_date?.split("-").slice(0, 1)}-${
+                        movieInfo?.in_production
+                          ? ""
+                          : movieInfo?.last_air_date?.split("-").slice(0, 1)
+                      })`
+                    : `(${movieInfo?.release_date?.split("-").slice(0, 1)})`}
                 </Heading>
                 <Text
                   fontSize={{ md: "22px", lg: "26px" }}
@@ -195,10 +206,11 @@ const MovieDetails = () => {
               mt="12px"
               display="flex"
               flexDirection="column"
-              overflowX="scroll"
+              overflowX="auto"
+              css={{ ...MovieDetailsTheme.customScrollBar }}
             >
               <Box>
-                <Flex overflowX="scroll">
+                <Flex overflowX="auto">
                   {movieInfo?.genres?.map((genre) => (
                     <Box
                       key={genre.id}
@@ -238,6 +250,8 @@ const MovieDetails = () => {
         </Box>
       )}
       <Flex flexDirection="column" m={{ base: "unset", md: "0 2rem" }}>
+        {mediaType === "tv" && <TVShowDetails seriesId={id} data={movieInfo} />}
+
         <Text fontSize="22px" m={{ base: "24px 0 0 32px" }}>
           Top Billed Cast
         </Text>
