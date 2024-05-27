@@ -32,7 +32,7 @@ const Popularity = () => {
     };
     fetchPopularMovies();
   }, [currentPage]);
-
+  console.log("tacto", popularMovies);
   const handleNextPage = () => {
     setCurrentPage(currentPage + 1);
   };

@@ -18,6 +18,7 @@ import { FavouritesPage } from "../Favourites/Favourites";
 import { FavouritesContextProvider } from "../../contexts/useFavouritesContext";
 import { PrivateRoute } from "../ProtectedRoute";
 import { PersonDetails } from "../MovieDetails/PersonDetails";
+import { EpisodeDetails } from "../TVShowDetails/EpisodeDetails";
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
                 <Routes>
                   <Route path="/movie-app-ts" element={<WelcomePage />}>
                     <Route
-                      path="movie/:value"
+                      path="/movie-app-ts/search/:searchValue"
                       element={<SearchMovie />}
                     ></Route>
                     <Route path="top-rated-movies" element={<Popularity />}>
@@ -48,12 +49,16 @@ function App() {
                     </Route>
                   </Route>
                   <Route
-                    path="/:movieName/:id"
+                    path="/:mediaType/:name/:id"
                     element={<MovieDetails />}
                   ></Route>
                   <Route
                     path="/person/:personName/:id"
                     element={<PersonDetails />}
+                  ></Route>
+                  <Route
+                    path="/tv/:seriesName/:seriesSeason/:seriesEpisode/:id"
+                    element={<EpisodeDetails />}
                   ></Route>
                   <Route
                     path="/signIn"

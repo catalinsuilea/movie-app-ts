@@ -8,7 +8,10 @@ export const CardDetails = ({ cast }: any) => {
   const navigate = useNavigate();
   return (
     <Box width={{ base: "95%", lg: "85%" }} textAlign="left">
-      <Box {...MovieDetailsTheme.charactersCardsContainer}>
+      <Box
+        css={{ ...MovieDetailsTheme.customScrollBar }}
+        {...MovieDetailsTheme.charactersCardsContainer}
+      >
         {cast?.map((item: Cast) => (
           <Box
             {...MovieDetailsTheme.charcacterCard}

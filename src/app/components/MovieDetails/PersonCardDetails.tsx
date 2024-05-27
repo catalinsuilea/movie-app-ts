@@ -18,7 +18,7 @@ export const PersonCardDetails = ({ data, index }: any) => {
       _hover={{ cursor: "pointer" }}
       boxShadow="1px 1px 6px 4px rgba(0, 0, 0, 0.1)"
       onClick={() => {
-        navigate(`/${data.name || data.title}/${data.id}`);
+        navigate(`/movie/${data.name || data.title}/${data.id}`);
       }}
     >
       <Image
