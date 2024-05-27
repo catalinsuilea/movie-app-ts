@@ -119,65 +119,6 @@ export const TVShowDetails = ({ data, seriesId }: any) => {
               ))}
           </TabPanels>
         </Tabs>
-
-        {/* <Accordion allowMultiple>
-          <AccordionItem>
-            <AccordionButton>
-              <Box flex="1" textAlign="left">
-                Seasons
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-            <AccordionPanel pb={4}>
-              <Accordion allowMultiple>
-                {data.seasons.map((season: any, index: any) => (
-                  <AccordionItem
-                    key={season.id}
-                    onClick={() => getSeasonEpisodes(seriesId, index)}
-                  >
-                    <AccordionButton>
-                      <Box flex="1" textAlign="left">
-                        {season.name}
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                    <AccordionPanel pb={4}>
-                      <Text mb="2">{season.overview}</Text>
-                      <Flex overflowX="auto">
-                        {seasonData[`${index}`]?.episodes?.map(
-                          (episode: any, index: number) => (
-                            <Card key={index} minWidth="200px" mr="4">
-                              <CardHeader>
-                                <Text fontWeight="bold">
-                                  Episode {index + 1}
-                                </Text>
-                              </CardHeader>
-                              <CardBody>
-                                <Image
-                                  src={`https://www.themoviedb.org/t/p/w200/${episode?.still_path}`}
-                                  alt={`Episode ${index + 1}`}
-                                  borderRadius="md"
-                                  width="100%"
-                                  height="auto"
-                                />
-                                <Text mt="2">
-                                  Air Date: {episode?.air_date}
-                                </Text>
-                                <Text fontWeight="bold" mt="2">
-                                  ⭐ {episode?.vote_average?.toFixed(1)}
-                                </Text>
-                              </CardBody>
-                            </Card>
-                          )
-                        )}
-                      </Flex>
-                    </AccordionPanel>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </AccordionPanel>
-          </AccordionItem>
-        </Accordion> */}
       </Box>
     )
   );
