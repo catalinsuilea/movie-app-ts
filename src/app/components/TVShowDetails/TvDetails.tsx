@@ -53,11 +53,12 @@ export const TVShowDetails = ({ data, seriesId }: any) => {
         </Box>
         <Divider mt="4" />
         <Tabs mt="4" size="md" variant="enclosed">
-          <TabList>
+          <TabList overflowX="auto">
             {data.seasons
               .filter((season: any) => season.name !== "Specials")
               .map((season: any, index: any) => (
                 <Tab
+                  cursor="pointer"
                   key={season.id}
                   onClick={() => {
                     getSeasonEpisodes(seriesId, index + 1);
@@ -92,6 +93,7 @@ export const TVShowDetails = ({ data, seriesId }: any) => {
                           key={episodeIndex}
                           minWidth="200px"
                           mr="4"
+                          cursor="pointer"
                         >
                           <CardHeader>
                             <Text fontWeight="bold">

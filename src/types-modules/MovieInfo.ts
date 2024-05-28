@@ -42,5 +42,9 @@ interface MovieInfo {
   first_air_date: string;
   last_air_date: string;
   in_production: boolean;
+  still_path: string;
+  crew: any;
+  air_date: string;
+  member: any;
 }
 export default MovieInfo;

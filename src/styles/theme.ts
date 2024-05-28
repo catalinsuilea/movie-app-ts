@@ -136,8 +136,7 @@ export const WelcomePageTheme = extendTheme({
 
 export const MovieDetailsTheme = extendTheme({
   imgMovieDescription: {
-    width: "auto",
-    margin: { lg: "20px" },
+    width: "300px",
   },
   movieInfo: {
     textAlign: "left",
@@ -170,7 +169,7 @@ export const MovieDetailsTheme = extendTheme({
     m: { lg: "12px 0 24px 0" },
   },
   img: {
-    width: "165px",
+    width: "100%",
     borderTopLeftRadius: "15px",
     borderTopRightRadius: "15px",
   },
