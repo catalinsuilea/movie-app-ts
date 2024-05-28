@@ -49,7 +49,7 @@ export const EpisodeDetails = ({}: any) => {
       <Box pt={4}>
         <Box
           position="relative"
-          minHeight="100%" // Adjusts dynamically to the content height
+          minHeight="100%"
           backgroundImage={`url(https://www.themoviedb.org/t/p/w780/${episodeData?.still_path})`}
           backgroundSize="75% 100%"
           backgroundPosition="right center"
@@ -102,12 +102,14 @@ export const EpisodeDetails = ({}: any) => {
                 <Text>Vote Average: {episodeData.vote_average}</Text>
                 <Text>Vote Count: {episodeData.vote_count}</Text>
                 <Box mt="1">
-                  <Heading fontSize="xl" mb="2">
-                    Crew Members
-                  </Heading>
                   <Flex>
-                    {episodeData.crew.slice(0, 5).map((member, index) => (
-                      <Flex key={member.credit_id} mb="2" alignItems="center">
+                    {episodeData.crew.slice(0, 4).map((member, index) => (
+                      <Flex
+                        flexWrap="wrap"
+                        key={member.credit_id}
+                        mb="2"
+                        alignItems="center"
+                      >
                         <Box>
                           <Text
                             cursor="pointer"
