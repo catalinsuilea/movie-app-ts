@@ -1,4 +1,4 @@
-import { extendTheme } from "@chakra-ui/react";
+import { background, extendTheme } from "@chakra-ui/react";
 
 export const myNewTheme = extendTheme({
   colors: {
@@ -37,7 +37,7 @@ export const afterTheme = extendTheme({
       position: "absolute",
       width: "100%",
       height: "100%",
-      background: "linear-gradient(to right, #000428, #004e92)",
+      background: "#00308F",
       top: "0",
       left: "0",
       right: "0",
@@ -127,8 +127,9 @@ export const WelcomePageTheme = extendTheme({
   moviePosterContainer: {
     position: "relative",
     height: "auto",
+    backgroundPosition: "100% 25%",
     backgroundRepeat: "no-repeat",
-    backgroundSize: " 100% 100%",
+    backgroundSize: "100%",
     objectFit: "cover",
     zIndex: "1",
   },

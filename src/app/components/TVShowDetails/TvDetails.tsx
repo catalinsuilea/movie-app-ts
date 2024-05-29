@@ -53,7 +53,10 @@ export const TVShowDetails = ({ data, seriesId }: any) => {
         </Box>
         <Divider mt="4" />
         <Tabs mt="4" size="md" variant="enclosed">
-          <TabList overflowX="auto">
+          <TabList
+            overflowX="auto"
+            css={{ ...MovieDetailsTheme.customScrollBar }}
+          >
             {data.seasons
               .filter((season: any) => season.name !== "Specials")
               .map((season: any, index: any) => (
