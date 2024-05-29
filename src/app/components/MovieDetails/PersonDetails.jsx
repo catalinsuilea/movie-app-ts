@@ -23,11 +23,9 @@ export const PersonDetails = ({}) => {
         });
         if (!response.ok) {
           setPersonDetails(null);
-          console.log("hey", "person", "error");
           throw new Error(`${response.statusText}, ${response.status}`);
         }
         const data = await response.json();
-        console.log("hey", "person", data);
         setPersonDetails(data);
       } catch (err) {
         console.error(err);
@@ -44,12 +42,10 @@ export const PersonDetails = ({}) => {
           method: "GET",
         });
         if (!response.ok) {
-          console.log("hey", "tv", "error");
           setTvCredits([]);
           throw new Error(`${response.statusText}, ${response.status}`);
         }
         const data = await response.json();
-        console.log("hey", "tv", data);
         setTvCredits(data.cast);
       } catch (err) {
         console.error(err);
@@ -66,12 +62,10 @@ export const PersonDetails = ({}) => {
           method: "GET",
         });
         if (!response.ok) {
-          console.log("hey", "movie", "error");
           setMovieCredits([]);
           throw new Error(`${response.statusText}, ${response.status}`);
         }
         const data = await response.json();
-        console.log("hey", "movie", data);
         setMovieCredits(data.cast);
       } catch (err) {
         console.error(err);
@@ -206,14 +200,22 @@ export const PersonDetails = ({}) => {
                   w="100%"
                   pr="20px"
                   pl="20px"
-                  pb="8px"
+                  pb="2.25rem"
                   overflowX="scroll"
                 >
                   {movieCredits.map((movie, index) => (
-                    <PersonCardDetails data={movie} index={index} />
+                    <PersonCardDetails
+                      tabType="movie"
+                      data={movie}
+                      index={index}
+                    />
                   ))}
                   {tvCredits?.map((tvCredit, index) => (
-                    <PersonCardDetails data={tvCredit} index={index} />
+                    <PersonCardDetails
+                      tabType="tv"
+                      data={tvCredit}
+                      index={index}
+                    />
                   ))}
                 </Flex>
                 <Box

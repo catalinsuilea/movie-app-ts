@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Cast from "../../../types-modules/Cast";
 import Crew from "../../../types-modules/Crew";
 import MovieInfo from "../../../types-modules/MovieInfo";
-import { Box, Flex, Heading, Image, Text, Divider } from "@chakra-ui/react";
-import {
-  afterTheme,
-  flexTheme,
-  MovieDetailsTheme,
-} from "../../../styles/theme";
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { MovieDetailsTheme } from "../../../styles/theme";
 import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
 import { CardDetails } from "./CardDetails";
 import { TVShowDetails } from "../TVShowDetails/TvDetails";
@@ -24,11 +20,7 @@ const MovieDetails = () => {
   const { id, mediaType } = useParams();
   const [castInfo, setCastInfo] = useState<CastInfo>({});
   const [movieInfo, setMovieInfo] = useState<MovieInfo | null>(null);
-  const navigate = useNavigate();
-
   const { isMobile, isTablet, isDesktop } = useDeviceTypeContext();
-
-  console.log("movieDetails", mediaType, movieInfo);
 
   useEffect(() => {
     const fetchCastInfo = async () => {

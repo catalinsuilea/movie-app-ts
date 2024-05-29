@@ -44,8 +44,19 @@ const SearchBar = () => {
     setInput("");
   }
   return (
-    <Flex flexDirection="column" position="relative">
-      <Box {...flexTheme} alignItems="unset" mb="80px">
+    <Flex
+      flexDirection="column"
+      position="relative"
+      justifyContent="center"
+      mt="2rem"
+    >
+      <Box
+        {...flexTheme}
+        alignItems="unset"
+        mb="50px"
+        maxWidth="1250px"
+        width="100%"
+      >
         <Box>
           <form
             onSubmit={(e) => {
@@ -60,8 +71,8 @@ const SearchBar = () => {
               borderTopLeftRadius="20px"
               borderBottomLeftRadius="20px"
               size="lg"
+              width="50vw"
               placeholder="Search movie..."
-              width="70vw"
               onChange={(e) => {
                 setOnTypingInput(e.target.value);
                 handleInput(e);
