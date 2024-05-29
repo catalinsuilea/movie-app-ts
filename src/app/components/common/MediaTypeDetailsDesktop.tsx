@@ -1,16 +1,10 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import Cast from "../../../types-modules/Cast";
 import Crew from "../../../types-modules/Crew";
-import { Box, Flex, Heading, Image, Text, Divider } from "@chakra-ui/react";
-import {
-  afterTheme,
-  flexTheme,
-  MovieDetailsTheme,
-} from "../../../styles/theme";
-import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
-import { TVShowDetails } from "../TVShowDetails/TvDetails";
+import { Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
+import { flexTheme, MovieDetailsTheme } from "../../../styles/theme";
 import { PopularityStatus } from "./PopularityStatus";
+import { FavouriteIcon } from "./FavouriteIcon";
 
 interface CastInfo {
   id?: number;
@@ -26,8 +20,12 @@ export const MediaTypeDetailsDesktop = ({
   mediaType,
   handleVoteCount,
   castInfo,
+  handleFavourites,
+  checkIsFavourite,
+  isFavourite,
+  checkUserState,
 }: any) => {
-  const { cast, crew } = castInfo;
+  const { crew } = castInfo;
 
   return (
     <Box
@@ -125,7 +123,20 @@ export const MediaTypeDetailsDesktop = ({
                   >{`⭐${data?.vote_average.toFixed(1)}/10 - ${handleVoteCount(
                     data?.vote_count!
                   )} votes`}</Text>
-                  <PopularityStatus popularityValue={data.popularity} />
+                  <Flex alignItems="start" gap="1.75rem">
+                    <PopularityStatus popularityValue={data.popularity} />
+                    <Box>
+                      <FavouriteIcon
+                        isFavourite={isFavourite}
+                        checkUserState={checkUserState}
+                        handleFavourites={handleFavourites}
+                        checkIsFavourite={checkIsFavourite}
+                        data={data}
+                        id={data.id}
+                        isMovieDetails
+                      />
+                    </Box>
+                  </Flex>
                 </Flex>
 
                 <Box {...MovieDetailsTheme.movieDetails}>

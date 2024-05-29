@@ -8,8 +8,8 @@ import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
 import { MovieCardProps } from "../../../types-modules/MovieCardProps";
 import { MovieProps } from "../../../types-modules/MovieProps";
-import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 import { getCardRoute, getMediaType } from "../../../utils/searchBard.utils";
+import { FavouriteIcon } from "../common/FavouriteIcon";
 
 const MovieCard = ({
   isModalOpen,
@@ -20,7 +20,6 @@ const MovieCard = ({
   ...rest
 }: any) => {
   const { isMobile } = useDeviceTypeContext();
-  const { authUser } = useAuthenticationContext();
   const {
     imgSrc,
     title,
@@ -39,33 +38,17 @@ const MovieCard = ({
     gender,
   } = rest;
 
-  const { handleFavourites } = useFavourites();
-  const [isFavourite, setIsFavourite] = useState(false);
+  console.log("mata", media_type);
 
+  const { handleFavourites, checkIsFavourite, isFavourite, setIsFavourite } =
+    useFavourites();
   const navigate = useNavigate();
+
   useEffect(() => {
     setIsFavourite(
       Boolean(favouritesMoviesFromDB?.find((movie: any) => movie.id === id))
     );
   }, [favouritesMoviesFromDB, id]);
-
-  const checkIsFavourite = (id: number) => {
-    if (!authUser) return;
-    const favouriteMovieObj = favouritesMoviesFromDB?.find(
-      (movie: MovieProps) => movie.id === id
-    );
-    if (!favouriteMovieObj && !isFavourite) {
-      setIsFavourite(true);
-    } else {
-      setIsFavourite(false);
-    }
-  };
-
-  useEffect(() => {
-    if (!authUser) {
-      setIsFavourite(false);
-    }
-  }, [authUser]);
 
   const onCardClick = (route: any) => {
     navigate(route);
@@ -133,21 +116,13 @@ const MovieCard = ({
                         {title || original_name}
                       </Box>
                       {media_type !== "person" && (
-                        <Icon
-                          as={isFavourite ? FaHeart : FaRegHeart}
-                          boxSize={6}
-                          mr={{ base: "unset", lg: "12px" }}
-                          mt={{ base: "unset", lg: "12px" }}
-                          cursor="pointer"
-                          color={`${isFavourite ? "red" : "black"}`}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (checkUserState) {
-                              checkUserState();
-                            }
-                            handleFavourites(rest);
-                            checkIsFavourite(id);
-                          }}
+                        <FavouriteIcon
+                          isFavourite={isFavourite}
+                          checkUserState={checkUserState}
+                          handleFavourites={handleFavourites}
+                          checkIsFavourite={checkIsFavourite}
+                          data={rest}
+                          id={id}
                         />
                       )}
                     </Flex>

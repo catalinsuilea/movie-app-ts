@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Image, Text } from "@chakra-ui/react";
 import { PopularityStatus } from "../common/PopularityStatus";
+import { FavouriteIcon } from "../common/FavouriteIcon";
+import { useFavourites } from "../../contexts/useFavouritesContext";
+import { SignInModal } from "../Modal/SignInModal";
+import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 
 export const PersonCardDetails = ({
   data,
@@ -9,6 +13,32 @@ export const PersonCardDetails = ({
   isMovieTVList = false,
   tabType = "",
 }: any) => {
+  const { authUser } = useAuthenticationContext();
+  const { favouritesMoviesFromDB } = useFavourites();
+
+  const [isFavourite, setIsFavourite] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    setIsFavourite(
+      Boolean(
+        favouritesMoviesFromDB?.find((movie: any) => movie.id === data.id)
+      )
+    );
+  }, [favouritesMoviesFromDB, data.id]);
+
+  const checkUserState = () => {
+    if (authUser) return;
+    setIsModalOpen(true);
+  };
+
+  // Close modal
+  const onCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const { handleFavourites, checkIsFavourite } = useFavourites();
+
   const navigate = useNavigate();
   return (
     <>
@@ -56,9 +86,22 @@ export const PersonCardDetails = ({
         >
           {data.name || data.title}
         </Text>
+        {data.media_type !== "person" && (
+          <Box position="absolute" top="0" right="0" color="white">
+            <FavouriteIcon
+              isFavourite={isFavourite}
+              checkUserState={checkUserState}
+              handleFavourites={handleFavourites}
+              checkIsFavourite={checkIsFavourite}
+              data={data}
+              id={data.id}
+            />
+          </Box>
+        )}
         <Box position="absolute" bottom="-1.25rem" left="1rem">
           <PopularityStatus popularityValue={data.popularity} isMovieTVList />
         </Box>
+        <SignInModal isModalOpen={isModalOpen} onCloseModal={onCloseModal} />
       </Box>
     </>
   );

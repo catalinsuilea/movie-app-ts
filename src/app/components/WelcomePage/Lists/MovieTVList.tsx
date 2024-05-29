@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Tabs,
   TabList,
@@ -18,6 +18,7 @@ import {
   WelcomePageTheme,
   afterTheme,
 } from "../../../../styles/theme";
+import { useFavourites } from "../../../contexts/useFavouritesContext";
 
 const MovieTVList = ({
   data,
@@ -27,6 +28,7 @@ const MovieTVList = ({
   getRandomImage,
   handleTabClick,
   tabType,
+  checkUserState,
 }: any) => {
   const randomImageMemoized = useMemo(() => {
     if (!getRandomImage) return;
@@ -120,6 +122,7 @@ const MovieTVList = ({
                           index={index}
                           isMovieTVList
                           tabType={tabType}
+                          checkUserState={checkUserState}
                         />
                       ))}
                 </Flex>
