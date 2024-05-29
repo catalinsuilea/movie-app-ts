@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import { useAuthenticationContext } from "./AuthenticationContext";
-import { db } from "../../firebase";
-import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { MovieProps } from "../../types-modules/MovieProps";
 import { getFavourites } from "../../utils/getFavourites";
 
@@ -11,6 +9,10 @@ interface FavoritesContextTypes {
 
   /** Function that handles the add/remove favourites */
   handleFavourites: (movie: MovieProps) => void;
+
+  isFavourite: boolean;
+  checkIsFavourite: any;
+  setIsFavourite: any;
 }
 
 const FavouritesContext = createContext<FavoritesContextTypes>(
@@ -21,12 +23,13 @@ export const FavouritesContextProvider = ({ children }: any) => {
   const { authUser } = useAuthenticationContext();
   const { token } = authUser || {};
   const [favouritesMoviesFromDB, setFavouriteMoviesFromDB] = useState([]);
+  const [isFavourite, setIsFavourite] = useState(false);
 
   const handleFavourites = async (movie: MovieProps) => {
     if (!authUser) return;
     try {
       const URL = "http://localhost:5000/favourites/post-favourites";
-
+      console.log("hey", movie);
       const response = await fetch(URL, {
         method: "POST",
         headers: {
@@ -55,16 +58,37 @@ export const FavouritesContextProvider = ({ children }: any) => {
     }
   };
 
+  const checkIsFavourite = (id: number) => {
+    if (!authUser) return;
+    const favouriteMovieObj = favouritesMoviesFromDB?.find(
+      (movie: MovieProps) => movie.id === id
+    );
+    if (!favouriteMovieObj && !isFavourite) {
+      setIsFavourite(true);
+    } else {
+      setIsFavourite(false);
+    }
+  };
+
   useEffect(() => {
     if (!token) return;
     getFavourites(token, setFavouriteMoviesFromDB);
   }, [token]);
+
+  useEffect(() => {
+    if (!authUser) {
+      setIsFavourite(false);
+    }
+  }, [authUser]);
 
   return (
     <FavouritesContext.Provider
       value={{
         favouritesMoviesFromDB,
         handleFavourites,
+        checkIsFavourite,
+        isFavourite,
+        setIsFavourite,
       }}
     >
       {children}

@@ -55,12 +55,15 @@ export const TVShowDetails = ({ data, seriesId }: any) => {
         <Tabs mt="4" size="md" variant="enclosed">
           <TabList
             overflowX="auto"
+            width="100%"
             css={{ ...MovieDetailsTheme.customScrollBar }}
           >
             {data.seasons
               .filter((season: any) => season.name !== "Specials")
               .map((season: any, index: any) => (
                 <Tab
+                  m="0.75rem 0"
+                  borderWidth="1.5px"
                   cursor="pointer"
                   key={season.id}
                   onClick={() => {
@@ -68,7 +71,7 @@ export const TVShowDetails = ({ data, seriesId }: any) => {
                     setSeasonNumber(index + 1);
                   }}
                 >
-                  {season.name}
+                  <Text fontWeight="600"> {season.name}</Text>
                 </Tab>
               ))}
           </TabList>
@@ -77,7 +80,18 @@ export const TVShowDetails = ({ data, seriesId }: any) => {
               .filter((season: any) => season.name !== "Specials")
               .map((season: any, index: any) => (
                 <TabPanel key={season.id}>
-                  <Text mb="2">Plot: {season.overview}</Text>
+                  <Text mb="3" fontSize="2xl" fontWeight="bold">
+                    Plot
+                  </Text>{" "}
+                  <Text
+                    fontSize="md"
+                    letterSpacing="1.025px"
+                    mb="3"
+                    fontWeight="400"
+                  >
+                    {" "}
+                    {season.overview}
+                  </Text>
                   <Flex
                     css={{ ...MovieDetailsTheme.customScrollBar }}
                     overflowX="auto"
@@ -98,13 +112,16 @@ export const TVShowDetails = ({ data, seriesId }: any) => {
                           mr="4"
                           cursor="pointer"
                         >
-                          <CardHeader>
+                          <CardHeader mt="0.75rem">
                             <Text fontWeight="bold">
                               Episode {episodeIndex + 1}
                             </Text>
                           </CardHeader>
-                          <CardBody>
+                          <CardBody m="1rem 0">
                             <Image
+                              _hover={{
+                                boxShadow: "0 0 6px 4px rgba(0,0,0,0.3)",
+                              }}
                               src={`https://www.themoviedb.org/t/p/w200/${episode?.still_path}`}
                               alt={`Episode ${episodeIndex + 1}`}
                               borderRadius="md"

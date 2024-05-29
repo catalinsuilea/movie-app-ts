@@ -259,6 +259,7 @@ const WelcomePage = () => {
               description="Discover TV Shows"
               handleTabClick={handleTabClick}
               getRandomImage={getRandomImage}
+              checkUserState={checkUserState}
               tabType="tv"
             />
           </Box>
@@ -271,6 +272,7 @@ const WelcomePage = () => {
               description="Trending this week"
               handleTabClick={handleTabClick}
               getRandomImage={getRandomImage}
+              checkUserState={checkUserState}
               tabType="trending"
             />
           </Box>
@@ -299,6 +301,7 @@ const WelcomePage = () => {
               description="Discover movies"
               handleTabClick={handleTabClick}
               getRandomImage={getRandomImage}
+              checkUserState={checkUserState}
               tabType="movie"
             />
           </Box>

@@ -4,12 +4,16 @@ import axios from "axios";
 import Cast from "../../../types-modules/Cast";
 import Crew from "../../../types-modules/Crew";
 import MovieInfo from "../../../types-modules/MovieInfo";
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Center, Divider, Flex, Image, Text } from "@chakra-ui/react";
 import { MovieDetailsTheme } from "../../../styles/theme";
 import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
 import { CardDetails } from "./CardDetails";
 import { TVShowDetails } from "../TVShowDetails/TvDetails";
 import { MediaTypeDetailsDesktop } from "../common/MediaTypeDetailsDesktop";
+import { CustomCarousel } from "../common/CustomCarousel";
+import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
+import { useFavourites } from "../../contexts/useFavouritesContext";
+import { SignInModal } from "../Modal/SignInModal";
 
 interface CastInfo {
   id?: number;
@@ -17,34 +21,46 @@ interface CastInfo {
   crew?: Crew[];
 }
 const MovieDetails = () => {
+  const API_KEY = "380f962505ebde6dee08b0b646fe05f1";
   const { id, mediaType } = useParams();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [castInfo, setCastInfo] = useState<CastInfo>({});
   const [movieInfo, setMovieInfo] = useState<MovieInfo | null>(null);
+
+  const [trailers, setTrailers] = useState([]);
+  const [photos, setPhotos] = useState([]);
+
+  const { authUser } = useAuthenticationContext();
+  const {
+    handleFavourites,
+    checkIsFavourite,
+    setIsFavourite,
+    isFavourite,
+    favouritesMoviesFromDB,
+  } = useFavourites();
+
   const { isMobile, isTablet, isDesktop } = useDeviceTypeContext();
-
-  useEffect(() => {
-    const fetchCastInfo = async () => {
-      const res = await axios.get(
-        `https://api.themoviedb.org/3/${mediaType}/${id}/credits?api_key=380f962505ebde6dee08b0b646fe05f1&language=en-US`
-      );
-      const data = await res.data;
-      setCastInfo(data);
-    };
-    fetchCastInfo();
-  }, [id, mediaType]);
-
-  useEffect(() => {
-    const fetchMovieInfo = async () => {
-      const res = await axios.get(
-        `https://api.themoviedb.org/3/${mediaType}/${id}?api_key=380f962505ebde6dee08b0b646fe05f1&language=en-US`
-      );
-      const data = await res.data;
-      setMovieInfo(data);
-    };
-    fetchMovieInfo();
-  }, [id]);
-
   const { cast, crew } = castInfo;
+
+  useEffect(() => {
+    setIsFavourite(
+      Boolean(
+        favouritesMoviesFromDB?.find((movie: any) => movie.id === Number(id))
+      )
+    );
+  }, [favouritesMoviesFromDB, id]);
+
+  // Open modal if user isn't authenticated and clicks on heart icon
+  const checkUserState = () => {
+    if (authUser) return;
+    setIsModalOpen(true);
+  };
+
+  // Close modal
+  const onCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const sortedCast = cast?.sort((a, b) => {
     if (a.profile_path && !b.profile_path) {
@@ -67,6 +83,50 @@ const MovieDetails = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchPhotos = async () => {
+      const res = await axios.get(
+        `https://api.themoviedb.org/3/${mediaType}/${id}/images?api_key=${API_KEY}`
+      );
+      const data = await res.data;
+      setPhotos(data.backdrops);
+    };
+    fetchPhotos();
+  }, [id, mediaType]);
+
+  useEffect(() => {
+    const fetchTrailers = async () => {
+      const res = await axios.get(
+        `https://api.themoviedb.org/3/${mediaType}/${id}/videos?api_key=${API_KEY}`
+      );
+      const data = await res.data;
+      setTrailers(data.results);
+    };
+    // fetchTrailers();
+  }, [id, mediaType]);
+
+  useEffect(() => {
+    const fetchCastInfo = async () => {
+      const res = await axios.get(
+        `https://api.themoviedb.org/3/${mediaType}/${id}/credits?api_key=${API_KEY}&language=en-US`
+      );
+      const data = await res.data;
+      setCastInfo(data);
+    };
+    fetchCastInfo();
+  }, [id, mediaType]);
+
+  useEffect(() => {
+    const fetchMovieInfo = async () => {
+      const res = await axios.get(
+        `https://api.themoviedb.org/3/${mediaType}/${id}?api_key=${API_KEY}&language=en-US`
+      );
+      const data = await res.data;
+      setMovieInfo(data);
+    };
+    fetchMovieInfo();
+  }, [id]);
+
   return (
     movieInfo && (
       <Box>
@@ -79,6 +139,10 @@ const MovieDetails = () => {
             mediaType={mediaType}
             castInfo={castInfo}
             handleVoteCount={handleVoteCount}
+            handleFavourites={handleFavourites}
+            checkIsFavourite={checkIsFavourite}
+            isFavourite={isFavourite}
+            checkUserState={checkUserState}
           />
         )}
 
@@ -145,6 +209,54 @@ const MovieDetails = () => {
             </Text>
           </Box>
         )}
+        {trailers && (
+          <Flex
+            m={{ base: "unset", md: "2rem 2rem 0 2rem" }}
+            flexDirection="column"
+          >
+            <Flex alignItems="center" gap="8px">
+              <Center height="35px">
+                <Divider
+                  orientation="vertical"
+                  borderWidth="4px"
+                  borderColor="#00308F"
+                />
+              </Center>
+              <Text fontSize="3xl" fontWeight="bold">
+                Videos
+              </Text>
+            </Flex>
+            <Box maxWidth="1250px">
+              <CustomCarousel data={trailers} componentName="Trailers" />
+            </Box>
+          </Flex>
+        )}
+
+        {photos && (
+          <Flex m={{ base: "unset", md: "0 2rem" }} flexDirection="column">
+            <Flex alignItems="center" gap="8px">
+              <Center height="35px">
+                <Divider
+                  orientation="vertical"
+                  borderWidth="4px"
+                  borderColor="#00308F"
+                />
+              </Center>
+              <Text fontSize="3xl" fontWeight="bold">
+                Photos
+              </Text>
+            </Flex>
+            <Box maxWidth="1250px">
+              <CustomCarousel
+                data={photos}
+                componentName="MediaPhotos"
+                slidesToShow={4}
+                slidesToScroll={4}
+              />
+            </Box>
+          </Flex>
+        )}
+
         <Flex flexDirection="column" m={{ base: "unset", md: "0 2rem" }}>
           {mediaType === "tv" && (
             <TVShowDetails seriesId={id} data={movieInfo} />
@@ -193,6 +305,7 @@ const MovieDetails = () => {
             </Box>
           </Flex>
         </Flex>
+        <SignInModal isModalOpen={isModalOpen} onCloseModal={onCloseModal} />
       </Box>
     )
   );
