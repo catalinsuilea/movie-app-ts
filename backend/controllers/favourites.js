@@ -21,7 +21,7 @@ exports.postFavourites = async (req, res, next) => {
   const favouriteMovie = new Favourite({
     userId: req.userId,
     imgSrc: movie.poster_path,
-    title: movie.title || movie.name,
+    title: movie.title || movie.name || movie.original_name,
     overview: movie.overview,
     id: movie.id,
     rating: movie.vote_average,
@@ -44,7 +44,7 @@ exports.postFavourites = async (req, res, next) => {
       user.favourites.push({
         id: movie.id,
         imgSrc: movie.poster_path,
-        title: movie.title,
+        title: movie.title || movie.name || movie.original_name,
         overview: movie.overview,
         rating: movie.vote_average,
         release_date: movie.release_date,

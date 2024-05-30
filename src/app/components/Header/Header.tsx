@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box } from "@chakra-ui/react";
 import { HeaderDesktop } from "../Header/HeaderDesktop";
 import { HeaderMobile } from "../Header/HeaderMobile";
@@ -6,6 +6,12 @@ import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
 
 const Header = () => {
   const { isMobile } = useDeviceTypeContext();
+  const [linkActive, setLinkActive] = useState("");
+  const headerLinks = [
+    { mediaType: "movie", link: "Movie" },
+    { mediaType: "tv", link: "Tv Shows" },
+    { mediaType: "person", link: "People" },
+  ];
 
   return (
     <Box
@@ -14,7 +20,19 @@ const Header = () => {
       height="80px"
       position="relative"
     >
-      {isMobile ? <HeaderMobile /> : <HeaderDesktop />}
+      {isMobile ? (
+        <HeaderMobile
+          linkActive={linkActive}
+          setLinkActive={setLinkActive}
+          headerLinks={headerLinks}
+        />
+      ) : (
+        <HeaderDesktop
+          linkActive={linkActive}
+          setLinkActive={setLinkActive}
+          headerLinks={headerLinks}
+        />
+      )}
     </Box>
   );
 };

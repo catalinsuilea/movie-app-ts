@@ -14,13 +14,17 @@ import {
 import { flexTheme, HeaderTheme } from "../../../styles/theme";
 import logo from "../../../logo/movie-pilot.svg";
 import Navbar from "../menuHover/menuHover";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
-export const HeaderDesktop = () => {
+export const HeaderDesktop = ({ headerLinks }: any) => {
   const navigate = useNavigate();
   const { authUser, handleLogout } = useAuthenticationContext();
+
+  const location = useLocation();
+  const pathnameArr = location.pathname.split("/");
+  const currentPage = pathnameArr[pathnameArr.length - 1];
 
   return (
     <Box {...HeaderTheme.linksContainer}>
@@ -34,18 +38,24 @@ export const HeaderDesktop = () => {
           width="100px"
           src={logo}
         />
-        <Link {...HeaderTheme.link}>
-          <Navbar />
-        </Link>
-        <Link {...HeaderTheme.link} color="gray">
-          TV Shows
-        </Link>
-        <Link c {...HeaderTheme.link} color="gray">
-          People
-        </Link>
-        <Link {...HeaderTheme.link} color="gray ">
-          More
-        </Link>
+        <Link {...HeaderTheme.link}>{/* <Navbar /> */}</Link>
+        <Box>
+          {headerLinks.map((link: any) => (
+            <Link
+              onClick={() => navigate(`/movie-app-ts/${link.mediaType}`)}
+              key={link.mediaType}
+              {...HeaderTheme.link}
+              borderBottom={
+                currentPage === link.mediaType ? "2px solid white" : "unset"
+              }
+            >
+              {link.link}
+            </Link>
+          ))}
+          <Link {...HeaderTheme.link}>
+            <Navbar />
+          </Link>
+        </Box>
       </Box>
       <Box {...flexTheme}>
         {!authUser ? (

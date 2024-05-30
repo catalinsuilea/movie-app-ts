@@ -12,6 +12,7 @@ const FavouriteSchema = new Schema({
   rating: Number,
   release_date: String,
   media_type: String,
+  original_name: String,
 });
 
 const UserSchema = new Schema({
