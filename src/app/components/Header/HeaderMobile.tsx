@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 import PlacementExample from "../Drawer/Drawer";
 
-export const HeaderMobile = () => {
+export const HeaderMobile = ({ headerLinks }: any) => {
   const navigate = useNavigate();
   const { authUser, handleLogout } = useAuthenticationContext();
 

@@ -16,6 +16,7 @@ const MovieCard = ({
   onCloseModal,
   checkUserState,
   isLoading,
+  media_type_header,
   ...rest
 }: any) => {
   const [isFavourite, setIsFavourite] = useState(false);
@@ -41,6 +42,8 @@ const MovieCard = ({
     gender,
   } = rest;
 
+  console.log("mortiimatii", original_name);
+
   useEffect(() => {
     setIsFavourite(
       Boolean(
@@ -60,25 +63,31 @@ const MovieCard = ({
       justifyContent="center"
       alignItems="center"
       data-testid="movie-card"
-      margin="2.5em auto"
-      w="100%"
+      margin={media_type_header === "person" ? "unset" : "2.5em auto"}
     >
       <Link
+        width="100%"
         onClick={() =>
-          onCardClick(getCardRoute(title || original_name, id, media_type))
+          onCardClick(
+            getCardRoute(
+              title || original_name,
+              id,
+              media_type || media_type_header
+            )
+          )
         }
         style={{ textDecoration: "none", color: "black" }}
       >
         <Box>
           <Box
             flexFlow={["column", "column", "column", "row"]}
-            w={["90vw", "85vw"]}
+            width="100%"
             {...MovieCardTheme}
           >
             {isLoading ? (
               <Loader />
             ) : (
-              <Flex width="100%" flexDirection={{ base: "column", md: "row" }}>
+              <Flex flexDirection={{ base: "column", md: "row" }} width="100%">
                 <Box justifyContent="center" alignItems="center" height="auto">
                   {" "}
                   <Image
@@ -111,30 +120,80 @@ const MovieCard = ({
                 >
                   {isMobile ? (
                     <Flex alignItems="center" justifyContent="space-between">
-                      <Box m="15px 0" fontSize="23px" fontWeight="500">
+                      <Flex m="15px 0" fontSize="23px" fontWeight="500">
                         {title || original_name}
-                      </Box>
-                      {media_type !== "person" && (
-                        <FavouriteIcon
-                          isFavourite={isFavourite}
-                          checkUserState={checkUserState}
-                          handleFavourites={handleFavourites}
-                          checkIsFavourite={checkIsFavourite}
-                          data={rest}
-                          id={id}
-                          media_type={media_type || "movie"}
-                        />
-                      )}
+                        <Box>
+                          {media_type ||
+                          (media_type_header && popularity === "person") ? (
+                            <Text fontWeight={400} fontSize="lg">
+                              ⭐{popularity.toFixed(1)}{" "}
+                            </Text>
+                          ) : (
+                            rating ||
+                            (vote_average && (
+                              <Text fontWeight={400} fontSize="lg">
+                                ⭐
+                                {rating?.toFixed(1) || vote_average?.toFixed(1)}
+                              </Text>
+                            ))
+                          )}
+                        </Box>
+                      </Flex>
+                      {media_type ||
+                        (media_type_header !== "person" && (
+                          <FavouriteIcon
+                            isFavourite={isFavourite}
+                            checkUserState={checkUserState}
+                            handleFavourites={handleFavourites}
+                            checkIsFavourite={checkIsFavourite}
+                            data={rest}
+                            id={id}
+                            media_type={
+                              media_type || media_type_header || "movie"
+                            }
+                            isMovieCard
+                          />
+                        ))}
                     </Flex>
                   ) : (
-                    <Box m="15px 0" fontSize="23px" fontWeight="500">
+                    <Flex
+                      alignItems="start"
+                      m="15px 0"
+                      fontSize="23px"
+                      fontWeight="500"
+                      gap="8px"
+                    >
                       {title || original_name}
-                    </Box>
-                  )}
 
-                  <Box>{description || overview}</Box>
+                      <Box>
+                        {(media_type === "person" || media_type_header) &&
+                        rating ? (
+                          <Text fontWeight={400} fontSize="lg">
+                            ⭐{popularity.toFixed(0)}{" "}
+                          </Text>
+                        ) : (
+                          rating ||
+                          (vote_average && (
+                            <Text mt="2px" fontWeight={600} fontSize="xl">
+                              ⭐{rating?.toFixed(1) || vote_average?.toFixed(1)}
+                            </Text>
+                          ))
+                        )}
+                      </Box>
+                    </Flex>
+                  )}
+                  <Box>
+                    <Text
+                      noOfLines={3}
+                      css={{
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {description || overview}
+                    </Text>
+                  </Box>
                   <Text mt="12px" fontWeight="500">
-                    {getMediaType(media_type, gender)}
+                    {getMediaType(media_type || media_type_header, gender)}
                   </Text>
                   <Box
                     fontWeight="bold"
@@ -142,31 +201,25 @@ const MovieCard = ({
                     fontSize={{ base: "21px", md: "19px" }}
                   >
                     {" "}
-                    {media_type === "person" ? (
-                      <Text fontWeight={400} fontSize="lg">
-                        Popularity: ⭐{popularity.toFixed(1)}{" "}
-                      </Text>
-                    ) : (
-                      <Text fontWeight={400} fontSize="lg">
-                        ⭐{rating?.toFixed(1) || vote_average?.toFixed(1)}
-                      </Text>
-                    )}
                   </Box>
-                  {media_type !== "person" && (
-                    <Box>Release date: {releaseDate || release_date}</Box>
-                  )}
+                  {media_type ||
+                    (media_type_header !== "person" && (
+                      <Box>Release date: {releaseDate || release_date}</Box>
+                    ))}
                 </Box>
-                {!isMobile && media_type !== "person" && (
-                  <FavouriteIcon
-                    isFavourite={isFavourite}
-                    checkUserState={checkUserState}
-                    handleFavourites={handleFavourites}
-                    checkIsFavourite={checkIsFavourite}
-                    data={rest}
-                    id={id}
-                    media_type={media_type || "movie"}
-                  />
-                )}
+                {(!isMobile && media_type) ||
+                  (media_type_header !== "person" && (
+                    <FavouriteIcon
+                      isFavourite={isFavourite}
+                      checkUserState={checkUserState}
+                      handleFavourites={handleFavourites}
+                      checkIsFavourite={checkIsFavourite}
+                      data={rest}
+                      id={id}
+                      media_type={media_type || "movie"}
+                      isMovieCard
+                    />
+                  ))}
               </Flex>
             )}
           </Box>

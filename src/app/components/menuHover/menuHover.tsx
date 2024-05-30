@@ -21,14 +21,11 @@ export default function Navbar() {
         onMouseLeave={onClose}
         textDecoration="none"
       >
-        Movies
+        More
       </MenuButton>
       <MenuList onMouseEnter={onOpen} onMouseLeave={onClose}>
-        <Link to="/movie-app-ts/top-rated-movies">
-          <MenuItem color="black">Rating</MenuItem>{" "}
-        </Link>
-        <Link to="/movie-app-ts/genres">
-          <MenuItem color="black">Genres</MenuItem>{" "}
+        <Link to="/favourites">
+          <MenuItem color="black">Favourites</MenuItem>{" "}
         </Link>
       </MenuList>
     </Menu>
