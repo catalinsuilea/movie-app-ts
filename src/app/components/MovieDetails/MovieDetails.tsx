@@ -96,13 +96,22 @@ const MovieDetails = () => {
 
   useEffect(() => {
     const fetchTrailers = async () => {
-      const res = await axios.get(
-        `https://api.themoviedb.org/3/${mediaType}/${id}/videos?api_key=${API_KEY}`
-      );
-      const data = await res.data;
-      setTrailers(data.results);
+      if (!id || !mediaType) return;
+      try {
+        const res = await fetch(
+          `https://api.themoviedb.org/3/${mediaType}/${id}/videos?api_key=${API_KEY}`,
+          { method: "GET", credentials: "omit" }
+        );
+        if (!res.ok) {
+          throw new Error(`${res.statusText}, ${res.status}`);
+        }
+        const data = await res.json();
+        setTrailers(data.results);
+      } catch (error) {
+        console.error("Error fetching trailers:", error);
+      }
     };
-    // fetchTrailers();
+    fetchTrailers();
   }, [id, mediaType]);
 
   useEffect(() => {

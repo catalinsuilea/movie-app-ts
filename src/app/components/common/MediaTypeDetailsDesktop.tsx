@@ -133,6 +133,7 @@ export const MediaTypeDetailsDesktop = ({
                         checkIsFavourite={checkIsFavourite}
                         data={data}
                         id={data.id}
+                        media_type={mediaType}
                         isMovieDetails
                       />
                     </Box>

@@ -16,10 +16,13 @@ const MovieCard = ({
   onCloseModal,
   checkUserState,
   isLoading,
-  favouritesMoviesFromDB,
   ...rest
 }: any) => {
+  const [isFavourite, setIsFavourite] = useState(false);
   const { isMobile } = useDeviceTypeContext();
+  const { handleFavourites, checkIsFavourite, favouritesMoviesFromDB } =
+    useFavourites();
+  const navigate = useNavigate();
   const {
     imgSrc,
     title,
@@ -38,15 +41,11 @@ const MovieCard = ({
     gender,
   } = rest;
 
-  console.log("mata", media_type);
-
-  const { handleFavourites, checkIsFavourite, isFavourite, setIsFavourite } =
-    useFavourites();
-  const navigate = useNavigate();
-
   useEffect(() => {
     setIsFavourite(
-      Boolean(favouritesMoviesFromDB?.find((movie: any) => movie.id === id))
+      Boolean(
+        favouritesMoviesFromDB?.find((movie: any) => movie.id === Number(id))
+      )
     );
   }, [favouritesMoviesFromDB, id]);
 
@@ -123,6 +122,7 @@ const MovieCard = ({
                           checkIsFavourite={checkIsFavourite}
                           data={rest}
                           id={id}
+                          media_type={media_type || "movie"}
                         />
                       )}
                     </Flex>
@@ -157,21 +157,14 @@ const MovieCard = ({
                   )}
                 </Box>
                 {!isMobile && media_type !== "person" && (
-                  <Icon
-                    as={isFavourite ? FaHeart : FaRegHeart}
-                    boxSize={6}
-                    mr="12px"
-                    mt="12px"
-                    cursor="pointer"
-                    color={`${isFavourite ? "red" : "black"}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (checkUserState) {
-                        checkUserState();
-                      }
-                      handleFavourites(rest);
-                      checkIsFavourite(id);
-                    }}
+                  <FavouriteIcon
+                    isFavourite={isFavourite}
+                    checkUserState={checkUserState}
+                    handleFavourites={handleFavourites}
+                    checkIsFavourite={checkIsFavourite}
+                    data={rest}
+                    id={id}
+                    media_type={media_type || "movie"}
                   />
                 )}
               </Flex>

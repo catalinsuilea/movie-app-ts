@@ -6,7 +6,7 @@ import ShowHideText from "./showHideText";
 import { useNavigate } from "react-router-dom";
 import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
 import { ChevronRightIcon } from "@chakra-ui/icons";
-import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
+import { FavouriteIcon } from "../common/FavouriteIcon";
 
 export const CarouselCardComponent = ({
   handleFavourites,
@@ -66,18 +66,14 @@ export const CarouselCardComponent = ({
           {title}
           <ChevronRightIcon fontSize="27px" />
         </Link>
-        <Icon
-          as={isFavourite ? FaHeart : FaRegHeart}
-          boxSize={6}
-          mr="12px"
-          mt={{ base: "8px", md: "unset" }}
-          cursor="pointer"
-          color={`${isFavourite ? "red" : "#fff"}`}
-          onClick={() => {
-            checkUserState();
-            handleFavourites(rest);
-            checkIsFavourite(id);
-          }}
+        <FavouriteIcon
+          isFavourite={isFavourite}
+          checkUserState={checkUserState}
+          handleFavourites={handleFavourites}
+          checkIsFavourite={checkIsFavourite}
+          data={rest}
+          media_type="movie"
+          id={id}
         />
       </Flex>
       <Box
