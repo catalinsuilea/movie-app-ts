@@ -94,6 +94,7 @@ export const PersonCardDetails = ({
               handleFavourites={handleFavourites}
               checkIsFavourite={checkIsFavourite}
               data={data}
+              media_type={data.media_type || tabType}
               id={data.id}
             />
           </Box>

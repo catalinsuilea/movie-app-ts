@@ -32,5 +32,9 @@ const movie = new Schema({
     type: String,
     required: true,
   },
+  media_type: {
+    type: String,
+    required: true,
+  },
 });
 module.exports = mongoose.model("Favourite", movie);

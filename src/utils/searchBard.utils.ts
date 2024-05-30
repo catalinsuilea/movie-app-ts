@@ -3,7 +3,7 @@ export const getMediaType = (type: string, gender?: number) => {
     case "movie":
       return "Movie";
     case "tv":
-      return "TV";
+      return "TV Series";
     case "person":
       if (gender === 1) {
         return "Actress";

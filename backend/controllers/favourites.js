@@ -11,7 +11,7 @@ exports.getFavourites = async (req, res, next) => {
 };
 
 exports.postFavourites = async (req, res, next) => {
-  const { movie } = req.body || {};
+  const { movie, media_type } = req.body || {};
   if (!movie) {
     return res
       .status(500)
@@ -26,6 +26,7 @@ exports.postFavourites = async (req, res, next) => {
     id: movie.id,
     rating: movie.vote_average,
     release_date: movie.release_date,
+    media_type: media_type,
   });
 
   try {
@@ -47,6 +48,7 @@ exports.postFavourites = async (req, res, next) => {
         overview: movie.overview,
         rating: movie.vote_average,
         release_date: movie.release_date,
+        media_type: media_type,
       });
       await user.save();
 
