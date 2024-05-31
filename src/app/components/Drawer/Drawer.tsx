@@ -13,12 +13,15 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
+  Link,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
+import { HeaderTheme } from "../../../styles/theme";
 
-function DrawerExample() {
+function DrawerExample({ headerLinks }: any) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
   const btnRef: any = React.useRef();
   const hamburger = faBars as IconProp;
   const { authUser } = useAuthenticationContext();
@@ -39,54 +42,55 @@ function DrawerExample() {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Search movies by:</DrawerHeader>
+          <DrawerHeader>Explore</DrawerHeader>
 
           <DrawerBody>
-            <Link to="/movie-app-ts/genres">
-              <Box
-                display="flex"
-                justifyContent="flex-start"
-                alignItems="center"
+            {headerLinks.map((link: any) => (
+              <Link
+                onClick={() => {
+                  navigate(`/movie-app-ts/${link.mediaType}`);
+                  onClose();
+                }}
+                key={link.mediaType}
+                {...HeaderTheme.link}
+                color="black"
+                display="block"
+                width="100%"
+                mb="4px"
               >
-                {" "}
-                <Icon w={4} h={4} as={ChevronRightIcon} />
-                <p>Genre</p>
-              </Box>
-            </Link>
-
-            <Link to="/movie-app-ts/top-rated-movies">
-              <Box
-                display="flex"
-                justifyContent="flex-start"
-                alignItems="center"
-              >
-                {" "}
-                <Icon w={4} h={4} as={ChevronRightIcon} />
-                <p>Rating</p>
-              </Box>
-            </Link>
+                {link.link}
+              </Link>
+            ))}
             {authUser && (
               <>
                 <Divider marginTop="12px" />
                 <Flex alignItems="center" m="12px 0">
                   <Icon w={4} h={4} as={ChevronRightIcon} />
-                  <Link to="/favourites">Your favourites</Link>
+                  <Link
+                    onClick={() => {
+                      navigate(`/favourites`);
+                      onClose();
+                    }}
+                  >
+                    Your favourites
+                  </Link>
                 </Flex>
               </>
             )}
 
             <Divider marginTop="12px" />
             <DrawerHeader paddingX={0}>No account ?</DrawerHeader>
-            <Link to="/signUp">
-              <Box
-                display="flex"
-                justifyContent="flex-start"
-                alignItems="center"
+            <Box display="flex" justifyContent="flex-start" alignItems="center">
+              <Icon w={4} h={4} as={ChevronRightIcon} />
+              <Link
+                onClick={() => {
+                  navigate(`/signUp`);
+                  onClose();
+                }}
               >
-                <Icon w={4} h={4} as={ChevronRightIcon} />
-                <p>Join us</p>
-              </Box>
-            </Link>
+                Join us
+              </Link>
+            </Box>
           </DrawerBody>
         </DrawerContent>
       </Drawer>

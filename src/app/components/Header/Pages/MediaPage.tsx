@@ -83,9 +83,8 @@ export const MediaPage = () => {
     });
   };
   const sortOptionsdsds = selectedSortOptions.join("&");
-  console.log("sortOptionsdsds", sortOptionsdsds);
   const API_KEY = "380f962505ebde6dee08b0b646fe05f1";
-  console.log("genress", genreId);
+
   // Get genres
 
   useEffect(() => {
@@ -98,7 +97,6 @@ export const MediaPage = () => {
           throw new Error(`${response.statusText},${response.status}`);
         }
         const data = await response.json();
-        console.log("hghghg", data);
         setGenres(data.genres);
       } catch (error) {
         console.error(error);
@@ -106,8 +104,6 @@ export const MediaPage = () => {
     };
     getGenres();
   }, [mediaType]);
-
-  console.log("ggggg", headerData);
 
   useEffect(() => {
     const params = {
@@ -147,10 +143,10 @@ export const MediaPage = () => {
   return (
     <Box p="4" display="flex" justifyContent="center">
       <Box maxWidth="1750px" width="100%" p="4" mb="4">
-        <Flex gap="2rem">
+        <Flex gap="2rem" flexDirection={{ base: "column", md: "row" }}>
           {mediaType !== "person" && (
             <Box
-              minWidth="280px"
+              minWidth={{ base: "unset", md: "280px" }}
               padding="0.5rem 0.75rem"
               borderWidth="1px"
               borderRadius="5px"

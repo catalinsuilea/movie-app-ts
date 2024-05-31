@@ -30,7 +30,7 @@ export const FavouriteIcon = ({
         return "black";
     }
   };
-  console.log("matatatatata", isMovieCard);
+
   return (
     <Icon
       as={isFavourite ? FaHeart : FaRegHeart}
