@@ -45,7 +45,7 @@ export const HeaderMobile = ({ headerLinks }: any) => {
           </Link>
         )}
       </Box>
-      <PlacementExample />
+      <PlacementExample headerLinks={headerLinks} />
     </Flex>
   );
 };

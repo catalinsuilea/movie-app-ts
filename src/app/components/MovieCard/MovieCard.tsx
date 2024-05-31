@@ -16,7 +16,7 @@ const MovieCard = ({
   onCloseModal,
   checkUserState,
   isLoading,
-  media_type_header,
+  media_type_header = "",
   ...rest
 }: any) => {
   const [isFavourite, setIsFavourite] = useState(false);
@@ -41,8 +41,6 @@ const MovieCard = ({
     popularity,
     gender,
   } = rest;
-
-  console.log("mortiimatii", original_name);
 
   useEffect(() => {
     setIsFavourite(
@@ -120,13 +118,18 @@ const MovieCard = ({
                 >
                   {isMobile ? (
                     <Flex alignItems="center" justifyContent="space-between">
-                      <Flex m="15px 0" fontSize="23px" fontWeight="500">
-                        {title || original_name}
+                      <Flex
+                        m="15px 0"
+                        fontSize="23px"
+                        fontWeight="500"
+                        flexDirection={{ base: "column", md: "row" }}
+                      >
+                        <Text width="100%">{title || original_name}</Text>
                         <Box>
                           {media_type ||
                           (media_type_header && popularity === "person") ? (
                             <Text fontWeight={400} fontSize="lg">
-                              ⭐{popularity.toFixed(1)}{" "}
+                              ⭐{popularity?.toFixed(1) || rating.toFixed(1)}{" "}
                             </Text>
                           ) : (
                             rating ||
@@ -139,8 +142,8 @@ const MovieCard = ({
                           )}
                         </Box>
                       </Flex>
-                      {media_type ||
-                        (media_type_header !== "person" && (
+                      {media_type !== "person" &&
+                        media_type_header !== "person" && (
                           <FavouriteIcon
                             isFavourite={isFavourite}
                             checkUserState={checkUserState}
@@ -153,7 +156,7 @@ const MovieCard = ({
                             }
                             isMovieCard
                           />
-                        ))}
+                        )}
                     </Flex>
                   ) : (
                     <Flex
@@ -202,24 +205,23 @@ const MovieCard = ({
                   >
                     {" "}
                   </Box>
-                  {media_type ||
-                    (media_type_header !== "person" && (
+                  {media_type !== "person" &&
+                    media_type_header !== "person" && (
                       <Box>Release date: {releaseDate || release_date}</Box>
-                    ))}
+                    )}
                 </Box>
-                {(!isMobile && media_type) ||
-                  (media_type_header !== "person" && (
-                    <FavouriteIcon
-                      isFavourite={isFavourite}
-                      checkUserState={checkUserState}
-                      handleFavourites={handleFavourites}
-                      checkIsFavourite={checkIsFavourite}
-                      data={rest}
-                      id={id}
-                      media_type={media_type || "movie"}
-                      isMovieCard
-                    />
-                  ))}
+                {!isMobile && media_type_header !== "person" && (
+                  <FavouriteIcon
+                    isFavourite={isFavourite}
+                    checkUserState={checkUserState}
+                    handleFavourites={handleFavourites}
+                    checkIsFavourite={checkIsFavourite}
+                    data={rest}
+                    id={id}
+                    media_type={media_type || "movie"}
+                    isMovieCard
+                  />
+                )}
               </Flex>
             )}
           </Box>

@@ -23,8 +23,8 @@ export const HeaderDesktop = ({ headerLinks }: any) => {
   const { authUser, handleLogout } = useAuthenticationContext();
 
   const location = useLocation();
-  const pathnameArr = location.pathname.split("/");
-  const currentPage = pathnameArr[pathnameArr.length - 1];
+  const pathnameArr = location?.pathname?.split("/");
+  const currentPage = pathnameArr[pathnameArr?.length - 1];
 
   return (
     <Box {...HeaderTheme.linksContainer}>
@@ -38,7 +38,6 @@ export const HeaderDesktop = ({ headerLinks }: any) => {
           width="100px"
           src={logo}
         />
-        <Link {...HeaderTheme.link}>{/* <Navbar /> */}</Link>
         <Box>
           {headerLinks.map((link: any) => (
             <Link
