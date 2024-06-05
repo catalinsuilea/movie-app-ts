@@ -33,9 +33,6 @@ const MovieDetails = () => {
   const [trailers, setTrailers] = useState([]);
   const [photos, setPhotos] = useState([]);
 
-  // const [reviewData, setReviewData] = useState([]);
-  const [reviewAlreadyAdded, setReviewAlreadyAdded] = useState(false);
-
   const { authUser } = useAuthenticationContext();
   const {
     handleFavourites,
@@ -44,11 +41,6 @@ const MovieDetails = () => {
     isFavourite,
     favouritesMoviesFromDB,
   } = useFavourites();
-
-  // const loginDataString = localStorage.getItem("loginData") ?? "{}";
-  // const localStorageData = JSON.parse(loginDataString);
-
-  // const userIdLocalstorage = localStorageData.userId;
 
   const { isMobile, isTablet, isDesktop } = useDeviceTypeContext();
   const { cast, crew } = castInfo;
