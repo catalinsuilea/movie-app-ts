@@ -18,6 +18,7 @@ import {
   Episode,
 } from "../../../types-modules/TvEpisodeDetails";
 import { MovieDetailsTheme } from "../../../styles/theme";
+import { UserReviews } from "../RatingAndReviews/UserReviews";
 
 export const EpisodeDetails = ({}: any) => {
   const API_KEY = "380f962505ebde6dee08b0b646fe05f1";
@@ -188,6 +189,13 @@ export const EpisodeDetails = ({}: any) => {
             </Box>
           </Box>
         </Box>
+        <UserReviews
+          mediaData={episodeData}
+          mediaId={id}
+          mediaType="episode"
+          season={seriesSeason}
+          episode={seriesEpisode}
+        />
       </Box>
     )
   );

@@ -15,11 +15,13 @@ import { useNavigate } from "react-router-dom";
 interface SignInModalProps {
   isModalOpen: boolean;
   onCloseModal: () => void;
+  modalType?: string;
 }
 
 export const SignInModal = ({
   isModalOpen,
   onCloseModal,
+  modalType,
 }: SignInModalProps) => {
   const navigate = useNavigate();
 
@@ -27,11 +29,15 @@ export const SignInModal = ({
     <Modal isCentered isOpen={isModalOpen} onClose={onCloseModal}>
       <ModalOverlay />
       <ModalContent m="0 16px">
-        <ModalHeader>Favourites</ModalHeader>
+        <ModalHeader>{`${
+          modalType === "favourites" ? "Favourites" : "Ratings and Reviews"
+        }`}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Text>
-            Sign In in order to see favourites. No account? Register for free!
+            {`Sign In in order to ${
+              modalType === "favourites" ? "see favourites" : "add a review"
+            }. No account? Register for free!`}
           </Text>
         </ModalBody>
 

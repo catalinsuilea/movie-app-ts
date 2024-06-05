@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+const ReviewsSchema = require("./reviewsSchema");
+
 const FavouriteSchema = new Schema({
   id: {
     type: Number,
@@ -29,5 +31,6 @@ const UserSchema = new Schema({
     required: true,
   },
   favourites: [FavouriteSchema],
+  reviews: [ReviewsSchema],
 });
 module.exports = mongoose.model("User", UserSchema);

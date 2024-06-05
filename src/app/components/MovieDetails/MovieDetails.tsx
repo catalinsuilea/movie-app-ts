@@ -14,6 +14,7 @@ import { CustomCarousel } from "../common/CustomCarousel";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 import { useFavourites } from "../../contexts/useFavouritesContext";
 import { SignInModal } from "../Modal/SignInModal";
+import { UserReviews } from "../RatingAndReviews/UserReviews";
 
 interface CastInfo {
   id?: number;
@@ -25,11 +26,15 @@ const MovieDetails = () => {
   const { id, mediaType } = useParams();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [castInfo, setCastInfo] = useState<CastInfo>({});
   const [movieInfo, setMovieInfo] = useState<MovieInfo | null>(null);
 
   const [trailers, setTrailers] = useState([]);
   const [photos, setPhotos] = useState([]);
+
+  // const [reviewData, setReviewData] = useState([]);
+  const [reviewAlreadyAdded, setReviewAlreadyAdded] = useState(false);
 
   const { authUser } = useAuthenticationContext();
   const {
@@ -39,6 +44,11 @@ const MovieDetails = () => {
     isFavourite,
     favouritesMoviesFromDB,
   } = useFavourites();
+
+  // const loginDataString = localStorage.getItem("loginData") ?? "{}";
+  // const localStorageData = JSON.parse(loginDataString);
+
+  // const userIdLocalstorage = localStorageData.userId;
 
   const { isMobile, isTablet, isDesktop } = useDeviceTypeContext();
   const { cast, crew } = castInfo;
@@ -218,7 +228,7 @@ const MovieDetails = () => {
             </Text>
           </Box>
         )}
-        {trailers && (
+        {trailers.length > 0 && (
           <Flex
             m={{ base: "unset", md: "2rem 2rem 0 2rem" }}
             flexDirection="column"
@@ -241,8 +251,11 @@ const MovieDetails = () => {
           </Flex>
         )}
 
-        {photos && (
-          <Flex m={{ base: "unset", md: "0 2rem" }} flexDirection="column">
+        {photos.length > 0 && (
+          <Flex
+            m={{ base: "unset", md: "2rem 2rem 0 2rem" }}
+            flexDirection="column"
+          >
             <Flex alignItems="center" gap="8px">
               <Center height="35px">
                 <Divider
@@ -314,7 +327,14 @@ const MovieDetails = () => {
             </Box>
           </Flex>
         </Flex>
-        <SignInModal isModalOpen={isModalOpen} onCloseModal={onCloseModal} />
+        {/* Reviews */}
+        <UserReviews mediaData={movieInfo} mediaId={id} mediaType={mediaType} />
+
+        <SignInModal
+          modalType="favourites"
+          isModalOpen={isModalOpen}
+          onCloseModal={onCloseModal}
+        />
       </Box>
     )
   );

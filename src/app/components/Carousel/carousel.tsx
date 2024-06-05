@@ -40,7 +40,7 @@ const CarouselComponent = ({
             wrapAround
             scrollMode={ScrollMode.remainder}
             slidesToShow={getSlidesToShow()}
-            // autoplay
+            autoplay
             pauseOnHover
             autoplayInterval={3000}
             cellSpacing={3}
@@ -91,7 +91,11 @@ const CarouselComponent = ({
           </Carousel>
         )}
       </Box>
-      <SignInModal isModalOpen={isModalOpen} onCloseModal={onCloseModal} />
+      <SignInModal
+        modalType="favourites"
+        isModalOpen={isModalOpen}
+        onCloseModal={onCloseModal}
+      />
     </>
   );
 };

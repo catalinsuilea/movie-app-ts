@@ -42,7 +42,7 @@ export const FavouriteIcon = ({
       onClick={(e) => {
         e.stopPropagation();
         if (checkUserState) {
-          checkUserState();
+          checkUserState("favourites");
         }
         handleFavourites(data, media_type);
         checkIsFavourite(id);

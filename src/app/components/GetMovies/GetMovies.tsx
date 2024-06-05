@@ -55,7 +55,11 @@ const GetMovies = () => {
           {...movie}
         />
       ))}
-      <SignInModal isModalOpen={isModalOpen} onCloseModal={onCloseModal} />
+      <SignInModal
+        modalType="favourites"
+        isModalOpen={isModalOpen}
+        onCloseModal={onCloseModal}
+      />
     </>
   );
 };
