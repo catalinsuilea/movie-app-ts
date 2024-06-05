@@ -89,7 +89,11 @@ const Popularity = () => {
           </Link>
         </Flex>
       )}
-      <SignInModal isModalOpen={isModalOpen} onCloseModal={onCloseModal} />
+      <SignInModal
+        modalType="favourites"
+        isModalOpen={isModalOpen}
+        onCloseModal={onCloseModal}
+      />
     </>
   );
 };

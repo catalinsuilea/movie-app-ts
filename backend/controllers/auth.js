@@ -67,6 +67,7 @@ exports.postSignUp = async (req, res, next) => {
       email: email,
       password: criptedPassword,
       favourites: [],
+      reviews: [],
     });
     const userCreated = await user.save();
     if (userCreated) {

@@ -102,7 +102,11 @@ export const PersonCardDetails = ({
         <Box position="absolute" bottom="-1.25rem" left="1rem">
           <PopularityStatus popularityValue={data.popularity} isMovieTVList />
         </Box>
-        <SignInModal isModalOpen={isModalOpen} onCloseModal={onCloseModal} />
+        <SignInModal
+          modalType="favourites"
+          isModalOpen={isModalOpen}
+          onCloseModal={onCloseModal}
+        />
       </Box>
     </>
   );

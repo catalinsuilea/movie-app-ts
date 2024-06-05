@@ -9,6 +9,7 @@ const app = express();
 
 const authRoutes = require("./routes/auth");
 const favouritesRoutes = require("./routes/favourites");
+const reviewRoutes = require("./routes/reviews");
 
 app.use(bodyParser.json());
 app.use((req, res, next) => {
@@ -22,6 +23,7 @@ app.use((req, res, next) => {
 });
 app.use("/auth", authRoutes);
 app.use("/favourites", favouritesRoutes);
+app.use("/reviews", reviewRoutes);
 
 app.use((error, req, res, next) => {
   console.log(error);

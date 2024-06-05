@@ -221,7 +221,11 @@ export const MediaPage = () => {
           </Box>
         </Flex>
       </Box>
-      <SignInModal isModalOpen={isModalOpen} onCloseModal={onCloseModal} />
+      <SignInModal
+        modalType="favourites"
+        isModalOpen={isModalOpen}
+        onCloseModal={onCloseModal}
+      />
     </Box>
   );
 };

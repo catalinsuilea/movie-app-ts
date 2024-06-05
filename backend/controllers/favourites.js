@@ -6,7 +6,7 @@ exports.getFavourites = async (req, res, next) => {
   if (!user) {
     res.status(401).json({ message: "Not Authenticated" });
   }
-  const favourites = user.favourites;
+  const favourites = user?.favourites;
   return res.status(200).json({ favourites });
 };
 
