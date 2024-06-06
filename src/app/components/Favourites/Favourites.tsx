@@ -18,8 +18,6 @@ export const FavouritesPage = () => {
     }
   }, [favouritesMoviesFromDB?.length]);
 
-  console.log("satiiauneanumpl", favouritesMoviesFromDB);
-
   return (
     <Box p="4" display="flex" justifyContent="center">
       <Box maxWidth="1750px" width="100%" p="4" mb="4">
