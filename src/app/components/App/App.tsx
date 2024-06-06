@@ -20,6 +20,7 @@ import { PrivateRoute } from "../ProtectedRoute";
 import { PersonDetails } from "../MovieDetails/PersonDetails";
 import { EpisodeDetails } from "../TVShowDetails/EpisodeDetails";
 import { MediaPage } from "../Header/Pages/MediaPage";
+import AccountPage from "../account/AccountPage";
 
 function App() {
   return (
@@ -82,6 +83,14 @@ function App() {
                     element={
                       <PrivateRoute>
                         <FavouritesPage />
+                      </PrivateRoute>
+                    }
+                  ></Route>
+                  <Route
+                    path="/user-account/:userId"
+                    element={
+                      <PrivateRoute>
+                        <AccountPage />
                       </PrivateRoute>
                     }
                   ></Route>

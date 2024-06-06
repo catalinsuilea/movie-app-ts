@@ -22,6 +22,8 @@ export const HeaderDesktop = ({ headerLinks }: any) => {
   const navigate = useNavigate();
   const { authUser, handleLogout } = useAuthenticationContext();
 
+  const { userId } = authUser || {};
+
   const location = useLocation();
   const pathnameArr = location?.pathname?.split("/");
   const currentPage = pathnameArr[pathnameArr?.length - 1];
@@ -90,9 +92,9 @@ export const HeaderDesktop = ({ headerLinks }: any) => {
             <MenuList>
               <MenuItem
                 justifyContent="center"
-                onClick={() => navigate("/favourites")}
+                onClick={() => navigate(`/user-account/${userId}`)}
               >
-                <Text>Your favourites</Text>
+                <Text>My account</Text>
               </MenuItem>
               <MenuDivider />
               <MenuItem justifyContent="center" onClick={handleLogout}>

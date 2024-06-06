@@ -30,7 +30,7 @@ const movie = new Schema({
   },
   overview: {
     type: String,
-    required: true,
+    // required: true,
   },
   media_type: {
     type: String,

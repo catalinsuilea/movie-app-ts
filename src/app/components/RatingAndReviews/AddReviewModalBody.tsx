@@ -46,7 +46,11 @@ const ReviewBody = ({
         <Text fontSize="2xl" ml="4">
           {movie?.title || movie?.name}{" "}
           <Text as="span">
-            ({`${movie?.release_date?.split("-").slice(0, 1)}`})
+            (
+            {`${(movie?.release_date || movie?.air_date)
+              ?.split("-")
+              .slice(0, 1)}`}
+            )
           </Text>
         </Text>
       </Flex>

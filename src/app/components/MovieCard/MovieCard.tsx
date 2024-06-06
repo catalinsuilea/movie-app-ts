@@ -175,12 +175,11 @@ const MovieCard = ({
                             ⭐{popularity.toFixed(0)}{" "}
                           </Text>
                         ) : (
-                          rating ||
-                          (vote_average && (
+                          rating && (
                             <Text mt="2px" fontWeight={600} fontSize="xl">
                               ⭐{rating?.toFixed(1) || vote_average?.toFixed(1)}
                             </Text>
-                          ))
+                          )
                         )}
                       </Box>
                     </Flex>
