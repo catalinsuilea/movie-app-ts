@@ -2,8 +2,12 @@ require("dotenv").config();
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const mongoose = require("mongoose");
 const MONGO_DB_URI = process.env.MONGO_DB_URI;
+
+const allowedOrigin = "http://localhost:3000";
 
 const app = express();
 
@@ -13,13 +17,23 @@ const reviewRoutes = require("./routes/reviews");
 const userRoutes = require("./routes/user");
 
 app.use(bodyParser.json());
+app.use(cookieParser());
+
+const corsOptions = {
+  origin: allowedOrigin,
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
   res.setHeader(
     "Access-Control-Allow-Methods",
     "OPTIONS, GET, POST, PUT, PATCH, DELETE"
   );
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
   next();
 });
 app.use("/auth", authRoutes);

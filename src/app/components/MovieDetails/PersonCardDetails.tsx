@@ -58,11 +58,19 @@ export const PersonCardDetails = ({
         backgroundColor={isMovieTVList ? "black" : "transparent"}
         borderColor={isMovieTVList ? "black" : "transparent"}
         onClick={() => {
-          navigate(
-            `/${data.media_type || data.mediaType || tabType}/${
-              data.name || data.title || data.mediaName
-            }/${data.id || data.mediaId}`
-          );
+          if (data.mediaType === "episode") {
+            navigate(
+              `/tv/${data.name || data.title || data.mediaName}/${
+                data.season
+              }/${data.episode}/${data.id || data.mediaId}`
+            );
+          } else {
+            navigate(
+              `/${data.media_type || data.mediaType || tabType}/${
+                data.name || data.title || data.mediaName
+              }/${data.id || data.mediaId}`
+            );
+          }
         }}
         position="relative"
         pb="1rem"

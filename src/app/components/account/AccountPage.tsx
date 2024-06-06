@@ -22,12 +22,12 @@ import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 
 const AccountPage = ({}) => {
   const { favouritesMoviesFromDB } = useFavourites();
-  const { authUser, userIdLocalstorage } = useAuthenticationContext();
-  const { token, username } = authUser || {};
+  const { authUser } = useAuthenticationContext();
+  const { username } = authUser || {};
   const [userReviews, setUserReviews] = useState([]);
   const [userInformation, setUserInformation] = useState<any>(null);
   const { userId } = useParams();
-  const currentUser = userIdLocalstorage === userId;
+  const currentUser = authUser.userId === userId;
 
   const navigate = useNavigate();
 
@@ -39,8 +39,8 @@ const AccountPage = ({}) => {
           method: "GET",
           headers: {
             "Content-type": "application/json",
-            Authorization: `Bearer ${token}`,
           },
+          credentials: "include",
         });
         if (!response.ok) {
           throw new Error(`${response.statusText} ${response.status}`);
@@ -62,8 +62,8 @@ const AccountPage = ({}) => {
           method: "GET",
           headers: {
             "Content-type": "application/json",
-            Authorization: `Bearer ${token}`,
           },
+          credentials: "include",
         });
         if (!response.ok) {
           throw new Error(`${response.statusText} ${response.status}`);

@@ -25,6 +25,7 @@ export const SignInFormComponent = ({}) => {
     setSignInFormErrors,
     setSignInFormValues,
     setAuthUser,
+    fetchUserInfo,
   } = useAuthenticationContext();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -53,30 +54,18 @@ export const SignInFormComponent = ({}) => {
             email: signInFormValues.email,
             password: signInFormValues.password,
           }),
+          credentials: "include",
         });
         if (!response.ok) {
           throw new Error(`${response.status}`);
         }
+
         const data = await response.json();
-
-        const { token, userId, tokenExpirationDate, username } = data.user;
-        setAuthUser({ username, userId, token });
-
-        setSignInFormValues({ email: "", password: "" });
-        setErrorMsg("");
-
-        navigate("/movie-app-ts");
-
         if (data) {
-          localStorage.setItem(
-            "loginData",
-            JSON.stringify({
-              username: username,
-              token: token,
-              userId: userId,
-              expire: new Date(tokenExpirationDate).getTime() / 1000,
-            })
-          );
+          fetchUserInfo();
+          setSignInFormValues({ email: "", password: "" });
+          setErrorMsg("");
+          navigate("/movie-app-ts");
         }
       } catch (err: any) {
         setErrorMsg(err.message);

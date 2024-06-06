@@ -9,11 +9,7 @@ import {
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 import { useNavigate } from "react-router-dom";
 
-export const LikeDislikeComponent = ({
-  reviewData,
-  token,
-  setReviewData,
-}: any) => {
+export const LikeDislikeComponent = ({ reviewData, setReviewData }: any) => {
   const { _id, reviewLikes, reviewDislikes } = reviewData || {};
 
   const { authUser } = useAuthenticationContext() || {};
@@ -33,9 +29,9 @@ export const LikeDislikeComponent = ({
           method: "POST",
           headers: {
             "Content-type": "application/json",
-            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ reviewId: _id }),
+          credentials: "include",
         }
       );
       if (!response.ok) {

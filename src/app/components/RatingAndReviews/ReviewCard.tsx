@@ -4,13 +4,12 @@ import { Box, Stack, Heading, Text, Flex, Button } from "@chakra-ui/react";
 import { FaTrashAlt, FaRegEdit } from "react-icons/fa";
 import { LikeDislikeComponent } from "./LikeDislikeComponent";
 import { useNavigate } from "react-router-dom";
+import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 
 export const ReviewCard = ({
   reviewData,
   index,
-  userIdLocalstorage,
   setReviewAlreadyAdded,
-  token,
   openReviewsModal,
   setIsEditing,
   setReviewData,
@@ -18,7 +17,9 @@ export const ReviewCard = ({
   episode,
 }: any) => {
   const [currentUser, setCurrentUser] = useState(false);
+  const { authUser } = useAuthenticationContext();
   const navigate = useNavigate();
+
   const formatDate = (isoDate: string) => {
     const date = new Date(isoDate);
     const day = String(date.getDate()).padStart(2, "0");
@@ -31,9 +32,9 @@ export const ReviewCard = ({
     setReviewAlreadyAdded(currentUser);
   }
   useEffect(() => {
-    if (!userIdLocalstorage) return;
-    setCurrentUser(userIdLocalstorage == reviewData.userId._id);
-  }, [userIdLocalstorage, reviewData]);
+    if (!authUser) return;
+    setCurrentUser(authUser.userId == reviewData.userId._id);
+  }, [authUser, reviewData]);
 
   const onDeleteReview = async (
     id: number,
@@ -49,8 +50,8 @@ export const ReviewCard = ({
         method: "DELETE",
         headers: {
           "Content-type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
+        credentials: "include",
       });
       if (!response.ok) {
         throw new Error(`${response.statusText} ${response.status}`);
@@ -119,7 +120,6 @@ export const ReviewCard = ({
               {/* Likes */}
               <LikeDislikeComponent
                 reviewData={reviewData}
-                token={token}
                 setReviewData={setReviewData}
               />
               {/* Delete/Edit */}

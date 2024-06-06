@@ -22,25 +22,53 @@ exports.postLogin = async (req, res, next) => {
       {
         email: email,
         userId: user._id,
+        username: user.username,
       },
       JWT_SECRET_KEY,
       { expiresIn: "1h" }
     );
 
-    const decodedToken = jwt.verify(token, JWT_SECRET_KEY);
-    const expirationDate = new Date(decodedToken.exp * 1000);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false,
+      maxAge: 3600 * 1000, // 1 hour
+      sameSite: "Strict",
+    });
 
     res.status(200).json({
-      message: "User found",
-      user: {
-        username: user.username,
-        token: token,
-        tokenExpirationDate: expirationDate,
-        userId: user._id,
-      },
+      message: "Logged In",
     });
   } catch (err) {
     console.log(err);
+  }
+};
+
+exports.postLogout = (req, res, next) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: false,
+      sameSite: "Strict",
+    });
+    return res.status(200).json({ message: "Logout successful" });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Error while trying to logout. Try again later" });
+  }
+};
+
+exports.getUserInfo = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET_KEY);
+    return res.status(200).json({ user: decoded });
+  } catch (err) {
+    return res.status(401).json({ message: "Unauthorized" });
   }
 };
 

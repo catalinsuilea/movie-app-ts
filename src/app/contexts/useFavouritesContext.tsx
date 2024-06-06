@@ -21,7 +21,6 @@ const FavouritesContext = createContext<FavoritesContextTypes>(
 
 export const FavouritesContextProvider = ({ children }: any) => {
   const { authUser } = useAuthenticationContext();
-  const { token } = authUser || {};
   const [favouritesMoviesFromDB, setFavouriteMoviesFromDB] = useState([]);
   const [isFavourite, setIsFavourite] = useState(false);
 
@@ -33,9 +32,9 @@ export const FavouritesContextProvider = ({ children }: any) => {
         method: "POST",
         headers: {
           "Content-type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ movie: movie, media_type: media_type }),
+        credentials: "include",
       });
       if (!response.ok) {
         throw new Error(`${response.statusText}, ${response.status}`);
@@ -70,9 +69,9 @@ export const FavouritesContextProvider = ({ children }: any) => {
   };
 
   useEffect(() => {
-    if (!token) return;
-    getFavourites(token, setFavouriteMoviesFromDB);
-  }, [token, favouritesMoviesFromDB.length]);
+    if (!authUser) return;
+    getFavourites(setFavouriteMoviesFromDB);
+  }, [authUser, favouritesMoviesFromDB.length]);
 
   useEffect(() => {
     if (!authUser) {

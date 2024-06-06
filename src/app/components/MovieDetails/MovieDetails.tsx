@@ -113,7 +113,7 @@ const MovieDetails = () => {
         console.error("Error fetching trailers:", error);
       }
     };
-    fetchTrailers();
+    // fetchTrailers();
   }, [id, mediaType]);
 
   useEffect(() => {
