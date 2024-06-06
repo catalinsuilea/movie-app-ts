@@ -1,10 +1,4 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
-import { auth, db } from "../../firebase";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { collection, addDoc, getDocs } from "firebase/firestore";
 import { FormValue, FormErrors } from "../../types-modules/SignUpFormComponent";
 import { useNavigate } from "react-router-dom";
 import { AuthUser } from "../../types-modules/AuthenticatedUser";
@@ -25,7 +19,8 @@ export const AuthProvider = ({ children }: any) => {
   };
 
   const [authUser, setAuthUser] = useState<AuthUser | null>(null);
-  const [isUserFetched, setIsUserFetched] = useState(false);
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const navigate = useNavigate();
 
@@ -40,35 +35,50 @@ export const AuthProvider = ({ children }: any) => {
     useState<FormErrors>(singInFormValues);
 
   // Logout user
-  const handleLogout = () => {
-    const isLoggedIn = localStorage.getItem("loginData");
-    if (isLoggedIn) {
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      if (!response.ok) {
+        throw new Error(`${response.status} ${response.statusText}`);
+      }
+      const data = await response.json();
       setAuthUser(null);
-      localStorage.removeItem("loginData");
+      setIsLoggedIn(false);
       navigate("/movie-app-ts");
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsLoggedIn(false);
     }
   };
 
-  // Persistent logged in user
-  useEffect(() => {
-    const user = localStorage.getItem("loginData");
-    if (user) {
-      const existingUser = JSON.parse(user);
-      const { expire, token, userId, username } = existingUser;
-      const currentDate = Math.floor(Date.now() / 1000); // current time in seconds
-      if (expire > currentDate) {
-        setAuthUser({ username, userId, token });
-      } else {
-        localStorage.removeItem("loginData");
-        setIsUserFetched(false);
-      }
-    }
-    setIsUserFetched(true);
-  }, []);
+  const fetchUserInfo = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/auth/user-info", {
+        method: "GET",
+        credentials: "include",
+      });
 
-  const loginDataString = localStorage.getItem("loginData") ?? "{}";
-  const localStorageData = JSON.parse(loginDataString);
-  const userIdLocalstorage = localStorageData.userId;
+      if (!response.ok) {
+        throw new Error("Failed to fetch user info");
+      }
+      const data = await response.json();
+      const { userId, username } = data.user || {};
+      setAuthUser({ userId, username });
+      setIsLoggedIn(true);
+    } catch (error) {
+      console.error("Error:", error);
+      setAuthUser(null);
+      setIsLoggedIn(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, [isLoggedIn]);
 
   const registerData = {
     formRegisterValue,
@@ -90,8 +100,8 @@ export const AuthProvider = ({ children }: any) => {
     authUser,
     handleLogout,
     setAuthUser,
-    isUserFetched,
-    userIdLocalstorage,
+    isLoggedIn,
+    fetchUserInfo,
   };
 
   return (

@@ -18,11 +18,11 @@ export const AddReviewCard = ({
   mediaType,
   setReviewData,
   setReviewAlreadyAdded,
-  token,
   isEditing,
   season,
   episode,
   mediaId,
+  authUser,
 }: any) => {
   const [reviewHeadlineValue, setReviewHeadLineValue] = useState("");
   const [reviewTextAreaValue, setReviewTextAreaValue] = useState("");
@@ -45,7 +45,7 @@ export const AddReviewCard = ({
   };
 
   const sendReviewForm = async () => {
-    if (!token) return;
+    if (!authUser) return;
     const URL = isEditing.editing
       ? "http://localhost:5000/reviews/edit-review"
       : "http://localhost:5000/reviews/add-review";
@@ -55,11 +55,11 @@ export const AddReviewCard = ({
         method: METHOD,
         headers: {
           "Content-type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           payload: payload,
         }),
+        credentials: "include",
       });
       if (!response.ok) {
         throw new Error(response.statusText);

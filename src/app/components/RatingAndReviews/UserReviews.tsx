@@ -22,8 +22,7 @@ export const UserReviews = ({
     dataToEdit: {},
   });
 
-  const { authUser, userIdLocalstorage } = useAuthenticationContext();
-  const { token } = authUser || {};
+  const { authUser } = useAuthenticationContext();
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -147,8 +146,6 @@ export const UserReviews = ({
                   key={review.userId?._id}
                   index={index}
                   setReviewAlreadyAdded={setReviewAlreadyAdded}
-                  userIdLocalstorage={userIdLocalstorage}
-                  token={token}
                   openReviewsModal={openReviewsModal}
                   setIsEditing={setIsEditing}
                   setReviewData={setReviewData}
@@ -169,11 +166,11 @@ export const UserReviews = ({
         mediaType={mediaType}
         setReviewData={setReviewData}
         setReviewAlreadyAdded={setReviewAlreadyAdded}
-        token={token}
         isEditing={isEditing}
         season={season}
         episode={episode}
         mediaId={mediaId}
+        authUser={authUser}
       />
       <SignInModal
         modalType="reviews"

@@ -3,14 +3,13 @@ import { useAuthenticationContext } from "../contexts/AuthenticationContext";
 import { Navigate, useLocation } from "react-router-dom";
 
 export const PrivateRoute = ({ children }) => {
-  const { authUser, isUserFetched } = useAuthenticationContext();
+  const { authUser, isLoggedIn } = useAuthenticationContext();
   const location = useLocation();
-
-  if (!isUserFetched) {
+  if (!isLoggedIn) {
     return null;
   }
-  if (isUserFetched) {
-    if (!authUser || !authUser.token) {
+  if (isLoggedIn) {
+    if (!authUser) {
       return <Navigate to="/signIn" state={{ from: location }} />;
     }
   }

@@ -1,13 +1,9 @@
-export const getFavourites = async (
-  token: string,
-  setFavouritesMoviesFromDB: any
-) => {
+export const getFavourites = async (setFavouritesMoviesFromDB: any) => {
   try {
     const URL = "http://localhost:5000/favourites/get-favourites";
     const response = await fetch(URL, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      method: "GET",
+      credentials: "include",
     });
     if (!response.ok) {
       throw new Error(`${response.status} ${response.statusText}`);

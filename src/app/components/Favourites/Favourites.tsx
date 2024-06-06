@@ -8,9 +8,7 @@ import { useAuthenticationContext } from "../../../app/contexts/AuthenticationCo
 export const FavouritesPage = () => {
   const { favouritesMoviesFromDB } = useFavourites();
   const [isLoading, setIsLoading] = useState(true);
-  const { authUser, isUserFetched } = useAuthenticationContext();
-
-  const { token } = authUser || {};
+  const { authUser } = useAuthenticationContext();
 
   useEffect(() => {
     if (favouritesMoviesFromDB) {
@@ -20,9 +18,7 @@ export const FavouritesPage = () => {
     }
   }, [favouritesMoviesFromDB?.length]);
 
-  return !isUserFetched && !token ? (
-    <Text>Loading...</Text>
-  ) : (
+  return (
     <Box p="4" display="flex" justifyContent="center">
       <Box maxWidth="1750px" width="100%" p="4" mb="4">
         {favouritesMoviesFromDB?.length === 0 ? (
