@@ -21,10 +21,8 @@ export const UserReviews = ({
     editing: false,
     dataToEdit: {},
   });
-  const loginDataString = localStorage.getItem("loginData") ?? "{}";
-  const localStorageData = JSON.parse(loginDataString);
-  const userIdLocalstorage = localStorageData.userId;
-  const { authUser } = useAuthenticationContext();
+
+  const { authUser, userIdLocalstorage } = useAuthenticationContext();
   const { token } = authUser || {};
 
   useEffect(() => {

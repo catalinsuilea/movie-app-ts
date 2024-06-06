@@ -23,7 +23,6 @@ const SearchBar = () => {
       if (debounceValue) {
         try {
           const res = await axios.get(
-            // `https://api.themoviedb.org/3/search/movie?api_key=380f962505ebde6dee08b0b646fe05f1&language=en-US&query=${debounceValue}&page=1&include_adult=false`
             `https://api.themoviedb.org/3/search/multi?api_key=380f962505ebde6dee08b0b646fe05f1&query=${debounceValue}&page=1&include_adult=false`
           );
           setMovieSearch(res.data.results);
@@ -71,7 +70,7 @@ const SearchBar = () => {
               borderTopLeftRadius="20px"
               borderBottomLeftRadius="20px"
               size="lg"
-              width="50vw"
+              width="66vw"
               placeholder="Search movie..."
               onChange={(e) => {
                 setOnTypingInput(e.target.value);

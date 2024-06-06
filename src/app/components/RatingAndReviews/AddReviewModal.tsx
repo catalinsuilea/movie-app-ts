@@ -28,7 +28,7 @@ export const AddReviewCard = ({
   const [reviewTextAreaValue, setReviewTextAreaValue] = useState("");
   const [rating, setRating] = useState(0);
 
-  const { id, title, name } = data || {};
+  const { id, title, name, poster_path, still_path } = data || {};
   const { dataToEdit } = isEditing || {};
   const { ratingValue, reviewHeadline, reviewContent } = dataToEdit || {};
 
@@ -41,6 +41,7 @@ export const AddReviewCard = ({
     mediaName: title || name,
     season: season,
     episode: episode,
+    imgSrc: poster_path || still_path,
   };
 
   const sendReviewForm = async () => {

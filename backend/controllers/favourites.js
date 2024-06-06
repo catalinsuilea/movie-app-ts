@@ -20,7 +20,7 @@ exports.postFavourites = async (req, res, next) => {
 
   const favouriteMovie = new Favourite({
     userId: req.userId,
-    imgSrc: movie.poster_path,
+    imgSrc: movie.poster_path || movie.backdrop_path,
     title: movie.title || movie.name || movie.original_name,
     overview: movie.overview,
     id: movie.id,
@@ -28,7 +28,6 @@ exports.postFavourites = async (req, res, next) => {
     release_date: movie.release_date,
     media_type: media_type,
   });
-
   try {
     let isUniqueInFavouritesCollection;
     const favMovies = await Favourite.find({ userId: req.userId });
@@ -36,7 +35,6 @@ exports.postFavourites = async (req, res, next) => {
     isUniqueInFavouritesCollection = favMovies.find(
       (movieDB) => movieDB.id === movie.id
     );
-
     if (!Boolean(isUniqueInFavouritesCollection)) {
       const addedMovie = await favouriteMovie.save();
       const user = await User.findById(req.userId);

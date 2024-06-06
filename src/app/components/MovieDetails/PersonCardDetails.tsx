@@ -12,6 +12,7 @@ export const PersonCardDetails = ({
   index,
   isMovieTVList = false,
   tabType = "",
+  isMyAccount = false,
 }: any) => {
   const { authUser } = useAuthenticationContext();
   const { favouritesMoviesFromDB } = useFavourites();
@@ -58,9 +59,9 @@ export const PersonCardDetails = ({
         borderColor={isMovieTVList ? "black" : "transparent"}
         onClick={() => {
           navigate(
-            `/${data.media_type || tabType}/${data.name || data.title}/${
-              data.id
-            }`
+            `/${data.media_type || data.mediaType || tabType}/${
+              data.name || data.title || data.mediaName
+            }/${data.id || data.mediaId}`
           );
         }}
         position="relative"
@@ -68,9 +69,11 @@ export const PersonCardDetails = ({
       >
         <Image
           src={`https://www.themoviedb.org/t/p/w200/${
-            data.poster_path || data.profile_path
+            data.poster_path || data.profile_path || data.imgSrc
           }`}
           alt={data.name}
+          height={isMyAccount ? "140px" : "unset"}
+          width={isMyAccount ? "100%" : "unset"}
         />
         <Text
           textAlign="center"
@@ -84,9 +87,10 @@ export const PersonCardDetails = ({
             textOverflow: "ellipsis",
           }}
         >
-          {data.name || data.title}
+          {data.name || data.title || data.mediaName}
         </Text>
-        {data.media_type !== "person" && (
+        {isMyAccount && <Text textAlign="center">⭐{data?.ratingValue}</Text>}
+        {data.media_type !== "person" && !isMyAccount && (
           <Box position="absolute" top="0" right="0" color="white">
             <FavouriteIcon
               isFavourite={isFavourite}
@@ -99,9 +103,16 @@ export const PersonCardDetails = ({
             />
           </Box>
         )}
-        <Box position="absolute" bottom="-1.25rem" left="1rem">
-          <PopularityStatus popularityValue={data.popularity} isMovieTVList />
-        </Box>
+        {!isMyAccount && (
+          <Box position="absolute" bottom="-1.25rem" left="1rem">
+            <PopularityStatus
+              popularityValue={data.popularity}
+              rating={data.rating}
+              isMovieTVList
+            />
+          </Box>
+        )}
+
         <SignInModal
           modalType="favourites"
           isModalOpen={isModalOpen}

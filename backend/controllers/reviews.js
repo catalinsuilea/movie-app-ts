@@ -14,6 +14,7 @@ exports.postReviews = async (req, res, next) => {
     mediaId,
     season,
     episode,
+    imgSrc,
   } = payload || {};
 
   const user = await User.findById(req.userId);
@@ -26,7 +27,7 @@ exports.postReviews = async (req, res, next) => {
     user.reviews.find(
       (review) => review.mediaId === mediaId && review.mediaType === mediaType
     );
-
+  console.log(imgSrc);
   if (isNotUniqueReview) {
     return res
       .status(403)
@@ -40,6 +41,7 @@ exports.postReviews = async (req, res, next) => {
       mediaType: mediaType,
       mediaId: mediaId,
       mediaName: mediaName,
+      imgSrc: imgSrc,
     });
     if (season !== undefined) {
       review.season = season;

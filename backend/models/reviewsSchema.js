@@ -42,6 +42,10 @@ const ReviewsSchema = new Schema({
   },
   episode: { type: Number },
   season: { type: Number },
+  imgSrc: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = ReviewsSchema;

@@ -3,6 +3,7 @@ import { Card, CardBody, CardHeader } from "@chakra-ui/card";
 import { Box, Stack, Heading, Text, Flex, Button } from "@chakra-ui/react";
 import { FaTrashAlt, FaRegEdit } from "react-icons/fa";
 import { LikeDislikeComponent } from "./LikeDislikeComponent";
+import { useNavigate } from "react-router-dom";
 
 export const ReviewCard = ({
   reviewData,
@@ -17,6 +18,7 @@ export const ReviewCard = ({
   episode,
 }: any) => {
   const [currentUser, setCurrentUser] = useState(false);
+  const navigate = useNavigate();
   const formatDate = (isoDate: string) => {
     const date = new Date(isoDate);
     const day = String(date.getDate()).padStart(2, "0");
@@ -145,12 +147,21 @@ export const ReviewCard = ({
           </Stack>
         </CardBody>
       </Card>
-      <Text m="8px 0 16px 0">
-        {currentUser ? "You" : reviewData.userId?.username}
+      <Box m="8px 0 16px 0">
+        <Text
+          as="a"
+          color="blue.500"
+          fontWeight="600"
+          cursor="pointer"
+          _hover={{ opacity: 0.7 }}
+          onClick={() => navigate(`/user-account/${reviewData.userId._id}`)}
+        >
+          {currentUser ? "You" : reviewData.userId?.username}
+        </Text>
         <Text ml="0.5rem" as="span">
           {formatDate(reviewData.createdAt)}
         </Text>
-      </Text>
+      </Box>
     </>
   );
 };

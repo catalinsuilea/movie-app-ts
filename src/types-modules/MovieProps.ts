@@ -5,4 +5,5 @@ export interface MovieProps {
   poster_path: string;
   release_date: number | string;
   overview: string;
+  media_type: string;
 }

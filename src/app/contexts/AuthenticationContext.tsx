@@ -66,6 +66,10 @@ export const AuthProvider = ({ children }: any) => {
     setIsUserFetched(true);
   }, []);
 
+  const loginDataString = localStorage.getItem("loginData") ?? "{}";
+  const localStorageData = JSON.parse(loginDataString);
+  const userIdLocalstorage = localStorageData.userId;
+
   const registerData = {
     formRegisterValue,
     formRegisterErrors,
@@ -87,6 +91,7 @@ export const AuthProvider = ({ children }: any) => {
     handleLogout,
     setAuthUser,
     isUserFetched,
+    userIdLocalstorage,
   };
 
   return (

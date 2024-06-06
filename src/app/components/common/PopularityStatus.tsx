@@ -9,11 +9,14 @@ import {
 
 export const PopularityStatus = ({
   popularityValue,
+  rating,
   isMovieTVList = false,
 }: any) => {
+  const value = rating || popularityValue;
+
   const normalizeValue = Math.min(
     100,
-    Math.round((popularityValue / 2000) * 100)
+    Math.round((value / rating ? 5 : 2000) * 100)
   );
 
   return (
