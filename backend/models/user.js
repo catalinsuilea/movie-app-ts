@@ -30,6 +30,12 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  resetPasswordToken: {
+    type: String,
+  },
+  resetPasswordExpires: {
+    type: String,
+  },
   favourites: [FavouriteSchema],
   reviews: [ReviewsSchema],
 });

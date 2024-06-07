@@ -27,7 +27,6 @@ exports.postReviews = async (req, res, next) => {
     user.reviews.find(
       (review) => review.mediaId === mediaId && review.mediaType === mediaType
     );
-  console.log(imgSrc);
   if (isNotUniqueReview) {
     return res
       .status(403)

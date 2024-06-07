@@ -21,6 +21,8 @@ import { PersonDetails } from "../MovieDetails/PersonDetails";
 import { EpisodeDetails } from "../TVShowDetails/EpisodeDetails";
 import { MediaPage } from "../Header/Pages/MediaPage";
 import AccountPage from "../account/AccountPage";
+import { ResetPasswordEmailForm } from "../ResetPassword/ResetPasswordEmailForm";
+import { ResetPasswordForm } from "../ResetPassword/ResetPasswordForm";
 
 function App() {
   return (
@@ -93,6 +95,18 @@ function App() {
                         <AccountPage />
                       </PrivateRoute>
                     }
+                  ></Route>
+                  <Route
+                    path="/reset-password/sendMail"
+                    element={<ResetPasswordEmailForm />}
+                  ></Route>
+                  <Route
+                    path="/reset/:token"
+                    element={<ResetPasswordForm />}
+                  ></Route>
+                  <Route
+                    path="/reset/auth/:userId"
+                    element={<ResetPasswordForm />}
                   ></Route>
                 </Routes>
               </main>

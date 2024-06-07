@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Box, Button, Input, FormLabel } from "@chakra-ui/react";
 import { checkInputs, getErrorMessage } from "../../../utils/checkFormInputs";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 import { useNavigate } from "react-router-dom";
+import debounce from "lodash.debounce";
 
 export const SignUpFormComponent = ({}) => {
   const {
-    error,
     setFormRegisterValue,
     formRegisterValue,
     formRegisterErrors,
@@ -14,15 +14,29 @@ export const SignUpFormComponent = ({}) => {
     isUserNameTaken,
   } = useAuthenticationContext();
   const [errorMsg, setErrorMsg] = useState("");
+  const [isGmailDomain, setIsGmailDomain] = useState(true);
+
+  const regex = /^[^\s@]+@gmail\.com$/i;
 
   const navigate = useNavigate();
 
-  const handleInputValue = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormRegisterValue({
-      ...formRegisterValue,
-      [(e.target! as HTMLInputElement).name]: (e.target! as HTMLInputElement)
-        .value,
-    });
+  const checkEmailDomain = useCallback(
+    debounce((email: string) => {
+      setIsGmailDomain(regex.test(email));
+    }, 500),
+    []
+  );
+
+  const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormRegisterValue((prevValues: any) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+
+    if (name === "email") {
+      checkEmailDomain(value);
+    }
   };
 
   const isRegisterForm = true;
@@ -103,7 +117,12 @@ export const SignUpFormComponent = ({}) => {
         />
       </Box>
       <Box color="red" textAlign="left" mt="8px">
-        {" "}
+        {!isGmailDomain && (
+          <Box color="orange" textAlign="left" mt="8px">
+            Note: For a better experience regarding sending emails and password
+            reset, try using a GMAIL domain.
+          </Box>
+        )}
         <p>{formRegisterErrors.email}</p>
       </Box>
       <Box>

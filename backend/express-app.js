@@ -1,12 +1,13 @@
 require("dotenv").config();
 
 const express = require("express");
+const mongoose = require("mongoose");
+
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const mongoose = require("mongoose");
-const MONGO_DB_URI = process.env.MONGO_DB_URI;
 
+const MONGO_DB_URI = process.env.MONGO_DB_URI;
 const allowedOrigin = "http://localhost:3000";
 
 const app = express();
