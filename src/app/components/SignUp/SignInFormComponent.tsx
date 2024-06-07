@@ -130,6 +130,7 @@ export const SignInFormComponent = ({}) => {
                       fontSize={{ base: "14px", md: "16px" }}
                       color={"blue.400"}
                       cursor="pointer"
+                      onClick={() => navigate("/reset-password/sendMail")}
                     >
                       Forgot password?
                     </Text>

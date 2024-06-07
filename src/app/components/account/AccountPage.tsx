@@ -228,7 +228,12 @@ const AccountPage = ({}) => {
                 </Heading>
                 <List spacing={3}>
                   <ListItem>
-                    <Link color="blue.600">Reset password</Link>
+                    <Link
+                      onClick={() => navigate(`/reset/auth/${userId}`)}
+                      color="blue.600"
+                    >
+                      Reset password
+                    </Link>
                   </ListItem>
                   <ListItem>
                     <Link
