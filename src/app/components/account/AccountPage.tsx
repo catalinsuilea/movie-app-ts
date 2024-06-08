@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState, ChangeEvent } from "react";
 import {
   Box,
   Flex,
@@ -13,25 +13,73 @@ import {
   Icon,
   Divider,
   Link,
+  Input,
 } from "@chakra-ui/react";
 import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
 import { PersonCardDetails } from "../MovieDetails/PersonCardDetails";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFavourites } from "../../contexts/useFavouritesContext";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
+import { NoPageFound } from "../common/404NotFound";
 
 const AccountPage = ({}) => {
   const { favouritesMoviesFromDB } = useFavourites();
   const { authUser } = useAuthenticationContext();
   const { username } = authUser || {};
   const [userReviews, setUserReviews] = useState([]);
+
+  const [file, setFile] = useState<File | null | undefined>(null);
+  const [formData, setFormData] = useState<FormData | null | undefined>(null);
+  const [userProfilePicture, setUserProfilePicture] = useState(null);
+
+  const [fileErrorMsg, setFileErrorMsg] = useState("");
   const [userInformation, setUserInformation] = useState<any>(null);
   const { userId } = useParams();
   const currentUser = authUser.userId === userId;
 
   const navigate = useNavigate();
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+      setFileErrorMsg("");
+    }
+  };
+  console.log(file);
   useEffect(() => {
+    if (!file) return;
+    const newFormData = new FormData();
+    newFormData.append("image", file);
+    setFormData(newFormData);
+  }, [file]);
+
+  const uploadFile = async () => {
+    if (!authUser) {
+    }
+    try {
+      const response = await fetch("http://localhost:5000/user/upload", {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "File upload failed");
+      }
+
+      const data = await response.json();
+      setUserProfilePicture(data.user_profile_picture);
+    } catch (error: any) {
+      setFileErrorMsg(error.message);
+    } finally {
+      setFormData(undefined);
+      setFile(undefined);
+    }
+  };
+
+  useEffect(() => {
+    if (!authUser) return;
     const URL = `http://localhost:5000/user/reviews/fetchAll/${userId}`;
     const getUserReviews = async () => {
       try {
@@ -55,6 +103,7 @@ const AccountPage = ({}) => {
   }, [userId]);
 
   useEffect(() => {
+    if (!authUser) return;
     const URL = `http://localhost:5000/user/fetchUser/${userId}`;
     const getUserInformation = async () => {
       try {
@@ -76,6 +125,10 @@ const AccountPage = ({}) => {
     };
     getUserInformation();
   }, [userId]);
+  console.log("heyy");
+  if (!authUser) {
+    return <NoPageFound />;
+  }
 
   return (
     <Flex justify="center" p={4}>
@@ -93,8 +146,10 @@ const AccountPage = ({}) => {
             <Flex mb={4}>
               <Image
                 borderRadius="full"
-                boxSize="150px"
-                src="https://i.natgeofe.com/n/4f5aaece-3300-41a4-b2a8-ed2708a0a27c/domestic-dog_thumb_square.jpg"
+                boxSize="100px"
+                src={`http://localhost:5000/${
+                  userProfilePicture || userInformation?.profile_picture
+                }`}
                 alt={username}
                 mr={4}
               />
@@ -105,7 +160,34 @@ const AccountPage = ({}) => {
                 <Text>MoviePilotApp member since: June 2024</Text>
               </VStack>
             </Flex>
-            {currentUser && <Button mb={4}>Edit</Button>}
+            {currentUser && (
+              <Box>
+                <Flex
+                  justifyContent="flex-start"
+                  alignItems="center"
+                  gap="12px"
+                >
+                  <Input
+                    border="none"
+                    width="auto"
+                    cursor="pointer"
+                    type="file"
+                    onChange={handleFileChange}
+                  />
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    mb="12px"
+                    onClick={uploadFile}
+                  >
+                    Upload photo
+                  </Button>
+                </Flex>
+                <Text mb="0.5rem" color="red.400" ml="0.75rem">
+                  {fileErrorMsg}
+                </Text>
+              </Box>
+            )}
 
             <Divider />
 

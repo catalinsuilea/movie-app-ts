@@ -36,6 +36,9 @@ const UserSchema = new Schema({
   resetPasswordExpires: {
     type: String,
   },
+  profile_picture: {
+    type: String,
+  },
   favourites: [FavouriteSchema],
   reviews: [ReviewsSchema],
 });
