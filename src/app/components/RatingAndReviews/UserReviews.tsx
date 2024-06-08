@@ -143,7 +143,7 @@ export const UserReviews = ({
               reviewData.map((review: any, index: number) => (
                 <ReviewCard
                   reviewData={review}
-                  key={review.userId?._id}
+                  key={review?.userId?._id}
                   index={index}
                   setReviewAlreadyAdded={setReviewAlreadyAdded}
                   openReviewsModal={openReviewsModal}

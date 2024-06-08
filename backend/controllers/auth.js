@@ -43,6 +43,7 @@ exports.postSignUp = async (req, res, next) => {
       password: hashedPassword,
       resetPasswordToken: "",
       resetPasswordExpires: "",
+      profile_picture: "",
       favourites: [],
       reviews: [],
     });
@@ -87,6 +88,7 @@ exports.postLogin = async (req, res, next) => {
         email: email,
         userId: user._id,
         username: user.username,
+        profile_picture: user.profile_picture,
       },
       JWT_SECRET_KEY,
       { expiresIn: "1h" }

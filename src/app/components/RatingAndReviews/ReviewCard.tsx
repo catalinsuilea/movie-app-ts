@@ -33,7 +33,7 @@ export const ReviewCard = ({
   }
   useEffect(() => {
     if (!authUser) return;
-    setCurrentUser(authUser.userId == reviewData.userId._id);
+    setCurrentUser(authUser.userId == reviewData?.userId?._id);
   }, [authUser, reviewData]);
 
   const onDeleteReview = async (

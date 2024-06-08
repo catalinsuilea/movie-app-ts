@@ -2,10 +2,12 @@ require("dotenv").config();
 
 const express = require("express");
 const mongoose = require("mongoose");
+const path = require("path");
 
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const multer = require("multer");
 
 const MONGO_DB_URI = process.env.MONGO_DB_URI;
 const allowedOrigin = "http://localhost:3000";
@@ -19,6 +21,26 @@ const userRoutes = require("./routes/user");
 
 app.use(bodyParser.json());
 app.use(cookieParser());
+
+const fileStorage = multer.diskStorage({
+  destination: (req, filename, cb) => {
+    cb(null, "images");
+  },
+  filename: (req, filename, cb) => {
+    cb(null, `${new Date().getTime()}-${filename.originalname}`);
+  },
+});
+console.log(path.join(__dirname, "images"));
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpg" ||
+    file.mimetype === "image/jpeg"
+  ) {
+    cb(null, true);
+  }
+  cb(null, false);
+};
 
 const corsOptions = {
   origin: allowedOrigin,
@@ -37,6 +59,12 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Credentials", "true");
   next();
 });
+
+app.use(
+  multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
+);
+app.use("/images", express.static(path.join(__dirname, "images")));
+
 app.use("/auth", authRoutes);
 app.use("/favourites", favouritesRoutes);
 app.use("/reviews", reviewRoutes);

@@ -56,6 +56,7 @@ export const AuthProvider = ({ children }: any) => {
   };
 
   const fetchUserInfo = async () => {
+    if (!authUser) return;
     try {
       const response = await fetch("http://localhost:5000/auth/user-info", {
         method: "GET",
@@ -66,8 +67,9 @@ export const AuthProvider = ({ children }: any) => {
         throw new Error("Failed to fetch user info");
       }
       const data = await response.json();
-      const { userId, username } = data.user || {};
-      setAuthUser({ userId, username });
+      console.log("user", data);
+      const { userId, username, profile_picture } = data.user || {};
+      setAuthUser({ userId, username, profile_picture });
       setIsLoggedIn(true);
     } catch (error) {
       console.error("Error:", error);
