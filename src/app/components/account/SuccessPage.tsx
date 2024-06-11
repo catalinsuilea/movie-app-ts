@@ -7,7 +7,7 @@ import { NoPageFound } from "../common/404NotFound";
 
 export const SuccessPage = () => {
   const { premiumToken } = useParams();
-  const { fetchUserInfo, authUser } = useAuthenticationContext();
+  const { fetchUserInfo } = useAuthenticationContext();
   const [checkIfPremium, setCheckIfPremium] = useState(false);
 
   useEffect(() => {
