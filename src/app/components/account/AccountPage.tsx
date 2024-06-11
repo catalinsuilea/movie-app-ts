@@ -216,6 +216,7 @@ const AccountPage = ({}) => {
         throw new Error(`${response.status} ${response.statusText}`);
       }
       const data = await response.json();
+
       if (data) {
         getUserInformation(id);
       }
