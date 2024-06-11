@@ -35,6 +35,8 @@ const WelcomePage = () => {
   const [areTvListsLoading, setAreTvListsLoading] = useState(false);
   const [areTrendingListsLoading, setAreTrendingListsLoading] = useState(false);
 
+  const { username, isPremiumUser } = authUser || {};
+
   const API_KEY = "380f962505ebde6dee08b0b646fe05f1";
   //Get lates movies
   useEffect(() => {
@@ -166,9 +168,9 @@ const WelcomePage = () => {
   const onCloseModal = () => {
     setIsModalOpen(false);
   };
-
+  const usernameStyle = isPremiumUser ? `${username + "⭐"}` : username;
   const displayWelcomeMessage = authUser
-    ? `Welcome, ${authUser.username}`
+    ? `Welcome, ${usernameStyle}`
     : "Welcome";
 
   return (

@@ -20,11 +20,14 @@ import { PersonCardDetails } from "../MovieDetails/PersonCardDetails";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFavourites } from "../../contexts/useFavouritesContext";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
-import { NoPageFound } from "../common/404NotFound";
+import { DeleteAccountModal } from "./DeleteAccountModal";
+import { PremiumDetails } from "./PremiumDetails";
+import { loadStripe, Stripe } from "@stripe/stripe-js";
+import { checkPaymentStatus } from "./checkPaymentStatus";
 
 const AccountPage = ({}) => {
   const { favouritesMoviesFromDB } = useFavourites();
-  const { authUser } = useAuthenticationContext();
+  const { authUser, handleLogout } = useAuthenticationContext();
   const { username } = authUser || {};
   const [userReviews, setUserReviews] = useState([]);
 
@@ -34,10 +37,29 @@ const AccountPage = ({}) => {
 
   const [fileErrorMsg, setFileErrorMsg] = useState("");
   const [userInformation, setUserInformation] = useState<any>(null);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState("");
+
   const { userId } = useParams();
   const currentUser = authUser.userId === userId;
 
   const navigate = useNavigate();
+
+  const openModal = (type: string) => {
+    setModalType(type);
+    setIsModalOpen(true);
+  };
+  const STRIPE_KEY = process.env.REACT_APP_STRIPE_PUBLIC_KEY;
+  let stripePromise: Promise<Stripe | null> | null = null;
+  if (STRIPE_KEY) {
+    stripePromise = loadStripe(STRIPE_KEY);
+  }
+
+  // Close modal
+  const onCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -45,7 +67,7 @@ const AccountPage = ({}) => {
       setFileErrorMsg("");
     }
   };
-  console.log(file);
+
   useEffect(() => {
     if (!file) return;
     const newFormData = new FormData();
@@ -102,125 +124,173 @@ const AccountPage = ({}) => {
     getUserReviews();
   }, [userId]);
 
+  const getUserInformation = async (id: string | undefined) => {
+    const URL = `http://localhost:5000/user/fetchUser/${id}`;
+    try {
+      const response = await fetch(URL, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+        },
+        credentials: "include",
+      });
+      if (!response.ok) {
+        throw new Error(`${response.statusText} ${response.status}`);
+      }
+      const data = await response.json();
+      setUserInformation(data.user);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     if (!authUser) return;
-    const URL = `http://localhost:5000/user/fetchUser/${userId}`;
-    const getUserInformation = async () => {
-      try {
-        const response = await fetch(URL, {
-          method: "GET",
-          headers: {
-            "Content-type": "application/json",
-          },
-          credentials: "include",
-        });
-        if (!response.ok) {
-          throw new Error(`${response.statusText} ${response.status}`);
-        }
-        const data = await response.json();
-        setUserInformation(data.user);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getUserInformation();
+    getUserInformation(userId);
   }, [userId]);
-  console.log("heyy");
-  if (!authUser) {
-    return <NoPageFound />;
-  }
+
+  const handleDeleteAccount = async (userId?: string) => {
+    const URL = `http://localhost:5000/user/delete-user`;
+    try {
+      const response = await fetch(URL, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ userId: userId }),
+        credentials: "include",
+      });
+      if (!response.ok) {
+        throw new Error(`${response.statusText} ${response.status}`);
+      }
+      const data = await response.json();
+      handleLogout();
+      navigate("/movie-app-ts");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleBuyPremium = async (offer: string, price: number) => {
+    const URL = `http://localhost:5000/user/buy-premium`;
+    try {
+      const response = await fetch(URL, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ offer: offer, price: price }),
+        credentials: "include",
+      });
+      if (!response.ok) {
+        throw new Error(`${response.statusText} ${response.status}`);
+      }
+      const session = await response.json();
+      const stripe = await stripePromise;
+
+      if (stripe) {
+        const { error } = await stripe.redirectToCheckout({
+          sessionId: session.id,
+        });
+        if (error) {
+          console.log(error);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const cancelPremium = async (id: string | undefined) => {
+    try {
+      const response = await fetch(
+        "http://localhost:5000/user/cancel-premium",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: id }),
+          credentials: "include",
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`${response.status} ${response.statusText}`);
+      }
+      const data = await response.json();
+      if (data) {
+        getUserInformation(id);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
-    <Flex justify="center" p={4}>
-      <Box maxW="1250px" w="100%">
-        <Flex>
-          {/* Left Box */}
-          <Box
-            flex="3"
-            p={4}
-            boxShadow="md"
-            border="1px solid"
-            borderColor="gray.200"
-            mr={4}
-          >
-            <Flex mb={4}>
-              <Image
-                borderRadius="full"
-                boxSize="100px"
-                src={`http://localhost:5000/${
-                  userProfilePicture || userInformation?.profile_picture
-                }`}
-                alt={username}
-                mr={4}
-              />
-              <VStack align="start">
-                <Text fontWeight="bold" fontSize="xl">
-                  {currentUser ? username : userInformation!?.username}
-                </Text>
-                <Text>MoviePilotApp member since: June 2024</Text>
-              </VStack>
-            </Flex>
-            {currentUser && (
-              <Box>
-                <Flex
-                  justifyContent="flex-start"
-                  alignItems="center"
-                  gap="12px"
-                >
-                  <Input
-                    border="none"
-                    width="auto"
-                    cursor="pointer"
-                    type="file"
-                    onChange={handleFileChange}
-                  />
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    mb="12px"
-                    onClick={uploadFile}
+    <>
+      <Flex justify="center" p={4}>
+        <Box maxW="1250px" w="100%">
+          <Flex>
+            {/* Left Box */}
+            <Box
+              flex="3"
+              p={4}
+              boxShadow="md"
+              border="1px solid"
+              borderColor="gray.200"
+              mr={4}
+            >
+              <Flex mb={4}>
+                <Image
+                  borderRadius="full"
+                  boxSize="100px"
+                  src={`http://localhost:5000/${
+                    userProfilePicture || userInformation?.profile_picture
+                  }`}
+                  alt={username}
+                  mr={4}
+                />
+                <VStack align="start">
+                  <Text fontWeight="bold" fontSize="xl">
+                    {currentUser ? username : userInformation!?.username}
+                  </Text>
+                  <Text>MoviePilotApp member since: June 2024</Text>
+                </VStack>
+              </Flex>
+              {currentUser && (
+                <Box>
+                  <Flex
+                    justifyContent="flex-start"
+                    alignItems="center"
+                    gap="12px"
                   >
-                    Upload photo
-                  </Button>
-                </Flex>
-                <Text mb="0.5rem" color="red.400" ml="0.75rem">
-                  {fileErrorMsg}
-                </Text>
-              </Box>
-            )}
+                    <Input
+                      border="none"
+                      width="auto"
+                      cursor="pointer"
+                      type="file"
+                      onChange={handleFileChange}
+                    />
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      mb="12px"
+                      onClick={uploadFile}
+                    >
+                      Upload photo
+                    </Button>
+                  </Flex>
+                  <Text mb="0.5rem" color="red.400" ml="0.75rem">
+                    {fileErrorMsg}
+                  </Text>
+                </Box>
+              )}
 
-            <Divider />
+              <Divider />
 
-            <Box mb={4} mt={4}>
-              <Heading size="md" mb={2}>
-                {currentUser
-                  ? "Your ratings"
-                  : `${userInformation?.username}'s reviews`}
-              </Heading>
-              <List
-                spacing={3}
-                display="flex"
-                alignItems="center"
-                gap="0.75rem"
-                flexWrap="wrap"
-              >
-                {userReviews.map((review: any, index) => (
-                  <PersonCardDetails
-                    data={review}
-                    index={index}
-                    tabType={review.mediaType}
-                    isMyAccount
-                  />
-                ))}
-              </List>
-            </Box>
-
-            <Divider />
-
-            {currentUser && (
-              <Box marginTop="0.75rem">
+              <Box mb={4} mt={4}>
                 <Heading size="md" mb={2}>
-                  Your Favourites
+                  {currentUser
+                    ? "Your ratings"
+                    : `${userInformation?.username}'s reviews`}
                 </Heading>
                 <List
                   spacing={3}
@@ -229,112 +299,182 @@ const AccountPage = ({}) => {
                   gap="0.75rem"
                   flexWrap="wrap"
                 >
-                  {favouritesMoviesFromDB.map((favourite, index) => (
+                  {userReviews.map((review: any, index) => (
                     <PersonCardDetails
-                      data={favourite}
+                      data={review}
                       index={index}
-                      tabType={favourite.media_type}
+                      tabType={review.mediaType}
+                      isMyAccount
                     />
                   ))}
                 </List>
               </Box>
-            )}
-          </Box>
 
-          {/* Right Box */}
-          {currentUser && (
-            <Box
-              flex="1"
-              p={4}
-              boxShadow="md"
-              border="1px solid"
-              borderColor="gray.200"
-            >
-              <Box
-                border="1px solid grey.200"
-                boxShadow="md"
-                borderRadius="5px"
-                mb={4}
-                padding="12px 6px"
-              >
-                <Heading size="md" mb={2}>
-                  Checklist
-                </Heading>
-                <List spacing={3}>
-                  <ListItem>
-                    <HStack>
-                      <Icon as={CheckCircleIcon} color="green.500" />
-                      <Text>Upload your picture</Text>
-                    </HStack>
-                  </ListItem>
-                  <ListItem>
-                    <HStack>
-                      <Icon
-                        as={
-                          userReviews.length > 0 ? CheckCircleIcon : WarningIcon
-                        }
-                        color={userReviews.length > 0 ? "green.500" : "orange"}
-                      />
-                      <Text>Rate some titles!</Text>
-                    </HStack>
-                  </ListItem>
-                  <ListItem>
-                    <HStack>
-                      <Icon
-                        as={
-                          userReviews.length > 0 ? CheckCircleIcon : WarningIcon
-                        }
-                        color={userReviews.length > 0 ? "green.500" : "orange"}
-                      />
-                      <Text>Write a review</Text>
-                    </HStack>
-                  </ListItem>
-                  <ListItem>
-                    <HStack>
-                      <Icon as={WarningIcon} color="orange" />
-                      <Text>Premium member</Text>
-                    </HStack>
-                  </ListItem>
-                </List>
-              </Box>
+              <Divider />
 
-              <Box
-                mt="12px"
-                border="1px solid grey.200"
-                boxShadow="md"
-                borderRadius="5px"
-                padding="12px 6px"
-              >
-                <Heading size="md" mb={2}>
-                  Quick Links
-                </Heading>
-                <List spacing={3}>
-                  <ListItem>
-                    <Link
-                      onClick={() => navigate(`/reset/auth/${userId}`)}
-                      color="blue.600"
-                    >
-                      Reset password
-                    </Link>
-                  </ListItem>
-                  <ListItem>
-                    <Link
-                      onClick={() => navigate("/favourites")}
-                      color="blue.600"
-                    >
-                      Favourites page
-                    </Link>
-                  </ListItem>
-                  <ListItem>
-                    <Link color="red.500">Delete account</Link>
-                  </ListItem>
-                </List>
-              </Box>
+              {currentUser && (
+                <Box marginTop="0.75rem">
+                  <Heading size="md" mb={2}>
+                    Your Favourites
+                  </Heading>
+                  <List
+                    spacing={3}
+                    display="flex"
+                    alignItems="center"
+                    gap="0.75rem"
+                    flexWrap="wrap"
+                  >
+                    {favouritesMoviesFromDB.map((favourite, index) => (
+                      <PersonCardDetails
+                        data={favourite}
+                        index={index}
+                        tabType={favourite.media_type}
+                      />
+                    ))}
+                  </List>
+                </Box>
+              )}
             </Box>
-          )}
-        </Flex>
-      </Box>
-    </Flex>
+
+            {/* Right Box */}
+            {currentUser && (
+              <Box
+                flex="1"
+                p={4}
+                boxShadow="md"
+                border="1px solid"
+                borderColor="gray.200"
+              >
+                <Box
+                  border="1px solid grey.200"
+                  boxShadow="md"
+                  borderRadius="5px"
+                  mb={4}
+                  padding="12px 6px"
+                >
+                  <Heading size="md" mb={2}>
+                    Checklist
+                  </Heading>
+                  <List spacing={3}>
+                    <ListItem>
+                      <HStack>
+                        <Icon as={CheckCircleIcon} color="green.500" />
+                        <Text>Upload your picture</Text>
+                      </HStack>
+                    </ListItem>
+                    <ListItem>
+                      <HStack>
+                        <Icon
+                          as={
+                            userReviews.length > 0
+                              ? CheckCircleIcon
+                              : WarningIcon
+                          }
+                          color={
+                            userReviews.length > 0 ? "green.500" : "orange"
+                          }
+                        />
+                        <Text>Rate some titles!</Text>
+                      </HStack>
+                    </ListItem>
+                    <ListItem>
+                      <HStack>
+                        <Icon
+                          as={
+                            userReviews.length > 0
+                              ? CheckCircleIcon
+                              : WarningIcon
+                          }
+                          color={
+                            userReviews.length > 0 ? "green.500" : "orange"
+                          }
+                        />
+                        <Text>Write a review</Text>
+                      </HStack>
+                    </ListItem>
+                    <ListItem>
+                      <HStack>
+                        <Icon
+                          as={
+                            userInformation?.isPremiumUser
+                              ? CheckCircleIcon
+                              : WarningIcon
+                          }
+                          color={
+                            userInformation?.isPremiumUser
+                              ? "green.500"
+                              : "orange"
+                          }
+                        />
+                        <Text>Premium member</Text>
+                      </HStack>
+                    </ListItem>
+                  </List>
+                </Box>
+
+                <Box
+                  mt="12px"
+                  border="1px solid grey.200"
+                  boxShadow="md"
+                  borderRadius="5px"
+                  padding="12px 6px"
+                >
+                  <Heading size="md" mb={2}>
+                    Quick Links
+                  </Heading>
+                  <List spacing={3}>
+                    <ListItem>
+                      <Link
+                        onClick={() => navigate(`/reset/auth/${userId}`)}
+                        color="blue.600"
+                      >
+                        Reset password
+                      </Link>
+                    </ListItem>
+                    <ListItem>
+                      <Link
+                        onClick={() => navigate("/favourites")}
+                        color="blue.600"
+                      >
+                        Favourites page
+                      </Link>
+                    </ListItem>
+                    <ListItem>
+                      <Link
+                        onClick={() => openModal("delete-account")}
+                        color="red.500"
+                      >
+                        Delete account
+                      </Link>
+                    </ListItem>
+                  </List>
+                </Box>
+                <Box mt="12px">
+                  {userInformation?.isPremiumUser ? (
+                    <Link
+                      color="blue.400"
+                      onClick={() => openModal("cancel-premium")}
+                    >
+                      Cancel premium subscription
+                    </Link>
+                  ) : (
+                    <PremiumDetails handleBuyPremium={handleBuyPremium} />
+                  )}
+                </Box>
+              </Box>
+            )}
+          </Flex>
+        </Box>
+      </Flex>
+      <DeleteAccountModal
+        onCloseModal={onCloseModal}
+        isModalOpen={isModalOpen}
+        handleDeleteAccount={handleDeleteAccount}
+        cancelPremium={cancelPremium}
+        userId={userId}
+        modalType={modalType}
+      />
+    </>
   );
 };
 

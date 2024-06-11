@@ -39,6 +39,12 @@ const UserSchema = new Schema({
   profile_picture: {
     type: String,
   },
+  isPremiumUser: {
+    type: Boolean,
+  },
+  premiumToken: {
+    type: String,
+  },
   favourites: [FavouriteSchema],
   reviews: [ReviewsSchema],
 });

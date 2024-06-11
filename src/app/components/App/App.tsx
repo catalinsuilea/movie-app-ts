@@ -23,6 +23,8 @@ import { MediaPage } from "../Header/Pages/MediaPage";
 import AccountPage from "../account/AccountPage";
 import { ResetPasswordEmailForm } from "../ResetPassword/ResetPasswordEmailForm";
 import { ResetPasswordForm } from "../ResetPassword/ResetPasswordForm";
+import { SuccessPage } from "../account/SuccessPage";
+import { CancelPage } from "../account/CancelPaymentPage";
 
 function App() {
   return (
@@ -95,6 +97,18 @@ function App() {
                         <AccountPage />
                       </PrivateRoute>
                     }
+                  ></Route>
+                  <Route
+                    path="/checkout/success/:premiumToken"
+                    element={
+                      <PrivateRoute>
+                        <SuccessPage />
+                      </PrivateRoute>
+                    }
+                  ></Route>
+                  <Route
+                    path="/checkout/cancel"
+                    element={<CancelPage />}
                   ></Route>
                   <Route
                     path="/reset-password/sendMail"

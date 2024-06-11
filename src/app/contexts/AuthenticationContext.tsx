@@ -22,6 +22,10 @@ export const AuthProvider = ({ children }: any) => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const [isFetchingUserData, setIsFetchingUserData] = useState(true);
+
+  const [isPremiumUser, setIsPremiumUser] = useState(false);
+
   const navigate = useNavigate();
 
   const [formRegisterValue, setFormRegisterValue] =
@@ -56,7 +60,6 @@ export const AuthProvider = ({ children }: any) => {
   };
 
   const fetchUserInfo = async () => {
-    if (!authUser) return;
     try {
       const response = await fetch("http://localhost:5000/auth/user-info", {
         method: "GET",
@@ -67,10 +70,13 @@ export const AuthProvider = ({ children }: any) => {
         throw new Error("Failed to fetch user info");
       }
       const data = await response.json();
-      console.log("user", data);
       const { userId, username, profile_picture } = data.user || {};
-      setAuthUser({ userId, username, profile_picture });
+
+      setIsPremiumUser(data.isPremiumUser);
+
+      setAuthUser({ userId, username, profile_picture, isPremiumUser });
       setIsLoggedIn(true);
+      setIsFetchingUserData(false);
     } catch (error) {
       console.error("Error:", error);
       setAuthUser(null);
@@ -80,7 +86,7 @@ export const AuthProvider = ({ children }: any) => {
 
   useEffect(() => {
     fetchUserInfo();
-  }, [isLoggedIn]);
+  }, [isLoggedIn, isPremiumUser]);
 
   const registerData = {
     formRegisterValue,
@@ -95,7 +101,6 @@ export const AuthProvider = ({ children }: any) => {
     setSignInFormValues,
     setSignInFormErrors,
   };
-
   const authContextValue = {
     ...registerData,
     ...signInData,
@@ -103,6 +108,7 @@ export const AuthProvider = ({ children }: any) => {
     handleLogout,
     setAuthUser,
     isLoggedIn,
+    isFetchingUserData,
     fetchUserInfo,
   };
 

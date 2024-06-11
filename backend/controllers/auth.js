@@ -44,6 +44,8 @@ exports.postSignUp = async (req, res, next) => {
       resetPasswordToken: "",
       resetPasswordExpires: "",
       profile_picture: "",
+      isPremiumUser: false,
+      premiumToken: "",
       favourites: [],
       reviews: [],
     });
@@ -122,7 +124,7 @@ exports.postLogout = (req, res, next) => {
   }
 };
 
-exports.getUserInfo = (req, res, next) => {
+exports.getUserInfo = async (req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
@@ -130,7 +132,10 @@ exports.getUserInfo = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET_KEY);
-    return res.status(200).json({ user: decoded });
+    const user = await User.findOne({ _id: decoded.userId });
+    return res
+      .status(200)
+      .json({ user: decoded, isPremiumUser: user.isPremiumUser });
   } catch (err) {
     return res.status(401).json({ message: "Unauthorized" });
   }

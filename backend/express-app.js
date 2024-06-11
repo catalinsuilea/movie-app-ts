@@ -12,12 +12,12 @@ const multer = require("multer");
 const MONGO_DB_URI = process.env.MONGO_DB_URI;
 const allowedOrigin = "http://localhost:3000";
 
-const app = express();
-
 const authRoutes = require("./routes/auth");
 const favouritesRoutes = require("./routes/favourites");
 const reviewRoutes = require("./routes/reviews");
 const userRoutes = require("./routes/user");
+
+const app = express();
 
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -30,7 +30,7 @@ const fileStorage = multer.diskStorage({
     cb(null, `${new Date().getTime()}-${filename.originalname}`);
   },
 });
-console.log(path.join(__dirname, "images"));
+
 const fileFilter = (req, file, cb) => {
   if (
     file.mimetype === "image/png" ||

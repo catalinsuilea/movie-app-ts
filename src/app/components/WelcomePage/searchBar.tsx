@@ -70,7 +70,7 @@ const SearchBar = () => {
               borderTopLeftRadius="20px"
               borderBottomLeftRadius="20px"
               size="lg"
-              width="66vw"
+              width="50vw"
               placeholder="Search movie..."
               onChange={(e) => {
                 setOnTypingInput(e.target.value);
