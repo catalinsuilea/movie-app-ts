@@ -10,6 +10,32 @@ exports.getFavourites = async (req, res, next) => {
   return res.status(200).json({ favourites });
 };
 
+exports.getFavouritesWithPagination = async (req, res, next) => {
+  const user = await User.findById({ _id: req.userId });
+  if (!user) {
+    res.status(401).json({ message: "Not Authenticated" });
+  }
+  const userId = req.userId;
+
+  const page = +req.query.page || 1;
+  const ITEM_PER_PAGE = 3;
+  const SKIP = (page - 1) * ITEM_PER_PAGE;
+
+  const totalFavourites = await Favourite.countDocuments({ userId });
+  const favourites = await Favourite.find({ userId })
+    .skip(SKIP)
+    .limit(ITEM_PER_PAGE)
+    .exec();
+
+  return res.status(200).json({
+    favourites,
+    pagination: {
+      totalPages: Math.ceil(totalFavourites / ITEM_PER_PAGE),
+      currentPage: page,
+    },
+  });
+};
+
 exports.postFavourites = async (req, res, next) => {
   const { movie, media_type } = req.body || {};
   if (!movie) {

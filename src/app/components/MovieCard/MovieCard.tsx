@@ -16,6 +16,7 @@ const MovieCard = ({
   onCloseModal,
   checkUserState,
   isLoading,
+  favouritesWithPagination,
   media_type_header = "",
   ...rest
 }: any) => {
@@ -42,13 +43,16 @@ const MovieCard = ({
     gender,
   } = rest;
 
+  console.log("rating", rating, vote_average);
+  const favouritesData =
+    favouritesMoviesFromDB.length === 0
+      ? favouritesWithPagination
+      : favouritesMoviesFromDB;
   useEffect(() => {
     setIsFavourite(
-      Boolean(
-        favouritesMoviesFromDB?.find((movie: any) => movie.id === Number(id))
-      )
+      Boolean(favouritesData?.find((movie: any) => movie.id === Number(id)))
     );
-  }, [favouritesMoviesFromDB, id]);
+  }, [favouritesData, id]);
 
   const onCardClick = (route: any) => {
     navigate(route);
@@ -175,11 +179,12 @@ const MovieCard = ({
                             ⭐{popularity.toFixed(0)}{" "}
                           </Text>
                         ) : (
-                          rating && (
+                          rating ||
+                          (vote_average && (
                             <Text mt="2px" fontWeight={600} fontSize="xl">
                               ⭐{rating?.toFixed(1) || vote_average?.toFixed(1)}
                             </Text>
-                          )
+                          ))
                         )}
                       </Box>
                     </Flex>

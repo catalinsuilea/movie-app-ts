@@ -122,7 +122,6 @@ const MovieTVList = ({
                           index={index}
                           isMovieTVList
                           tabType={tabType}
-                          checkUserState={checkUserState}
                         />
                       ))}
                 </Flex>
