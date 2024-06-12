@@ -1,18 +1,25 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import { useAuthenticationContext } from "./AuthenticationContext";
 import { MovieProps } from "../../types-modules/MovieProps";
-import { getFavourites } from "../../utils/getFavourites";
+import {
+  getFavourites,
+  getFavouritesWithPagination,
+} from "../../utils/getFavourites";
+import { useSearchParams } from "react-router-dom";
 
 interface FavoritesContextTypes {
   /** An array of objects containing the favourite movies from database */
   favouritesMoviesFromDB: MovieProps[];
 
   /** Function that handles the add/remove favourites */
-  handleFavourites: (movie: MovieProps) => void;
+  handleFavourites: (movie: MovieProps, media_type?: string) => void;
 
   isFavourite: boolean;
   checkIsFavourite: any;
   setIsFavourite: any;
+  favouritesWithPagination: any;
+  paginationData: any;
+  setCurrentPage: any;
 }
 
 const FavouritesContext = createContext<FavoritesContextTypes>(
@@ -21,8 +28,14 @@ const FavouritesContext = createContext<FavoritesContextTypes>(
 
 export const FavouritesContextProvider = ({ children }: any) => {
   const { authUser } = useAuthenticationContext();
-  const [favouritesMoviesFromDB, setFavouriteMoviesFromDB] = useState([]);
+  const [favouritesMoviesFromDB, setFavouriteMoviesFromDB] = useState<any>([]);
+  const [favouritesWithPagination, setFavouritesWithPagination] = useState([]);
+  const [paginationData, setPaginationData] = useState(null);
   const [isFavourite, setIsFavourite] = useState(false);
+
+  const [searchParams] = useSearchParams();
+  const initialPage = searchParams.get("page") || 1;
+  const [currentPage, setCurrentPage] = useState(initialPage);
 
   const handleFavourites = async (movie: MovieProps, media_type?: string) => {
     if (!authUser) return;
@@ -42,12 +55,19 @@ export const FavouritesContextProvider = ({ children }: any) => {
       const data = await response.json();
 
       if (data.message === "Movie added to favourites.") {
-        setFavouriteMoviesFromDB((prevFavourites): any => [
+        setFavouriteMoviesFromDB((prevFavourites: any) => [
+          ...prevFavourites,
+          movie,
+        ]);
+        setFavouritesWithPagination((prevFavourites): any => [
           ...prevFavourites,
           movie,
         ]);
       } else if (data.message === "Movie removed from favourites") {
-        setFavouriteMoviesFromDB((prevFavourites) =>
+        setFavouriteMoviesFromDB((prevFavourites: any) =>
+          prevFavourites.filter((favMovie: any) => favMovie.id !== movie.id)
+        );
+        setFavouritesWithPagination((prevFavourites: any) =>
           prevFavourites.filter((favMovie: any) => favMovie.id !== movie.id)
         );
       }
@@ -68,6 +88,18 @@ export const FavouritesContextProvider = ({ children }: any) => {
     }
   };
 
+  // Pagination
+  useEffect(() => {
+    if (!authUser) return;
+
+    getFavouritesWithPagination(
+      setFavouritesWithPagination,
+      setPaginationData,
+      currentPage
+    );
+  }, [authUser, favouritesWithPagination.length, initialPage, currentPage]);
+
+  //Rest of components with favourites
   useEffect(() => {
     if (!authUser) return;
     getFavourites(setFavouriteMoviesFromDB);
@@ -83,6 +115,9 @@ export const FavouritesContextProvider = ({ children }: any) => {
     <FavouritesContext.Provider
       value={{
         favouritesMoviesFromDB,
+        favouritesWithPagination,
+        paginationData,
+        setCurrentPage,
         handleFavourites,
         checkIsFavourite,
         isFavourite,

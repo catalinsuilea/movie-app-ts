@@ -24,7 +24,7 @@ export default function Navbar() {
         More
       </MenuButton>
       <MenuList onMouseEnter={onOpen} onMouseLeave={onClose}>
-        <Link to="/favourites">
+        <Link to="/favourites?page=1">
           <MenuItem color="black">Favourites</MenuItem>{" "}
         </Link>
       </MenuList>

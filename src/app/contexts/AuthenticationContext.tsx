@@ -81,6 +81,7 @@ export const AuthProvider = ({ children }: any) => {
       console.error("Error:", error);
       setAuthUser(null);
       setIsLoggedIn(false);
+      setIsFetchingUserData(false);
     }
   };
 

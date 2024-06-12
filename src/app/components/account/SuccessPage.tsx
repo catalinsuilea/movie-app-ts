@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Heading, Text, Button, VStack } from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
-import { checkPaymentStatus } from "./checkPaymentStatus";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 import { NoPageFound } from "../common/404NotFound";
 

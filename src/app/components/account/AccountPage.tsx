@@ -229,7 +229,7 @@ const AccountPage = ({}) => {
     <>
       <Flex justify="center" p={4}>
         <Box maxW="1250px" w="100%">
-          <Flex>
+          <Flex flexDirection={{ base: "column", md: "row" }} gap="1rem">
             {/* Left Box */}
             <Box
               flex="3"
@@ -237,7 +237,7 @@ const AccountPage = ({}) => {
               boxShadow="md"
               border="1px solid"
               borderColor="gray.200"
-              mr={4}
+              mr={{ base: "unset", md: 4 }}
             >
               <Flex mb={4}>
                 <Image
@@ -294,11 +294,13 @@ const AccountPage = ({}) => {
                     : `${userInformation?.username}'s reviews`}
                 </Heading>
                 <List
+                  p={{ base: "4px 0", md: "unset" }}
                   spacing={3}
                   display="flex"
                   alignItems="center"
                   gap="0.75rem"
-                  flexWrap="wrap"
+                  overflowX={{ base: "auto", md: "unset" }}
+                  flexWrap={{ base: "unset", md: "wrap" }}
                 >
                   {userReviews.map((review: any, index) => (
                     <PersonCardDetails
@@ -319,19 +321,23 @@ const AccountPage = ({}) => {
                     Your Favourites
                   </Heading>
                   <List
+                    p={{ base: "18px 0", md: "unset" }}
                     spacing={3}
                     display="flex"
                     alignItems="center"
                     gap="0.75rem"
-                    flexWrap="wrap"
+                    overflowX={{ base: "auto", md: "unset" }}
+                    flexWrap={{ base: "unset", md: "wrap" }}
                   >
-                    {favouritesMoviesFromDB.map((favourite, index) => (
-                      <PersonCardDetails
-                        data={favourite}
-                        index={index}
-                        tabType={favourite.media_type}
-                      />
-                    ))}
+                    {favouritesMoviesFromDB.map(
+                      (favourite: any, index: number) => (
+                        <PersonCardDetails
+                          data={favourite}
+                          index={index}
+                          tabType={favourite.media_type}
+                        />
+                      )
+                    )}
                   </List>
                 </Box>
               )}
@@ -434,7 +440,7 @@ const AccountPage = ({}) => {
                     </ListItem>
                     <ListItem>
                       <Link
-                        onClick={() => navigate("/favourites")}
+                        onClick={() => navigate("/favourites?page=1")}
                         color="blue.600"
                       >
                         Favourites page

@@ -68,7 +68,7 @@ function DrawerExample({ headerLinks }: any) {
                   <Icon w={4} h={4} as={ChevronRightIcon} />
                   <Link
                     onClick={() => {
-                      navigate(`/favourites`);
+                      navigate(`/favourites?page=1`);
                       onClose();
                     }}
                   >
