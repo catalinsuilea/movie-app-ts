@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 
 export const TVShowDetails = ({ data, seriesId }: any) => {
   const API_KEY = "380f962505ebde6dee08b0b646fe05f1";
-  //   const URL = `https://api.themoviedb.org/3/tv/${series_id}/season/${season_number}/episode/${episode_number}?api_key=${API_KEY}`;
   const [seasonData, setSeasonData] = useState<SeasonData>({});
   const [seasonNumber, setSeasonNumber] = useState(1);
   const navigate = useNavigate();
@@ -122,7 +121,11 @@ export const TVShowDetails = ({ data, seriesId }: any) => {
                               _hover={{
                                 boxShadow: "0 0 6px 4px rgba(0,0,0,0.3)",
                               }}
-                              src={`https://www.themoviedb.org/t/p/w200/${episode?.still_path}`}
+                              src={
+                                episode.still_path
+                                  ? `https://www.themoviedb.org/t/p/w200/${episode?.still_path}`
+                                  : "https://st4.depositphotos.com/14953852/24787/v/450/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg"
+                              }
                               alt={`Episode ${episodeIndex + 1}`}
                               borderRadius="md"
                               width="100%"

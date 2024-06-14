@@ -45,6 +45,10 @@ const UserSchema = new Schema({
   premiumToken: {
     type: String,
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
   favourites: [FavouriteSchema],
   reviews: [ReviewsSchema],
 });

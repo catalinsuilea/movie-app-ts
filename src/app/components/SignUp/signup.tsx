@@ -3,7 +3,6 @@ import { Box, Heading, Icon } from "@chakra-ui/react";
 import { SignUpTheme } from "../../../styles/theme";
 import { CheckIcon } from "@chakra-ui/icons";
 import { SignUpFormComponent } from "./SignUpFormComponent";
-import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 
 const SignUp = () => {
   return (

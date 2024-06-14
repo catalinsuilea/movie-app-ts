@@ -13,9 +13,11 @@ export const PersonActingCredits = ({ sortedMovies }: any) => {
         boxShadow="0 2px 8px rgba(0,0,0,.1)"
         borderRadius="md"
         bg="white"
+        overflowY="auto"
+        height={{ base: "450px", md: "unset" }}
       >
         {sortedMovies.map((movie: any, index: number) => (
-          <Flex flexDirection="column" width="100%">
+          <Flex flexDirection="column-reverse" width="100%">
             <Link
               to={`/movie/${movie.title || movie.original_title}/${movie.id}`}
               key={index}

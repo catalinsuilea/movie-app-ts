@@ -38,6 +38,7 @@ exports.getUser = async (req, res, next) => {
       username: user.username,
       profile_picture: user.profile_picture,
       isPremiumUser: user.isPremiumUser,
+      createdAt: user.createdAt,
     },
   });
 };

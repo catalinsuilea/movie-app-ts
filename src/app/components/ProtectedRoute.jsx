@@ -16,7 +16,6 @@ export const PrivateRoute = ({ children }) => {
   }, [isFetchingUserData]);
 
   if (isFetchingUserData || initialLoad) {
-    console.log("dada");
     return (
       <Flex
         maxWidth="1700px"

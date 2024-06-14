@@ -11,7 +11,7 @@ export const PersonDetails = ({}) => {
   const [personDetails, setPersonDetails] = useState(null);
   const [movieCredits, setMovieCredits] = useState([]);
   const [tvCredits, setTvCredits] = useState([]);
-  const { isMobile, isTablet, isDesktop } = useDeviceTypeContext();
+  const { isMobile } = useDeviceTypeContext();
   const API_KEY = "380f962505ebde6dee08b0b646fe05f1";
 
   useEffect(() => {
@@ -106,16 +106,16 @@ export const PersonDetails = ({}) => {
             flexDirection={isMobile ? "column" : "row"}
           >
             {/* Left Container for Image */}
-            <Flex flexDirection="column">
+            <Flex flexDirection="column" margin="0 auto" alignItems="center">
               <Image
                 src={`https://www.themoviedb.org/t/p/w780/${personDetails?.profile_path}`}
                 alt={personDetails?.name}
                 borderRadius="md"
-                width="300px"
-                height="400px"
+                width="250px"
+                height="350px"
                 maxWidth="unset"
               />
-              <Flex flexDirection="column" gap="8px">
+              <Flex width="100%" flexDirection="column" gap="8px">
                 <Text mt="2" fontWeight="bold" fontSize="lg">
                   Personal Info
                 </Text>
@@ -165,7 +165,7 @@ export const PersonDetails = ({}) => {
             </Flex>
 
             {/* Right Container for Details */}
-            <Box maxWidth="75%" ml="4" flex="1">
+            <Box maxWidth="90%" ml="4" flex="1">
               <Text mt="2" fontWeight="bold" fontSize="3xl">
                 {personDetails.name}
               </Text>
@@ -184,7 +184,7 @@ export const PersonDetails = ({}) => {
                   position="absolute"
                   top="0"
                   left="0"
-                  bottom="0"
+                  bottom="42px"
                   w="20px"
                   zIndex="1"
                   pointerEvents="none"
@@ -198,8 +198,8 @@ export const PersonDetails = ({}) => {
                 <Flex
                   css={MovieDetailsTheme.customScrollBar}
                   w="100%"
-                  pr="20px"
-                  pl="20px"
+                  pr={{ xs: "unset", md: "20px" }}
+                  pl={{ xs: "unset", md: "20px" }}
                   pb="2.25rem"
                   overflowX="scroll"
                 >
@@ -222,7 +222,7 @@ export const PersonDetails = ({}) => {
                   position="absolute"
                   top="0"
                   right="0"
-                  bottom="0"
+                  bottom="42px"
                   w="20px"
                   zIndex="1"
                   pointerEvents="none"

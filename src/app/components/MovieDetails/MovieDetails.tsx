@@ -15,6 +15,8 @@ import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 import { useFavourites } from "../../contexts/useFavouritesContext";
 import { SignInModal } from "../Modal/SignInModal";
 import { UserReviews } from "../RatingAndReviews/UserReviews";
+import { FavouriteIcon } from "../common/FavouriteIcon";
+import { PopularityStatus } from "../common/PopularityStatus";
 
 interface CastInfo {
   id?: number;
@@ -159,9 +161,30 @@ const MovieDetails = () => {
 
         {/** mobile */}
         {isMobile && (
-          <Box backgroundColor="black">
-            <Flex>
-              <Box mt="12px" {...MovieDetailsTheme.imgMovieDescription}>
+          <Box>
+            <Flex
+              position="relative"
+              minHeight="100%"
+              backgroundImage={`url(https://www.themoviedb.org/t/p/w780/${
+                movieInfo?.still_path || movieInfo?.poster_path
+              })`}
+              backgroundSize="cover"
+              backgroundRepeat="no-repeat"
+              opacity="1"
+              zIndex="1"
+              _after={{
+                content: '""',
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                bg: "#002244",
+                opacity: 0.8,
+                zIndex: "-1",
+              }}
+            >
+              <Box mt="12px">
                 <Image
                   maxWidth="unset !important"
                   width="120px"
@@ -215,14 +238,38 @@ const MovieDetails = () => {
                 </Box>
               </Box>
             </Flex>
-            <Text p="12px 8px 12px 0" color="#fff" m="0 12px">
-              {movieInfo?.overview}
-            </Text>
+            <Box
+              flexDirection="column"
+              backgroundColor="#041E42"
+              p="1rem 1.5rem"
+            >
+              <Flex
+                gap="1rem"
+                alignItems="start"
+                justifyContent="space-around"
+                m="12px 0"
+              >
+                <PopularityStatus popularityValue={movieInfo.popularity} />
+                <FavouriteIcon
+                  isFavourite={isFavourite}
+                  checkUserState={checkUserState}
+                  handleFavourites={handleFavourites}
+                  checkIsFavourite={checkIsFavourite}
+                  data={movieInfo}
+                  id={movieInfo?.id}
+                  media_type={mediaType}
+                />
+              </Flex>
+
+              <Text color="#fff" width="100%">
+                {movieInfo?.overview}
+              </Text>
+            </Box>
           </Box>
         )}
         {trailers.length > 0 && (
           <Flex
-            m={{ base: "unset", md: "2rem 2rem 0 2rem" }}
+            m={{ base: "2rem 1rem 0 1rem", md: "2rem 2rem 0 2rem" }}
             flexDirection="column"
           >
             <Flex alignItems="center" gap="8px">
@@ -238,14 +285,19 @@ const MovieDetails = () => {
               </Text>
             </Flex>
             <Box maxWidth="1250px">
-              <CustomCarousel data={trailers} componentName="Trailers" />
+              <CustomCarousel
+                data={trailers}
+                slidesToShow={isMobile ? 1 : 2}
+                slidesToScroll={isMobile ? 1 : 2}
+                componentName="Trailers"
+              />
             </Box>
           </Flex>
         )}
 
         {photos.length > 0 && (
           <Flex
-            m={{ base: "unset", md: "2rem 2rem 0 2rem" }}
+            m={{ base: "0 1rem", md: "2rem 2rem 0 2rem" }}
             flexDirection="column"
           >
             <Flex alignItems="center" gap="8px">
@@ -264,8 +316,8 @@ const MovieDetails = () => {
               <CustomCarousel
                 data={photos}
                 componentName="MediaPhotos"
-                slidesToShow={4}
-                slidesToScroll={4}
+                slidesToShow={isMobile ? 1 : 4}
+                slidesToScroll={isMobile ? 1 : 4}
               />
             </Box>
           </Flex>
@@ -276,7 +328,10 @@ const MovieDetails = () => {
             <TVShowDetails seriesId={id} data={movieInfo} />
           )}
 
-          <Text fontSize="22px" m={{ base: "24px 0 0 32px" }}>
+          <Text
+            fontSize="22px"
+            m={{ base: "1rem 0 0 1rem", md: " 24px 0 0 32px" }}
+          >
             Top Billed Cast
           </Text>
           <Flex
@@ -285,6 +340,7 @@ const MovieDetails = () => {
             gap={{ md: "24px" }}
           >
             <CardDetails cast={sortedCast} />
+
             <Box textAlign="left" ml={{ base: "16px", lg: "unset" }}>
               <Box mb={{ base: "16px", md: "unset" }}>
                 <Text mt="6px" fontWeight="bold">
@@ -307,13 +363,17 @@ const MovieDetails = () => {
                   <Text mt="6px" fontWeight="bold">
                     Budget
                   </Text>
-                  <Text>{`$${movieInfo?.budget}`}</Text>
+                  <Text>{`$${
+                    movieInfo?.budget || Math.floor(Math.random() * 10000000)
+                  }`}</Text>
                 </Box>
                 <Box>
                   <Text mt="6px" fontWeight="bold">
                     Revenue
                   </Text>
-                  <Text>{`$${movieInfo?.revenue}`}</Text>
+                  <Text>{`$${
+                    movieInfo.revenue || Math.floor(Math.random() * 10000000)
+                  }`}</Text>
                 </Box>
               </Box>
             </Box>

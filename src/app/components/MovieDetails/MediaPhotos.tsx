@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Heading, Text, AspectRatio, Image } from "@chakra-ui/react";
+import { Box, Heading, Image } from "@chakra-ui/react";
 
 export const MediaPhotos = ({ photos }: any) => {
   return (

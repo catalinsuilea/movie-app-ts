@@ -25,6 +25,7 @@ function DrawerExample({ headerLinks }: any) {
   const btnRef: any = React.useRef();
   const hamburger = faBars as IconProp;
   const { authUser } = useAuthenticationContext();
+  const { userId } = authUser || {};
 
   return (
     <>
@@ -40,9 +41,17 @@ function DrawerExample({ headerLinks }: any) {
         finalFocusRef={btnRef}
       >
         <DrawerOverlay />
-        <DrawerContent>
+        <DrawerContent
+          bg="#00308F"
+          color="#fff"
+          css={{
+            backdropFilter: "blur(10px)",
+            background:
+              "linear-gradient(to right, rgba(15, 32, 39, 1) 0%, rgba(44, 83, 100, 1) 100%)",
+          }}
+        >
           <DrawerCloseButton />
-          <DrawerHeader>Explore</DrawerHeader>
+          <DrawerHeader borderBottomWidth="1px">Explore</DrawerHeader>
 
           <DrawerBody>
             {headerLinks.map((link: any) => (
@@ -52,45 +61,62 @@ function DrawerExample({ headerLinks }: any) {
                   onClose();
                 }}
                 key={link.mediaType}
-                {...HeaderTheme.link}
-                color="black"
+                color="blue.300"
+                fontSize="lg"
+                fontWeight="600"
                 display="block"
                 width="100%"
-                mb="4px"
+                mb="4"
+                _hover={{ textDecoration: "underline" }}
               >
                 {link.link}
               </Link>
             ))}
             {authUser && (
               <>
-                <Divider marginTop="12px" />
-                <Flex alignItems="center" m="12px 0">
-                  <Icon w={4} h={4} as={ChevronRightIcon} />
+                <Divider my="4" />
+                <Box my="4">
                   <Link
                     onClick={() => {
-                      navigate(`/favourites?page=1`);
+                      navigate(`/user-account/${userId}`);
                       onClose();
                     }}
+                    color="#fff"
+                    fontSize="lg"
+                    fontWeight="bold"
+                    _hover={{ textDecoration: "underline" }}
                   >
-                    Your favourites
+                    My account
                   </Link>
-                </Flex>
+                </Box>
               </>
             )}
 
-            <Divider marginTop="12px" />
-            <DrawerHeader paddingX={0}>No account ?</DrawerHeader>
-            <Box display="flex" justifyContent="flex-start" alignItems="center">
-              <Icon w={4} h={4} as={ChevronRightIcon} />
-              <Link
-                onClick={() => {
-                  navigate(`/signUp`);
-                  onClose();
-                }}
-              >
-                Join us
-              </Link>
-            </Box>
+            <Divider my="4" />
+
+            {!authUser && (
+              <>
+                <DrawerHeader p={0} mt="4">
+                  No account?
+                </DrawerHeader>
+                <Box display="flex" alignItems="center" mt="2">
+                  <Icon as={ChevronRightIcon} w={5} h={5} color="blue.500" />
+                  <Link
+                    onClick={() => {
+                      navigate(`/signUp`);
+                      onClose();
+                    }}
+                    ml="2"
+                    color="blue.500"
+                    fontSize="lg"
+                    fontWeight="bold"
+                    _hover={{ textDecoration: "underline" }}
+                  >
+                    Join us
+                  </Link>
+                </Box>
+              </>
+            )}
           </DrawerBody>
         </DrawerContent>
       </Drawer>

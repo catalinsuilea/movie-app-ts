@@ -5,6 +5,7 @@ import { FaTrashAlt, FaRegEdit } from "react-icons/fa";
 import { LikeDislikeComponent } from "./LikeDislikeComponent";
 import { useNavigate } from "react-router-dom";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
+import { formatDate } from "../../../utils/formatDate";
 
 export const ReviewCard = ({
   reviewData,
@@ -19,14 +20,6 @@ export const ReviewCard = ({
   const [currentUser, setCurrentUser] = useState(false);
   const { authUser } = useAuthenticationContext();
   const navigate = useNavigate();
-
-  const formatDate = (isoDate: string) => {
-    const date = new Date(isoDate);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day} ${month} ${year}`;
-  };
 
   if (currentUser) {
     setReviewAlreadyAdded(currentUser);

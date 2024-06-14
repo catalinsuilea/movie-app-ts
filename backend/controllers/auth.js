@@ -46,6 +46,7 @@ exports.postSignUp = async (req, res, next) => {
       profile_picture: "",
       isPremiumUser: false,
       premiumToken: "",
+      createdAt: Date.now(),
       favourites: [],
       reviews: [],
     });

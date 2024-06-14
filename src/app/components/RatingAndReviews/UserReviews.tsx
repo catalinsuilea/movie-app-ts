@@ -69,7 +69,7 @@ export const UserReviews = ({
   return (
     <>
       <Flex width="auto" flexDirection="column" gap="0.75rem" mt="1.5rem">
-        <Flex m={{ base: "unset", md: "0 2rem" }} flexDirection="column">
+        <Flex m={{ base: "2rem 1rem", md: "1rem 2rem" }} flexDirection="column">
           <Flex alignItems="center" gap="8px">
             <Center height="35px">
               <Divider
@@ -79,8 +79,8 @@ export const UserReviews = ({
               />
             </Center>
             <Flex
-              justifyContent="space-between"
-              alignItems="center"
+              justifyContent={{ base: "flex-start", md: "space-between" }}
+              alignItems={{ base: "start", md: "center" }}
               width="950px"
             >
               <Box
@@ -93,7 +93,7 @@ export const UserReviews = ({
                   "> :last-child": { color: "blue.400" },
                 }}
               >
-                <Text fontSize="3xl" fontWeight="bold">
+                <Text fontSize={{ base: "xl", md: "3xl" }} fontWeight="bold">
                   User Reviews
                 </Text>
                 <Text fontSize="19px" fontWeight="500" ml="0.75rem" as="span">

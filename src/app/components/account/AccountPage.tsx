@@ -23,7 +23,7 @@ import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 import { DeleteAccountModal } from "./DeleteAccountModal";
 import { PremiumDetails } from "./PremiumDetails";
 import { loadStripe, Stripe } from "@stripe/stripe-js";
-import { checkPaymentStatus } from "./checkPaymentStatus";
+import { formatDate } from "../../../utils/formatDate";
 
 const AccountPage = ({}) => {
   const { favouritesMoviesFromDB } = useFavourites();
@@ -43,6 +43,8 @@ const AccountPage = ({}) => {
 
   const { userId } = useParams();
   const currentUser = authUser.userId === userId;
+
+  const { profile_picture } = userInformation || {};
 
   const navigate = useNavigate();
 
@@ -170,7 +172,6 @@ const AccountPage = ({}) => {
       console.error(error);
     }
   };
-
   const handleBuyPremium = async (offer: string, price: number) => {
     const URL = `http://localhost:5000/user/buy-premium`;
     try {
@@ -243,9 +244,13 @@ const AccountPage = ({}) => {
                 <Image
                   borderRadius="full"
                   boxSize="100px"
-                  src={`http://localhost:5000/${
+                  src={
                     userProfilePicture || userInformation?.profile_picture
-                  }`}
+                      ? `http://localhost:5000/${
+                          userProfilePicture || userInformation?.profile_picture
+                        }`
+                      : "https://www.whitechapelgallery.org/wp-content/uploads/2020/07/blank-head-profile-pic-for-a-man-300x284.jpg"
+                  }
                   alt={username}
                   mr={4}
                 />
@@ -253,19 +258,18 @@ const AccountPage = ({}) => {
                   <Text fontWeight="bold" fontSize="xl">
                     {currentUser ? username : userInformation!?.username}
                   </Text>
-                  <Text>MoviePilotApp member since: June 2024</Text>
+                  <Text>
+                    MoviePilotApp member since{" "}
+                    <Text>{formatDate(userInformation?.createdAt)}</Text>
+                  </Text>
                 </VStack>
               </Flex>
               {currentUser && (
                 <Box>
-                  <Flex
-                    justifyContent="flex-start"
-                    alignItems="center"
-                    gap="12px"
-                  >
+                  <Flex flexWrap="wrap">
                     <Input
                       border="none"
-                      width="auto"
+                      width="250px"
                       cursor="pointer"
                       type="file"
                       onChange={handleFileChange}
@@ -275,6 +279,7 @@ const AccountPage = ({}) => {
                       variant="outline"
                       mb="12px"
                       onClick={uploadFile}
+                      width={{ base: "100%", md: "unset" }}
                     >
                       Upload photo
                     </Button>
@@ -283,6 +288,22 @@ const AccountPage = ({}) => {
                     {fileErrorMsg}
                   </Text>
                 </Box>
+              )}
+
+              {!currentUser && (
+                <HStack mb="12px">
+                  <Icon
+                    as={
+                      userInformation?.isPremiumUser
+                        ? CheckCircleIcon
+                        : WarningIcon
+                    }
+                    color={
+                      userInformation?.isPremiumUser ? "green.500" : "orange"
+                    }
+                  />
+                  <Text>Premium member</Text>
+                </HStack>
               )}
 
               <Divider />
@@ -365,7 +386,18 @@ const AccountPage = ({}) => {
                   <List spacing={3}>
                     <ListItem>
                       <HStack>
-                        <Icon as={CheckCircleIcon} color="green.500" />
+                        <Icon
+                          as={
+                            userProfilePicture || profile_picture
+                              ? CheckCircleIcon
+                              : WarningIcon
+                          }
+                          color={
+                            userProfilePicture || profile_picture
+                              ? "green.500"
+                              : "orange"
+                          }
+                        />
                         <Text>Upload your picture</Text>
                       </HStack>
                     </ListItem>

@@ -13,9 +13,10 @@ import { FaChevronRight } from "react-icons/fa";
 import getRandomPoster from "../../../helpers/random";
 import SearchBar from "./searchBar";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
-import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
-import movieImg from "../../../logo/oscars.svg";
+import oscarsImgDesktop from "../../../logo/oscars.svg";
+import oscarsImgMobile from "../../../logo/oscars-mobile.svg";
 import MovieTVList from "./Lists/MovieTVList";
+import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
 
 const WelcomePage = () => {
   const { authUser } = useAuthenticationContext();
@@ -28,12 +29,14 @@ const WelcomePage = () => {
   const [trendingList, setTrendingList] = useState([]);
 
   const [tabForMovieRequest, setTabForMovieRequest] = useState("now_playing");
-  const [tabForTvRequest, setTabForTvRequest] = useState("on_the_air");
+  const [tabForTvRequest, setTabForTvRequest] = useState("top_rated");
   const [tabForTrendingRequest, setTabForTrendingRequest] = useState("all");
 
   const [areMediaListsLoading, setAreMediaListsLoading] = useState(false);
   const [areTvListsLoading, setAreTvListsLoading] = useState(false);
   const [areTrendingListsLoading, setAreTrendingListsLoading] = useState(false);
+
+  const { isMobile } = useDeviceTypeContext();
 
   const { username, isPremiumUser } = authUser || {};
 
@@ -50,7 +53,7 @@ const WelcomePage = () => {
         setLatestMovies(data);
         setIsLoading(false);
       } catch (error: any) {
-        console.log("Error fetching the latest movies", error);
+        console.error("Error fetching the latest movies", error);
       }
     };
     fetchLatestMovies();
@@ -61,7 +64,7 @@ const WelcomePage = () => {
   const movieTabs = ["Now Playing", "Popular", "Top Rated", "Upcoming"];
 
   // Tv Lists
-  const tvTabs = ["On The Air", "Top Rated", "Popular"];
+  const tvTabs = ["Top Rated", "Popular", "On The Air"];
 
   // Trending Lists
 
@@ -168,6 +171,7 @@ const WelcomePage = () => {
   const onCloseModal = () => {
     setIsModalOpen(false);
   };
+
   const usernameStyle = isPremiumUser ? `${username + "⭐"}` : username;
   const displayWelcomeMessage = authUser
     ? `Welcome, ${usernameStyle}`
@@ -189,20 +193,21 @@ const WelcomePage = () => {
             >
               <Flex
                 flexDirection="column"
-                m="2.5rem auto"
+                m={{ base: "1rem 0 0 0", md: "2.5rem auto" }}
                 justifyContent="flex-start"
-                width="90%"
+                width={{ base: "85%", md: "90%" }}
                 gap="4px"
+                pb={{ base: "0.5rem", md: "unset" }}
               >
                 <Box
                   {...SearchBarTheme.welcomeText}
-                  fontSize={{ base: "26px", md: "36px" }}
+                  fontSize={{ base: "21px", md: "36px" }}
                 >
                   {displayWelcomeMessage}
                 </Box>
                 <Box
                   {...SearchBarTheme.paragraphText}
-                  fontSize={{ base: "22px", md: "28px" }}
+                  fontSize={{ base: "15px", md: "28px" }}
                 >
                   Millions of movies, TV shows and people to discover.Explore
                   now!
@@ -218,11 +223,15 @@ const WelcomePage = () => {
                   padding="1rem"
                   float="left"
                   zIndex="1"
-                  m="1rem 2rem"
+                  m={{ base: "0.5rem", md: "1rem 2rem" }}
                   gap="1rem"
                 >
                   {" "}
-                  <Image src={movieImg} width="250px" />
+                  <Image
+                    src={!isMobile ? oscarsImgDesktop : oscarsImgMobile}
+                    width="250px"
+                    ml={{ base: "-2rem", md: "0" }}
+                  />
                   <Flex
                     justifyContent="center"
                     alignItems="center"
@@ -233,7 +242,7 @@ const WelcomePage = () => {
                     border="2.5px solid #fff"
                     p="6px 12px"
                     fontWeight="600"
-                    fontSize="md"
+                    fontSize={{ base: "sm", md: "md" }}
                     gap="4px"
                     cursor="pointer"
                   >
