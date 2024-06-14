@@ -43,7 +43,6 @@ const MovieCard = ({
     gender,
   } = rest;
 
-  console.log("rating", rating, vote_average);
   const favouritesData =
     favouritesMoviesFromDB.length === 0
       ? favouritesWithPagination

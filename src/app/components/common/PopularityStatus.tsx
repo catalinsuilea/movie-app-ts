@@ -62,7 +62,12 @@ export const PopularityStatus = ({
       </CircularProgress>
       {!isMovieTVList && (
         <Box>
-          <Text fontSize="18px" fontWeight="bold" width="min-content">
+          <Text
+            color="#fff"
+            fontSize={{ base: "16px", md: "22px" }}
+            fontWeight="bold"
+            width="min-content"
+          >
             User Score
           </Text>
         </Box>

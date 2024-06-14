@@ -47,12 +47,12 @@ const SearchBar = () => {
       flexDirection="column"
       position="relative"
       justifyContent="center"
-      mt="2rem"
+      m={{ base: "1rem 0 0 0", lg: "2rem 0 0 0 " }}
     >
       <Box
         {...flexTheme}
         alignItems="unset"
-        mb="50px"
+        mb={{ base: "0", xl: "48px" }}
         maxWidth="1250px"
         width="100%"
       >
@@ -64,13 +64,18 @@ const SearchBar = () => {
             }}
           >
             <Input
-              borderRadius="0"
+              size={{ base: "sm", md: "lg" }}
+              borderTopLeftRadius="20px !important"
+              borderBottomLeftRadius="20px !important"
+              borderTopRightRadius="unset !important"
+              borderBottomRightRadius="unset !important"
               type="search"
               backgroundColor="#fff"
-              borderTopLeftRadius="20px"
-              borderBottomLeftRadius="20px"
-              size="lg"
-              width="50vw"
+              width={{
+                base: "72vw",
+                sm: "62vw",
+                lg: "50vw",
+              }}
               placeholder="Search movie..."
               onChange={(e) => {
                 setOnTypingInput(e.target.value);
@@ -87,7 +92,7 @@ const SearchBar = () => {
             borderRadius="0"
             borderTopRightRadius="20px"
             borderBottomRightRadius="20px"
-            size="lg"
+            size={{ base: "sm", md: "lg" }}
             aria-label="Search database"
             isActive={true}
             icon={<SearchIcon />}

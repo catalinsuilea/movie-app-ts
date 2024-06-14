@@ -34,10 +34,11 @@ export const CustomCarousel = ({
           opacity="0.7"
           color="#fff"
           p="1rem 4px"
-          height="60px"
+          height={{ base: "40px", md: "60px" }}
           zIndex="2"
           background="none"
-          ml="2rem"
+          top={componentName === "Trailers" ? "4rem" : "unset"}
+          ml={{ base: "1.5rem", md: "2rem" }}
           mb={{ base: "8px", md: "none" }}
           onClick={previousSlide}
           _hover={{
@@ -48,7 +49,7 @@ export const CustomCarousel = ({
           {...leftControlStyles}
           {...buttonStyles}
         >
-          <ArrowLeftIcon color="#fff" fontSize="23px" />
+          <ArrowLeftIcon color="#fff" fontSize={{ base: "18px", md: "23px" }} />
         </Button>
       )}
       renderCenterRightControls={({ nextSlide }) => (
@@ -57,11 +58,12 @@ export const CustomCarousel = ({
           zIndex="2"
           onClick={nextSlide}
           p="1rem 4px"
-          height="60px"
+          height={{ base: "40px", md: "60px" }}
           backgroundColor="black"
           opacity="0.7"
           color="#fff"
-          mr="2rem"
+          top={componentName === "Trailers" ? "4rem" : "unset"}
+          mr={{ base: "1.5rem", md: "2rem" }}
           mb={{ base: "8px", md: "none" }}
           _hover={{
             opacity: "1",
@@ -71,7 +73,10 @@ export const CustomCarousel = ({
           {...rightControlStyles}
           {...buttonStyles}
         >
-          <ArrowRightIcon color="#fff" fontSize="23px" />
+          <ArrowRightIcon
+            color="#fff"
+            fontSize={{ base: "18px", md: "22px" }}
+          />
         </Button>
       )}
     >

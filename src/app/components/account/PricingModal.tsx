@@ -34,6 +34,32 @@ export const PricingModal = ({ handleBuyPremium }: Premium) => {
           <ModalHeader>Premium Pricing</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
+            <Box
+              p={4}
+              borderWidth="1px"
+              borderRadius="lg"
+              boxShadow="md"
+              mb={4}
+            >
+              <Text fontSize="xl" fontWeight="bold" mb={2}>
+                Payment Test Information
+              </Text>
+              <Text>
+                Use the following test credentials to complete the payment:
+              </Text>
+              <Text mt={2}>
+                <strong>Card Number:</strong> 4242 4242 4242 4242
+              </Text>
+              <Text>
+                <strong>Expiration Date:</strong> Any future date
+              </Text>
+              <Text>
+                <strong>Card Holder Name:</strong> Any name
+              </Text>
+              <Text>
+                <strong>Security Code:</strong> Any 3-digit number
+              </Text>
+            </Box>
             <SimpleGrid columns={1} spacing={4}>
               <Box p={4} borderWidth="1px" borderRadius="lg" boxShadow="md">
                 <Text fontSize="xl" fontWeight="bold" mb={2}>

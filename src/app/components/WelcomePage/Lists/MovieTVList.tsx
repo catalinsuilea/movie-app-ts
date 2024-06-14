@@ -18,7 +18,6 @@ import {
   WelcomePageTheme,
   afterTheme,
 } from "../../../../styles/theme";
-import { useFavourites } from "../../../contexts/useFavouritesContext";
 
 const MovieTVList = ({
   data,
@@ -28,7 +27,6 @@ const MovieTVList = ({
   getRandomImage,
   handleTabClick,
   tabType,
-  checkUserState,
 }: any) => {
   const randomImageMemoized = useMemo(() => {
     if (!getRandomImage) return;
@@ -56,7 +54,12 @@ const MovieTVList = ({
         {...(tabType === "trending" ? afterTheme.searchContainer : {})}
         p="4"
       >
-        <Flex overflowX="auto" alignItems="center" gap="1.5rem">
+        <Flex
+          overflowX="auto"
+          alignItems={{ base: "start", md: "center" }}
+          gap="1.5rem"
+          flexDirection={{ base: "column", md: "row" }}
+        >
           <Heading
             color={tabType === "trending" ? "#fff" : "black"}
             fontSize="xl"
@@ -90,22 +93,20 @@ const MovieTVList = ({
                   position="absolute"
                   top="0"
                   left="0"
-                  bottom="0"
+                  bottom="38px"
                   w="20px"
                   zIndex="1"
                   pointerEvents="none"
                   css={{
-                    backdropFilter: "blur(10px)",
-                    // background:
-                    //   "linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)",
+                    backdropFilter: "blur(6px)",
                   }}
                 />
                 <Flex
                   css={MovieDetailsTheme.customScrollBar}
                   w="100%"
-                  pr="20px"
-                  pl="20px"
-                  pb="2.25rem"
+                  pr={{ xs: "unset", md: "20px" }}
+                  pl={{ xs: "unset", md: "20px" }}
+                  pb="2rem"
                   overflowX="scroll"
                 >
                   {isLoading
@@ -129,14 +130,12 @@ const MovieTVList = ({
                   position="absolute"
                   top="0"
                   right="0"
-                  bottom="0"
+                  bottom="38px"
                   w="20px"
                   zIndex="1"
                   pointerEvents="none"
                   css={{
                     backdropFilter: "blur(5px)",
-                    // background:
-                    //   "linear-gradient(to left, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)",
                   }}
                 />
               </Flex>
@@ -151,6 +150,8 @@ export default React.memo(MovieTVList, (prevProps, nextProps) => {
   return (
     prevProps.data === nextProps.data &&
     prevProps.isLoading === nextProps.isLoading &&
-    prevProps.tabs === nextProps.tabs
+    prevProps.tabs === nextProps.tabs &&
+    prevProps.description === nextProps.description &&
+    prevProps.tabType === nextProps.tabType
   );
 });

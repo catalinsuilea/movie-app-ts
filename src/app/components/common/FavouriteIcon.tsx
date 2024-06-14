@@ -35,8 +35,8 @@ export const FavouriteIcon = ({
     <Icon
       as={isFavourite ? FaHeart : FaRegHeart}
       boxSize={isMovieDetails ? 10 : 6}
-      mr={{ base: "unset", lg: "12px" }}
-      mt={{ base: "unset", lg: "12px" }}
+      mr="12px"
+      mt="12px"
       cursor="pointer"
       color={getFavouriteColor(isFavourite, isMovieDetails, isMovieCard)}
       onClick={(e) => {

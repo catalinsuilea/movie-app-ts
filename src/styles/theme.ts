@@ -127,7 +127,7 @@ export const WelcomePageTheme = extendTheme({
   moviePosterContainer: {
     position: "relative",
     height: "auto",
-    backgroundPosition: "100% 25%",
+    backgroundPosition: { base: "top", sm: "100% 25%" },
     backgroundRepeat: "no-repeat",
     backgroundSize: "100%",
     objectFit: "cover",

@@ -52,7 +52,6 @@ export const PersonCardDetails = ({
         mr="2"
         flexShrink="0"
         maxWidth="150px"
-        // overflow="hidden"
         _hover={{ cursor: "pointer", boxShadow: "0 0 6px 4px rgba(0,0,0,0.3)" }}
         boxShadow="1px 1px 6px 4px rgba(0, 0, 0, 0.1)"
         backgroundColor={isMovieTVList ? "black" : "transparent"}
