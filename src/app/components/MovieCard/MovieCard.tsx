@@ -128,16 +128,21 @@ const MovieCard = ({
                       >
                         <Text width="100%">{title || original_name}</Text>
                         <Box>
-                          {media_type || media_type_header ? (
+                          {media_type ? (
                             <Text fontWeight={400} fontSize="lg">
-                              ⭐{popularity?.toFixed(1) || rating?.toFixed(1)}{" "}
+                              ⭐
+                              {rating?.toFixed(1) ||
+                                vote_average?.toFixed(1) ||
+                                popularity?.toFixed(1)}
                             </Text>
                           ) : (
                             rating ||
                             (vote_average && (
                               <Text fontWeight={400} fontSize="lg">
                                 ⭐
-                                {rating?.toFixed(1) || vote_average?.toFixed(1)}
+                                {rating?.toFixed(1) ||
+                                  vote_average?.toFixed(1) ||
+                                  popularity?.toFixed(1)}
                               </Text>
                             ))
                           )}
@@ -170,10 +175,9 @@ const MovieCard = ({
                       {title || original_name}
 
                       <Box>
-                        {(media_type === "person" || media_type_header) &&
-                        rating ? (
-                          <Text fontWeight={400} fontSize="lg">
-                            ⭐{popularity.toFixed(0)}{" "}
+                        {rating ? (
+                          <Text fontWeight="bold" fontSize="xl">
+                            ⭐{rating.toFixed(1)}{" "}
                           </Text>
                         ) : (
                           rating ||

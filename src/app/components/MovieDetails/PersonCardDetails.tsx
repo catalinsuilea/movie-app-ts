@@ -110,7 +110,11 @@ export const PersonCardDetails = ({
         )}
         {!isMyAccount && (
           <Box position="absolute" bottom="-1.25rem" left="1rem">
-            <PopularityStatus popularityValue={data.popularity} isMovieTVList />
+            <PopularityStatus
+              popularityValue={data.popularity}
+              rating={data.rating}
+              isMovieTVList
+            />
           </Box>
         )}
 

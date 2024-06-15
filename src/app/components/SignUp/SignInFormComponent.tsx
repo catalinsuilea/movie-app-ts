@@ -4,7 +4,6 @@ import {
   Box,
   FormLabel,
   Input,
-  Checkbox,
   Stack,
   Button,
   Heading,
@@ -144,7 +143,6 @@ export const SignInFormComponent = ({}) => {
                       </Text>
                     </Link>
                   </Flex>
-                  <Checkbox>Remember me</Checkbox>
                 </Stack>
                 <Button
                   onClick={onSignInClick}
