@@ -2,8 +2,12 @@ import React from "react";
 import { useState } from "react";
 import { Box, Button } from "@chakra-ui/react";
 
-const ShowHideText = ({ overview, id }: any) => {
-  const [show, setShow] = useState<any>({});
+interface ShowHideTextTypes {
+  [id: string]: boolean;
+}
+
+const ShowHideText = ({ overview, id }: { overview: string; id: string }) => {
+  const [show, setShow] = useState<ShowHideTextTypes>({});
   return (
     <Box zIndex="2" width="70%" color="#fff" m="0 20px" fontSize="13.5px">
       {overview.split(" ").length > 2

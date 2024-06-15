@@ -4,8 +4,13 @@ import { Button } from "@chakra-ui/react";
 import { ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
 import { Trailers } from "../MovieDetails/Trailers";
 import { MediaPhotos } from "../MovieDetails/MediaPhotos";
+import {
+  CustmoCarouselTypes,
+  PhotosTypes,
+  TrailersTypes,
+} from "../../../types-modules/MovieInfo";
 
-export const CustomCarousel = ({
+export const CustomCarousel: React.FC<CustmoCarouselTypes> = ({
   data,
   wrapAround = true,
   slidesToShow = 2,
@@ -16,7 +21,7 @@ export const CustomCarousel = ({
   buttonStyles = {},
   componentName,
   slidesToScroll = 1,
-}: any) => {
+}) => {
   return (
     <Carousel
       wrapAround={wrapAround}
@@ -80,11 +85,11 @@ export const CustomCarousel = ({
         </Button>
       )}
     >
-      {data.map((item: any, index: number) =>
+      {data.map((item, index: number) =>
         componentName === "Trailers" ? (
-          <Trailers key={index} trailer={item} />
+          <Trailers key={index} trailer={item as TrailersTypes} />
         ) : (
-          <MediaPhotos photos={item} />
+          <MediaPhotos index={index} photos={item as PhotosTypes} />
         )
       )}
     </Carousel>

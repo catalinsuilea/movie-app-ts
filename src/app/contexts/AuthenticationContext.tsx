@@ -1,9 +1,16 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
-import { FormValue, FormErrors } from "../../types-modules/SignUpFormComponent";
+import { FormErrors } from "../../types-modules/SignUpFormComponent";
 import { useNavigate } from "react-router-dom";
 import { AuthUser } from "../../types-modules/AuthenticatedUser";
+import {
+  AuthContextTypes,
+  FormRegisterValues,
+  FormSignInValues,
+} from "../../types-modules/AuthenticationTypes/AuthenticationTypes";
 
-const AuthenticationContext = createContext<any>({} as any);
+const AuthenticationContext = createContext<AuthContextTypes>(
+  {} as AuthContextTypes
+);
 
 export const AuthProvider = ({ children }: any) => {
   const registerFormValues = {
@@ -19,22 +26,19 @@ export const AuthProvider = ({ children }: any) => {
   };
 
   const [authUser, setAuthUser] = useState<AuthUser | null>(null);
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const [isFetchingUserData, setIsFetchingUserData] = useState(true);
-
   const [isPremiumUser, setIsPremiumUser] = useState(false);
 
   const navigate = useNavigate();
 
   const [formRegisterValue, setFormRegisterValue] =
-    useState<FormValue>(registerFormValues);
+    useState<FormRegisterValues>(registerFormValues);
   const [formRegisterErrors, setFormRegisterErrors] =
     useState<FormErrors>(registerFormValues);
 
   const [signInFormValues, setSignInFormValues] =
-    useState<FormValue>(singInFormValues);
+    useState<FormSignInValues>(singInFormValues);
   const [signInFormErrors, setSignInFormErrors] =
     useState<FormErrors>(singInFormValues);
 

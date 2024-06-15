@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState, ChangeEvent } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -24,6 +24,7 @@ import { DeleteAccountModal } from "./DeleteAccountModal";
 import { PremiumDetails } from "./PremiumDetails";
 import { loadStripe, Stripe } from "@stripe/stripe-js";
 import { formatDate } from "../../../utils/formatDate";
+import { MyAccountReviewData } from "../../../types-modules/Reviews";
 
 const AccountPage = ({}) => {
   const { favouritesMoviesFromDB } = useFavourites();
@@ -42,8 +43,10 @@ const AccountPage = ({}) => {
   const [modalType, setModalType] = useState("");
 
   const { userId } = useParams();
-  const currentUser = authUser.userId === userId;
-
+  let currentUser;
+  if (authUser) {
+    currentUser = authUser.userId === userId;
+  }
   const { profile_picture } = userInformation || {};
 
   const navigate = useNavigate();
@@ -194,7 +197,7 @@ const AccountPage = ({}) => {
           sessionId: session.id,
         });
         if (error) {
-          console.log(error);
+          console.error(error);
         }
       }
     } catch (error) {
@@ -323,7 +326,7 @@ const AccountPage = ({}) => {
                   overflowX={{ base: "auto", md: "unset" }}
                   flexWrap={{ base: "unset", md: "wrap" }}
                 >
-                  {userReviews.map((review: any, index) => (
+                  {userReviews.map((review: MyAccountReviewData, index) => (
                     <PersonCardDetails
                       data={review}
                       index={index}

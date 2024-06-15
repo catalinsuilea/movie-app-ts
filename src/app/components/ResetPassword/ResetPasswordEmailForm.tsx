@@ -15,7 +15,7 @@ import { CheckCircleIcon } from "@chakra-ui/icons";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 import { NoPageFound } from "../common/404NotFound";
 
-export const ResetPasswordEmailForm = ({}: any) => {
+export const ResetPasswordEmailForm = () => {
   const [emailValue, setEmailValue] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");

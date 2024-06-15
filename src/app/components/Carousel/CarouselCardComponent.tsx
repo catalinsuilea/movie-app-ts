@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { FavouriteIcon } from "../common/FavouriteIcon";
+import { CarouselCardComponentTypes } from "../../../types-modules/HomepageTypes/HomepageTypes";
 
 export const CarouselCardComponent = ({
   handleFavourites,
@@ -14,21 +15,21 @@ export const CarouselCardComponent = ({
   favouritesMoviesFromDB,
   authUser,
   ...rest
-}: any) => {
+}: CarouselCardComponentTypes) => {
   const [isFavourite, setIsFavourite] = useState(false);
   const { id, title, backdrop_path, poster_path, overview } = rest;
 
   useEffect(() => {
     if (!authUser) return;
     setIsFavourite(
-      Boolean(favouritesMoviesFromDB?.find((movie: any) => +movie.id === id))
+      Boolean(favouritesMoviesFromDB?.find((movie) => +movie.id === id))
     );
   }, [favouritesMoviesFromDB, id, authUser]);
 
-  const checkIsFavourite = (id: string) => {
+  const checkIsFavourite = (id: string | number) => {
     if (!authUser) return;
     const favouriteMovieObj = favouritesMoviesFromDB?.find(
-      (movie: any) => movie.id === id
+      (movie) => movie.id === id
     );
     if (!favouriteMovieObj && !isFavourite) {
       setIsFavourite(true);
@@ -46,7 +47,7 @@ export const CarouselCardComponent = ({
   const navigate = useNavigate();
   const { isMobile, isTablet } = useDeviceTypeContext();
 
-  const handleNavigate = (title: string, id: string) => {
+  const handleNavigate = (title: string | undefined, id: string) => {
     navigate(`/movie/${title}/${id}`);
   };
 
@@ -62,7 +63,7 @@ export const CarouselCardComponent = ({
         alignItems={{ base: "start", md: "center" }}
         width="100%"
       >
-        <Link ml="12px" onClick={() => handleNavigate(title, id)}>
+        <Link ml="12px" onClick={() => handleNavigate(title, id.toString())}>
           {title}
           <ChevronRightIcon fontSize="27px" />
         </Link>
@@ -107,12 +108,12 @@ export const CarouselCardComponent = ({
             textOverflow="ellipsis"
             width="100%"
             m="0 6px 0 12px"
-            onClick={() => handleNavigate(title, id)}
+            onClick={() => handleNavigate(title, id.toString())}
           >
             {overview}
           </Text>
         ) : (
-          <ShowHideText overview={overview} id={id} />
+          <ShowHideText overview={overview} id={id.toString()} />
         )}
       </Box>
     </Box>

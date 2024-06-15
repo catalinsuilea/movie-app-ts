@@ -1,10 +1,13 @@
 import React from "react";
-
 import { Box, Flex, Heading, Text, Divider } from "@chakra-ui/react";
-
 import { useNavigate } from "react-router-dom";
+import { Episode } from "../../../types-modules/TvEpisodeDetails";
 
-export const EpisodeDetailsHeaderDesktop = ({ episodeData }: any) => {
+export const EpisodeDetailsHeaderDesktop = ({
+  episodeData,
+}: {
+  episodeData: Episode;
+}) => {
   const navigate = useNavigate();
 
   return (
@@ -64,32 +67,30 @@ export const EpisodeDetailsHeaderDesktop = ({ episodeData }: any) => {
             <Text>Vote Count: {episodeData.vote_count}</Text>
             <Box mt="1">
               <Flex>
-                {episodeData.crew
-                  .slice(0, 4)
-                  .map((member: any, index: number) => (
-                    <Flex
-                      flexWrap="wrap"
-                      key={member.credit_id}
-                      mb="2"
-                      alignItems="center"
-                    >
-                      <Box>
-                        <Text
-                          cursor="pointer"
-                          onClick={() =>
-                            navigate(`/person/${member.name}/${member.id}`)
-                          }
-                          fontWeight="bold"
-                        >
-                          {member.name}
-                        </Text>
-                        <Text>{member.job}</Text>
-                      </Box>
-                      {index < episodeData.crew.length - 1 && (
-                        <Divider orientation="vertical" mx="4" height="auto" />
-                      )}
-                    </Flex>
-                  ))}
+                {episodeData.crew.slice(0, 4).map((member, index) => (
+                  <Flex
+                    flexWrap="wrap"
+                    key={member.credit_id}
+                    mb="2"
+                    alignItems="center"
+                  >
+                    <Box>
+                      <Text
+                        cursor="pointer"
+                        onClick={() =>
+                          navigate(`/person/${member.name}/${member.id}`)
+                        }
+                        fontWeight="bold"
+                      >
+                        {member.name}
+                      </Text>
+                      <Text>{member.job}</Text>
+                    </Box>
+                    {index < episodeData.crew.length - 1 && (
+                      <Divider orientation="vertical" mx="4" height="auto" />
+                    )}
+                  </Flex>
+                ))}
               </Flex>
             </Box>
           </Flex>

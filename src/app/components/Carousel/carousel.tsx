@@ -7,6 +7,7 @@ import { SignInModal } from "../Modal/SignInModal";
 import { useFavourites } from "../../contexts/useFavouritesContext";
 import { CarouselCardComponent } from "./CarouselCardComponent";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
+import { CarouselComponentTypes } from "../../../types-modules/HomepageTypes/HomepageTypes";
 
 const CarouselComponent = ({
   isLoading,
@@ -14,7 +15,7 @@ const CarouselComponent = ({
   isModalOpen,
   onCloseModal,
   checkUserState,
-}: any) => {
+}: CarouselComponentTypes) => {
   const { isMobile, isTablet } = useDeviceTypeContext();
   const { handleFavourites, favouritesMoviesFromDB } = useFavourites();
   const { authUser } = useAuthenticationContext();
@@ -79,7 +80,7 @@ const CarouselComponent = ({
               </Button>
             )}
           >
-            {latestMovies?.map((item: any) => (
+            {latestMovies?.map((item) => (
               <CarouselCardComponent
                 {...item}
                 checkUserState={checkUserState}

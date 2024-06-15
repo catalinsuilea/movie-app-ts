@@ -1,4 +1,7 @@
-interface MovieInfo {
+import { CrewMember, GuestStar } from "./TvEpisodeDetails";
+import { TVShowTypes } from "./TvTypes";
+
+interface MovieInfo extends TVShowTypes {
   adult: boolean;
   backdrop_path: string;
   budget: number;
@@ -10,7 +13,7 @@ interface MovieInfo {
   id: number;
   imdb_id: string;
   original_language: string;
-  original_title: string;
+  original_title?: string;
   overview: string;
   popularity: number;
   poster_path: string;
@@ -33,7 +36,7 @@ interface MovieInfo {
     name: string;
   }[];
   status: string;
-  title: string;
+  title?: string;
   video: false;
   vote_average: number;
   vote_count: number;
@@ -43,8 +46,43 @@ interface MovieInfo {
   last_air_date: string;
   in_production: boolean;
   still_path: string;
-  crew: any;
+  crew: CrewMember[];
+  member: GuestStar[];
   air_date: string;
-  member: any;
 }
 export default MovieInfo;
+
+export interface PhotosTypes {
+  aspect_ratio: number;
+  height: number;
+  iso_639_1: string | null;
+  file_path: string;
+  vote_average: number;
+  vote_count: number;
+  width: number;
+}
+export interface TrailersTypes {
+  iso_639_1: string;
+  iso_3166_1: string;
+  name: string;
+  key: string;
+  site: string;
+  size: number;
+  type: string;
+  official: boolean;
+  published_at: string;
+  id: string;
+}
+
+export interface CustmoCarouselTypes {
+  data: TrailersTypes[] | PhotosTypes[];
+  componentName: string;
+  slidesToScroll: number;
+  wrapAround?: boolean;
+  slidesToShow: number;
+  autoplay?: boolean;
+  pagingDotsStyle?: { fill: string };
+  leftControlStyles?: {};
+  rightControlStyles?: {};
+  buttonStyles?: {};
+}

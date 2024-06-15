@@ -17,8 +17,9 @@ import Navbar from "../menuHover/menuHover";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import { HeaderTypes } from "../../../types-modules/HomepageTypes/HomepageTypes";
 
-export const HeaderDesktop = ({ headerLinks }: any) => {
+export const HeaderDesktop = ({ headerLinks }: HeaderTypes) => {
   const navigate = useNavigate();
   const { authUser, handleLogout } = useAuthenticationContext();
 
@@ -41,7 +42,7 @@ export const HeaderDesktop = ({ headerLinks }: any) => {
           src={logo}
         />
         <Box>
-          {headerLinks.map((link: any) => (
+          {headerLinks.map((link) => (
             <Link
               onClick={() => navigate(`/movie-app-ts/${link.mediaType}`)}
               key={link.mediaType}

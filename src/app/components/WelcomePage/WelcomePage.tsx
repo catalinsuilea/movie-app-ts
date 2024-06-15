@@ -17,10 +17,16 @@ import oscarsImgDesktop from "../../../logo/oscars.svg";
 import oscarsImgMobile from "../../../logo/oscars-mobile.svg";
 import MovieTVList from "./Lists/MovieTVList";
 import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
+import {
+  LatestMoviesTypes,
+  MovieData,
+} from "../../../types-modules/HomepageTypes/HomepageTypes";
 
 const WelcomePage = () => {
   const { authUser } = useAuthenticationContext();
-  const [latestMovies, setLatestMovies] = useState<any>({});
+  const [latestMovies, setLatestMovies] = useState<LatestMoviesTypes>(
+    {} as LatestMoviesTypes
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -92,7 +98,7 @@ const WelcomePage = () => {
     }
   };
 
-  const getRandomImage = useCallback((data: any) => {
+  const getRandomImage = useCallback((data: MovieData[]) => {
     return getRandomPoster(data);
   }, []);
 
@@ -270,7 +276,6 @@ const WelcomePage = () => {
               description="Discover TV Shows"
               handleTabClick={handleTabClick}
               getRandomImage={getRandomImage}
-              checkUserState={checkUserState}
               tabType="tv"
             />
           </Box>
@@ -283,7 +288,6 @@ const WelcomePage = () => {
               description="Trending this week"
               handleTabClick={handleTabClick}
               getRandomImage={getRandomImage}
-              checkUserState={checkUserState}
               tabType="trending"
             />
           </Box>
@@ -312,7 +316,6 @@ const WelcomePage = () => {
               description="Discover movies"
               handleTabClick={handleTabClick}
               getRandomImage={getRandomImage}
-              checkUserState={checkUserState}
               tabType="movie"
             />
           </Box>

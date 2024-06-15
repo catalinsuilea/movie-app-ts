@@ -1,16 +1,10 @@
 import React from "react";
-import Cast from "../../../types-modules/Cast";
-import Crew from "../../../types-modules/Crew";
+
 import { Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import { flexTheme, MovieDetailsTheme } from "../../../styles/theme";
 import { PopularityStatus } from "./PopularityStatus";
 import { FavouriteIcon } from "./FavouriteIcon";
-
-interface CastInfo {
-  id?: number;
-  cast?: Cast[];
-  crew?: Crew[];
-}
+import { MediaTypeDetailsDesktopTypes } from "../../../types-modules/MediaTypeDetailsDesktop";
 
 export const MediaTypeDetailsDesktop = ({
   data,
@@ -24,7 +18,7 @@ export const MediaTypeDetailsDesktop = ({
   checkIsFavourite,
   isFavourite,
   checkUserState,
-}: any) => {
+}: MediaTypeDetailsDesktopTypes) => {
   const { crew } = castInfo;
 
   return (
@@ -149,7 +143,7 @@ export const MediaTypeDetailsDesktop = ({
                   <Text m="0 5px">{data?.release_date} </Text>
                   {`(${data?.original_language?.toUpperCase()})`}
                   <Flex>
-                    {data?.genres?.map((genre: any) => (
+                    {data?.genres?.map((genre) => (
                       <Text m="0 5px">{genre.name},</Text>
                     ))}
                   </Flex>
@@ -159,7 +153,7 @@ export const MediaTypeDetailsDesktop = ({
                 <Text>{data?.overview}</Text>
                 {isDesktop && (
                   <Flex {...MovieDetailsTheme.movieCrew}>
-                    {crew?.map((member: Crew, i: number) =>
+                    {crew?.map((member, i: number) =>
                       i >= 6 ? (
                         ""
                       ) : (
@@ -176,20 +170,6 @@ export const MediaTypeDetailsDesktop = ({
           </Box>
         </Box>
       </Flex>
-      {/* {isTablet && (
-<Flex color="#fff" mt="8px" {...MovieDetailsTheme.movieCrew}>
-  {data.crew?.map((member: Crew, i: number) =>
-    i >= 6 ? (
-      ""
-    ) : (
-      <Box {...MovieDetailsTheme.crew}>
-        <Text fontWeight="bold">{member.original_name}</Text>
-        <Text>{member.job}</Text>
-      </Box>
-    )
-  )}
-</Flex>
-)} */}
     </Box>
   );
 };

@@ -1,5 +1,5 @@
-import React from "react";
-import { Box, Icon, Divider, Flex } from "@chakra-ui/react";
+import React, { useRef } from "react";
+import { Box, Icon, Divider } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { useDisclosure } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
@@ -17,12 +17,12 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
-import { HeaderTheme } from "../../../styles/theme";
+import { HeaderTypes } from "../../../types-modules/HomepageTypes/HomepageTypes";
 
-function DrawerExample({ headerLinks }: any) {
+function DrawerExample({ headerLinks }: HeaderTypes) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
-  const btnRef: any = React.useRef();
+  const btnRef = useRef<HTMLButtonElement>(null);
   const hamburger = faBars as IconProp;
   const { authUser } = useAuthenticationContext();
   const { userId } = authUser || {};
@@ -54,7 +54,7 @@ function DrawerExample({ headerLinks }: any) {
           <DrawerHeader borderBottomWidth="1px">Explore</DrawerHeader>
 
           <DrawerBody>
-            {headerLinks.map((link: any) => (
+            {headerLinks.map((link) => (
               <Link
                 onClick={() => {
                   navigate(`/movie-app-ts/${link.mediaType}`);

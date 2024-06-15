@@ -6,6 +6,7 @@ import { FavouriteIcon } from "../common/FavouriteIcon";
 import { useFavourites } from "../../contexts/useFavouritesContext";
 import { SignInModal } from "../Modal/SignInModal";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
+import { PersonCardDetailsTypes } from "../../../types-modules/HomepageTypes/HomepageTypes";
 
 export const PersonCardDetails = ({
   data,
@@ -13,18 +14,15 @@ export const PersonCardDetails = ({
   isMovieTVList = false,
   tabType = "",
   isMyAccount = false,
-}: any) => {
+}: PersonCardDetailsTypes) => {
   const { authUser } = useAuthenticationContext();
   const { favouritesMoviesFromDB } = useFavourites();
-
   const [isFavourite, setIsFavourite] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     setIsFavourite(
-      Boolean(
-        favouritesMoviesFromDB?.find((movie: any) => movie.id === data.id)
-      )
+      Boolean(favouritesMoviesFromDB?.find((movie) => movie.id === data.id))
     );
   }, [favouritesMoviesFromDB, data.id]);
 
@@ -112,11 +110,7 @@ export const PersonCardDetails = ({
         )}
         {!isMyAccount && (
           <Box position="absolute" bottom="-1.25rem" left="1rem">
-            <PopularityStatus
-              popularityValue={data.popularity}
-              rating={data.rating}
-              isMovieTVList
-            />
+            <PopularityStatus popularityValue={data.popularity} isMovieTVList />
           </Box>
         )}
 

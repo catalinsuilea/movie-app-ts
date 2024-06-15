@@ -1,6 +1,6 @@
 import { Icon } from "@chakra-ui/react";
-
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FavouriteIconTypes } from "../../../types-modules/Favourites/FavouritesTypes";
 
 export const FavouriteIcon = ({
   isFavourite,
@@ -12,7 +12,7 @@ export const FavouriteIcon = ({
   isMovieDetails = false,
   isMovieCard = false,
   media_type,
-}: any) => {
+}: FavouriteIconTypes) => {
   const getFavouriteColor = (
     isFavourite: boolean,
     isMovieDetails: boolean,

@@ -6,6 +6,7 @@ import { LikeDislikeComponent } from "./LikeDislikeComponent";
 import { useNavigate } from "react-router-dom";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 import { formatDate } from "../../../utils/formatDate";
+import { ReviewCardTypes } from "../../../types-modules/Reviews";
 
 export const ReviewCard = ({
   reviewData,
@@ -16,7 +17,7 @@ export const ReviewCard = ({
   setReviewData,
   season,
   episode,
-}: any) => {
+}: ReviewCardTypes) => {
   const [currentUser, setCurrentUser] = useState(false);
   const { authUser } = useAuthenticationContext();
   const navigate = useNavigate();
@@ -31,8 +32,8 @@ export const ReviewCard = ({
 
   const onDeleteReview = async (
     id: number,
-    season?: string,
-    episode?: string
+    season?: string | number,
+    episode?: string | number
   ) => {
     const URL =
       !season || !episode

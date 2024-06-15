@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import {
   Tabs,
   TabList,
@@ -18,6 +18,7 @@ import {
   WelcomePageTheme,
   afterTheme,
 } from "../../../../styles/theme";
+import { MovieTvListTypes } from "../../../../types-modules/HomepageTypes/HomepageTypes";
 
 const MovieTVList = ({
   data,
@@ -27,7 +28,7 @@ const MovieTVList = ({
   getRandomImage,
   handleTabClick,
   tabType,
-}: any) => {
+}: MovieTvListTypes) => {
   const randomImageMemoized = useMemo(() => {
     if (!getRandomImage) return;
     return getRandomImage(data);
@@ -116,7 +117,7 @@ const MovieTVList = ({
                           <SkeletonText mt="4" noOfLines={2} spacing="4" />
                         </Box>
                       ))
-                    : data.map((movie: any, index: number) => (
+                    : data.map((movie, index: number) => (
                         <PersonCardDetails
                           key={index}
                           data={movie}

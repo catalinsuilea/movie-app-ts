@@ -1,20 +1,14 @@
 import React from "react";
-
-import {
-  Box,
-  Flex,
-  Heading,
-  Text,
-  Divider,
-  Image,
-  Link,
-} from "@chakra-ui/react";
-
+import { Box, Flex, Heading, Text, Divider, Link } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { Episode } from "../../../types-modules/TvEpisodeDetails";
 
-export const EpisodeDetailsHeaderMobile = ({ episodeData }: any) => {
+export const EpisodeDetailsHeaderMobile = ({
+  episodeData,
+}: {
+  episodeData: Episode;
+}) => {
   const navigate = useNavigate();
-
   return (
     <Box position="relative" minHeight="100%">
       <Box
@@ -94,38 +88,36 @@ export const EpisodeDetailsHeaderMobile = ({ episodeData }: any) => {
             </Text>
             <Box mt="1">
               <Flex flexDirection="column" gap="2">
-                {episodeData.crew
-                  .slice(0, 4)
-                  .map((member: any, index: number) => (
-                    <Flex
-                      key={member.credit_id}
-                      alignItems="center"
-                      justifyContent="space-between"
-                      textAlign="left"
-                    >
-                      <Box>
-                        <Link
-                          color="blue.200"
-                          cursor="pointer"
-                          onClick={() =>
-                            navigate(`/person/${member.name}/${member.id}`)
-                          }
-                          fontWeight="bold"
-                        >
-                          {member.name}
-                        </Link>
-                        <Text>{member.job}</Text>
-                      </Box>
-                      {index < episodeData.crew.length - 1 && (
-                        <Divider
-                          orientation="vertical"
-                          mx="4"
-                          height="auto"
-                          display={{ base: "none", md: "block" }}
-                        />
-                      )}
-                    </Flex>
-                  ))}
+                {episodeData.crew.slice(0, 4).map((member, index) => (
+                  <Flex
+                    key={member.credit_id}
+                    alignItems="center"
+                    justifyContent="space-between"
+                    textAlign="left"
+                  >
+                    <Box>
+                      <Link
+                        color="blue.200"
+                        cursor="pointer"
+                        onClick={() =>
+                          navigate(`/person/${member.name}/${member.id}`)
+                        }
+                        fontWeight="bold"
+                      >
+                        {member.name}
+                      </Link>
+                      <Text>{member.job}</Text>
+                    </Box>
+                    {index < episodeData.crew.length - 1 && (
+                      <Divider
+                        orientation="vertical"
+                        mx="4"
+                        height="auto"
+                        display={{ base: "none", md: "block" }}
+                      />
+                    )}
+                  </Flex>
+                ))}
               </Flex>
             </Box>
           </Flex>

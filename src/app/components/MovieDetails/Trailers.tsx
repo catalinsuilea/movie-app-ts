@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Box, Heading, Text, AspectRatio } from "@chakra-ui/react";
+import { TrailersTypes } from "../../../types-modules/MovieInfo";
 
-export const Trailers = ({ trailer }: any) => {
+export const Trailers = ({ trailer }: { trailer: TrailersTypes }) => {
   const [error, setError] = useState("");
   return (
     <Box p={5}>

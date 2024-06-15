@@ -1,8 +1,13 @@
 import React from "react";
 import { Box, Text, Flex, Heading } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { PersonMoviesTVShowTypes } from "../../../types-modules/HomepageTypes/HomepageTypes";
 
-export const PersonActingCredits = ({ sortedMovies }: any) => {
+export const PersonActingCredits = ({
+  sortedMovies,
+}: {
+  sortedMovies: PersonMoviesTVShowTypes[];
+}) => {
   return (
     <Box p={{ base: "0", md: "4" }}>
       <Heading as="h2" size="md" m="1rem">
@@ -16,7 +21,7 @@ export const PersonActingCredits = ({ sortedMovies }: any) => {
         overflowY="auto"
         height={{ base: "450px", md: "unset" }}
       >
-        {sortedMovies.map((movie: any, index: number) => (
+        {sortedMovies.map((movie, index) => (
           <Flex flexDirection="column-reverse" width="100%">
             <Link
               to={`/movie/${movie.title || movie.original_title}/${movie.id}`}
