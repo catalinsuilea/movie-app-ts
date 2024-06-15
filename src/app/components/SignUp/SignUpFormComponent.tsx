@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { Box, Button, Input, FormLabel } from "@chakra-ui/react";
+import { Box, Button, Input, FormLabel, Spinner, Text } from "@chakra-ui/react";
 import { checkInputs, getErrorMessage } from "../../../utils/checkFormInputs";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +15,7 @@ export const SignUpFormComponent = ({}) => {
   } = useAuthenticationContext();
   const [errorMsg, setErrorMsg] = useState("");
   const [isGmailDomain, setIsGmailDomain] = useState(true);
+  const [isSubmittingUser, setIsSubmittingUser] = useState(false);
 
   const regex = /^[^\s@]+@gmail\.com$/i;
 
@@ -47,6 +48,7 @@ export const SignUpFormComponent = ({}) => {
       Object.keys(checkInputs(formRegisterValue, isRegisterForm)).length === 0
     ) {
       try {
+        setIsSubmittingUser(true);
         setFormRegisterErrors({
           username: "",
           email: "",
@@ -79,6 +81,8 @@ export const SignUpFormComponent = ({}) => {
         navigate("/signIn");
       } catch (error: any) {
         setErrorMsg(error.message);
+      } finally {
+        setIsSubmittingUser(false);
       }
     } else {
       setFormRegisterErrors(
@@ -167,8 +171,9 @@ export const SignUpFormComponent = ({}) => {
       <Box color="red" textAlign="left">
         {getErrorMessage(errorMsg)}
       </Box>
-      <Button onClick={onSignUpClick} mt="16px">
-        Submit
+
+      <Button isDisabled={isSubmittingUser} onClick={onSignUpClick} mt="16px">
+        {isSubmittingUser ? <Spinner /> : <Text>Submit</Text>}
       </Button>
     </>
   );
