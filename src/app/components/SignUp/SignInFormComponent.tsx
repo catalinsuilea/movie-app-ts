@@ -9,22 +9,28 @@ import {
   Heading,
   Text,
   useColorModeValue,
+  Spinner,
 } from "@chakra-ui/react";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 import { checkInputs, getErrorMessage } from "../../../utils/checkFormInputs";
 import { Link, useNavigate } from "react-router-dom";
+import { NoPageFound } from "../common/404NotFound";
 
 export const SignInFormComponent = ({}) => {
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState("");
+  const [isLoggingUser, setIsLoggingUser] = useState(false);
+
+  const bg = useColorModeValue("gray.50", "gray.800");
+  const bgGray = useColorModeValue("white", "gray.700");
 
   const {
     signInFormValues,
     signInFormErrors,
     setSignInFormErrors,
     setSignInFormValues,
-    setAuthUser,
     fetchUserInfo,
+    authUser,
   } = useAuthenticationContext();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -44,6 +50,7 @@ export const SignInFormComponent = ({}) => {
     if (Object.keys(checkInputs(signInFormValues)).length === 0) {
       const URL = "http://localhost:5000/auth/login";
       try {
+        setIsLoggingUser(true);
         const response = await fetch(URL, {
           method: "POST",
           headers: {
@@ -68,19 +75,19 @@ export const SignInFormComponent = ({}) => {
         }
       } catch (err: any) {
         setErrorMsg(err.message);
+      } finally {
+        setIsLoggingUser(false);
       }
     } else {
       setSignInFormErrors(checkInputs(signInFormValues));
     }
   };
 
+  if (authUser) {
+    return <NoPageFound />;
+  }
   return (
-    <Flex
-      minH={"80vh"}
-      align={"center"}
-      justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
-    >
+    <Flex minH={"80vh"} align={"center"} justify={"center"} bg={bg}>
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
           <Heading fontSize={"4xl"}>Sign in to your account</Heading>
@@ -88,12 +95,7 @@ export const SignInFormComponent = ({}) => {
             to enjoy all of our cool features ✌️
           </Text>
         </Stack>
-        <Box
-          rounded={"lg"}
-          bg={useColorModeValue("white", "gray.700")}
-          boxShadow={"lg"}
-          p={8}
-        >
+        <Box rounded={"lg"} bg={bgGray} boxShadow={"lg"} p={8}>
           <Stack spacing={4}>
             <form onSubmit={handleSubmit}>
               <FormLabel htmlFor="email">Email address</FormLabel>
@@ -146,13 +148,14 @@ export const SignInFormComponent = ({}) => {
                 </Stack>
                 <Button
                   onClick={onSignInClick}
+                  isDisabled={isLoggingUser}
                   bg={"blue.400"}
                   color={"white"}
                   _hover={{
                     bg: "blue.500",
                   }}
                 >
-                  Sign in
+                  {isLoggingUser ? <Spinner /> : <Text>Sign In</Text>}
                 </Button>
               </Stack>
             </form>

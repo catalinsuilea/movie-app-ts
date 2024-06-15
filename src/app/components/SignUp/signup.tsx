@@ -3,8 +3,16 @@ import { Box, Heading, Icon } from "@chakra-ui/react";
 import { SignUpTheme } from "../../../styles/theme";
 import { CheckIcon } from "@chakra-ui/icons";
 import { SignUpFormComponent } from "./SignUpFormComponent";
+import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
+import { NoPageFound } from "../common/404NotFound";
 
 const SignUp = () => {
+  const { authUser } = useAuthenticationContext();
+
+  if (authUser) {
+    return <NoPageFound />;
+  }
+
   return (
     <Box
       m="2em 2em 3.15rem 2em"
