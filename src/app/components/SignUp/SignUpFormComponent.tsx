@@ -26,10 +26,9 @@ export const SignUpFormComponent = ({}) => {
     }, 500),
     []
   );
-
   const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormRegisterValue((prevValues: any) => ({
+    setFormRegisterValue((prevValues) => ({
       ...prevValues,
       [name]: value,
     }));
@@ -48,7 +47,12 @@ export const SignUpFormComponent = ({}) => {
       Object.keys(checkInputs(formRegisterValue, isRegisterForm)).length === 0
     ) {
       try {
-        setFormRegisterErrors({});
+        setFormRegisterErrors({
+          username: "",
+          email: "",
+          password: "",
+          passwordConfirm: "",
+        });
         setFormRegisterValue({
           username: "",
           email: "",

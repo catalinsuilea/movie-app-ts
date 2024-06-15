@@ -6,7 +6,6 @@ import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
 
 const Header = () => {
   const { isMobile } = useDeviceTypeContext();
-  const [linkActive, setLinkActive] = useState("");
   const headerLinks = [
     { mediaType: "movie", link: "Movie" },
     { mediaType: "tv", link: "Tv Shows" },
@@ -21,17 +20,9 @@ const Header = () => {
       position="relative"
     >
       {isMobile ? (
-        <HeaderMobile
-          linkActive={linkActive}
-          setLinkActive={setLinkActive}
-          headerLinks={headerLinks}
-        />
+        <HeaderMobile headerLinks={headerLinks} />
       ) : (
-        <HeaderDesktop
-          linkActive={linkActive}
-          setLinkActive={setLinkActive}
-          headerLinks={headerLinks}
-        />
+        <HeaderDesktop headerLinks={headerLinks} />
       )}
     </Box>
   );

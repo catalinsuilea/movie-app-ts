@@ -10,15 +10,12 @@ import {
   Text,
   useColorModeValue,
   Icon,
-  Link,
-  VStack,
-  Skeleton,
 } from "@chakra-ui/react";
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import { useNavigate, useParams } from "react-router-dom";
 import { NoPageFound } from "../common/404NotFound";
 
-export const ResetPasswordForm = ({}: any) => {
+export const ResetPasswordForm = () => {
   const [passwordValue, setPasswordValue] = useState({
     password: "",
     confirmPassword: "",

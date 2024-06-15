@@ -5,8 +5,9 @@ import logo from "../../../logo/movie-pilot.svg";
 import { useNavigate } from "react-router-dom";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 import PlacementExample from "../Drawer/Drawer";
+import { HeaderTypes } from "../../../types-modules/HomepageTypes/HomepageTypes";
 
-export const HeaderMobile = ({ headerLinks }: any) => {
+export const HeaderMobile = ({ headerLinks }: HeaderTypes) => {
   const navigate = useNavigate();
   const { authUser, handleLogout } = useAuthenticationContext();
 

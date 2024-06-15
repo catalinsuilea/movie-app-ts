@@ -8,16 +8,24 @@ import {
 } from "react-icons/fa";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 import { useNavigate } from "react-router-dom";
+import { LikeDislikeTypes } from "../../../types-modules/Reviews";
 
-export const LikeDislikeComponent = ({ reviewData, setReviewData }: any) => {
+export const LikeDislikeComponent = ({
+  reviewData,
+  setReviewData,
+}: LikeDislikeTypes) => {
   const { _id, reviewLikes, reviewDislikes } = reviewData || {};
 
   const { authUser } = useAuthenticationContext() || {};
 
   const { userId } = authUser || {};
 
-  const likedByCurrentUser = reviewLikes.includes(userId);
-  const dislikedByCurrentUser = reviewDislikes.includes(userId);
+  const likedByCurrentUser = userId
+    ? reviewData.reviewLikes.includes(userId)
+    : false;
+  const dislikedByCurrentUser = userId
+    ? reviewData.reviewDislikes.includes(userId)
+    : false;
 
   const navigate = useNavigate();
 
@@ -38,8 +46,8 @@ export const LikeDislikeComponent = ({ reviewData, setReviewData }: any) => {
         throw new Error(`${response.statusText} ${response.status}`);
       }
       const data = await response.json();
-      setReviewData((prev: any) =>
-        prev.map((review: any) =>
+      setReviewData((prev) =>
+        prev.map((review) =>
           review?._id === data.reviewData?._id ? data.reviewData : review
         )
       );

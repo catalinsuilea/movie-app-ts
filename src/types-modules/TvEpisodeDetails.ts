@@ -1,3 +1,5 @@
+import MovieInfo from "./MovieInfo";
+
 export interface CrewMember {
   job: string;
   department: string;
@@ -26,7 +28,7 @@ export interface GuestStar {
   profile_path: string;
 }
 
-export interface Episode {
+export interface Episode extends MovieInfo {
   air_date: string;
   crew: CrewMember[];
   episode_number: number;

@@ -4,7 +4,7 @@ import { MovieDetailsTheme } from "../../../styles/theme";
 import { Box, Image, Text, Flex } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
-export const CardDetails = ({ cast }: any) => {
+export const CardDetails = ({ cast }: { cast: Cast[] | undefined }) => {
   const navigate = useNavigate();
   return (
     <Box width={{ base: "95%", lg: "85%" }} textAlign="left">

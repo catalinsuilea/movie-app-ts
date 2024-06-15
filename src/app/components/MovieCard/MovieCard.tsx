@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Loader from "../Loader/Loader";
-import { Box, Flex, Image, Icon, Link, Skeleton, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, Link, Skeleton, Text } from "@chakra-ui/react";
 import { MovieCardTheme } from "../../../styles/theme";
 import { useFavourites } from "../../contexts/useFavouritesContext";
 import { useNavigate } from "react-router-dom";
-import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
 import { MovieCardProps } from "../../../types-modules/MovieCardProps";
-import { MovieProps } from "../../../types-modules/MovieProps";
 import { getCardRoute, getMediaType } from "../../../utils/searchBard.utils";
 import { FavouriteIcon } from "../common/FavouriteIcon";
 
@@ -19,12 +17,13 @@ const MovieCard = ({
   favouritesWithPagination,
   media_type_header = "",
   ...rest
-}: any) => {
+}: MovieCardProps) => {
   const [isFavourite, setIsFavourite] = useState(false);
   const { isMobile } = useDeviceTypeContext();
   const { handleFavourites, checkIsFavourite, favouritesMoviesFromDB } =
     useFavourites();
   const navigate = useNavigate();
+
   const {
     imgSrc,
     title,
@@ -49,11 +48,11 @@ const MovieCard = ({
       : favouritesMoviesFromDB;
   useEffect(() => {
     setIsFavourite(
-      Boolean(favouritesData?.find((movie: any) => movie.id === Number(id)))
+      Boolean(favouritesData?.find((movie) => movie.id === Number(id)))
     );
   }, [favouritesData, id]);
 
-  const onCardClick = (route: any) => {
+  const onCardClick = (route: string) => {
     navigate(route);
   };
 
@@ -129,10 +128,9 @@ const MovieCard = ({
                       >
                         <Text width="100%">{title || original_name}</Text>
                         <Box>
-                          {media_type ||
-                          (media_type_header && popularity === "person") ? (
+                          {media_type || media_type_header ? (
                             <Text fontWeight={400} fontSize="lg">
-                              ⭐{popularity?.toFixed(1) || rating.toFixed(1)}{" "}
+                              ⭐{popularity?.toFixed(1) || rating?.toFixed(1)}{" "}
                             </Text>
                           ) : (
                             rating ||

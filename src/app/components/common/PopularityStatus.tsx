@@ -7,17 +7,16 @@ import {
   Text,
 } from "@chakra-ui/react";
 
+interface PopularityStatusTypes {
+  popularityValue: number;
+  isMovieTVList?: boolean;
+}
+
 export const PopularityStatus = ({
   popularityValue,
-  rating,
   isMovieTVList = false,
-}: any) => {
-  const value = rating || popularityValue;
-
-  const normalizeValue = Math.min(
-    100,
-    Math.round((value / rating ? 5 : 2000) * 100)
-  );
+}: PopularityStatusTypes) => {
+  const normalizeValue = Math.min(100, Math.round((popularityValue / 5) * 100));
 
   return (
     <Flex alignItems="center" gap="8px" zIndex="4">

@@ -1,26 +1,15 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import { useAuthenticationContext } from "./AuthenticationContext";
-import { MovieProps } from "../../types-modules/MovieProps";
+import { MoviePropsFavourites } from "../../types-modules/MovieProps";
 import {
   getFavourites,
   getFavouritesWithPagination,
 } from "../../utils/getFavourites";
 import { useSearchParams } from "react-router-dom";
-
-interface FavoritesContextTypes {
-  /** An array of objects containing the favourite movies from database */
-  favouritesMoviesFromDB: MovieProps[];
-
-  /** Function that handles the add/remove favourites */
-  handleFavourites: (movie: MovieProps, media_type?: string) => void;
-
-  isFavourite: boolean;
-  checkIsFavourite: any;
-  setIsFavourite: any;
-  favouritesWithPagination: any;
-  paginationData: any;
-  setCurrentPage: any;
-}
+import {
+  FavoritesContextTypes,
+  FavouritesWithPaginationTypes,
+} from "../../types-modules/Favourites/FavouritesTypes";
 
 const FavouritesContext = createContext<FavoritesContextTypes>(
   {} as FavoritesContextTypes
@@ -28,16 +17,26 @@ const FavouritesContext = createContext<FavoritesContextTypes>(
 
 export const FavouritesContextProvider = ({ children }: any) => {
   const { authUser } = useAuthenticationContext();
-  const [favouritesMoviesFromDB, setFavouriteMoviesFromDB] = useState<any>([]);
-  const [favouritesWithPagination, setFavouritesWithPagination] = useState([]);
-  const [paginationData, setPaginationData] = useState(null);
+  const [favouritesMoviesFromDB, setFavouriteMoviesFromDB] = useState<
+    MoviePropsFavourites[]
+  >([]);
+  const [favouritesWithPagination, setFavouritesWithPagination] = useState<
+    FavouritesWithPaginationTypes[]
+  >([]);
+  const [paginationData, setPaginationData] = useState<{
+    currentPage: number;
+    totalPages: number;
+  } | null>(null);
   const [isFavourite, setIsFavourite] = useState(false);
 
   const [searchParams] = useSearchParams();
   const initialPage = searchParams.get("page") || 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
 
-  const handleFavourites = async (movie: MovieProps, media_type?: string) => {
+  const handleFavourites = async (
+    movie: MoviePropsFavourites,
+    media_type?: string
+  ) => {
     if (!authUser) return;
     try {
       const URL = "http://localhost:5000/favourites/post-favourites";
@@ -55,7 +54,7 @@ export const FavouritesContextProvider = ({ children }: any) => {
       const data = await response.json();
 
       if (data.message === "Movie added to favourites.") {
-        setFavouriteMoviesFromDB((prevFavourites: any) => [
+        setFavouriteMoviesFromDB((prevFavourites: MoviePropsFavourites[]) => [
           ...prevFavourites,
           movie,
         ]);
@@ -64,11 +63,16 @@ export const FavouritesContextProvider = ({ children }: any) => {
           movie,
         ]);
       } else if (data.message === "Movie removed from favourites") {
-        setFavouriteMoviesFromDB((prevFavourites: any) =>
-          prevFavourites.filter((favMovie: any) => favMovie.id !== movie.id)
+        setFavouriteMoviesFromDB((prevFavourites: MoviePropsFavourites[]) =>
+          prevFavourites.filter(
+            (favMovie: MoviePropsFavourites) => favMovie.id !== movie.id
+          )
         );
-        setFavouritesWithPagination((prevFavourites: any) =>
-          prevFavourites.filter((favMovie: any) => favMovie.id !== movie.id)
+        setFavouritesWithPagination((prevFavourites) =>
+          prevFavourites.filter(
+            (favMovie: FavouritesWithPaginationTypes) =>
+              favMovie.id !== movie.id
+          )
         );
       }
     } catch (err) {
@@ -76,10 +80,10 @@ export const FavouritesContextProvider = ({ children }: any) => {
     }
   };
 
-  const checkIsFavourite = (id: number) => {
+  const checkIsFavourite = (id: number | string) => {
     if (!authUser) return;
     const favouriteMovieObj = favouritesMoviesFromDB?.find(
-      (movie: MovieProps) => movie.id === id
+      (movie: MoviePropsFavourites) => movie.id === id
     );
     if (!favouriteMovieObj && !isFavourite) {
       setIsFavourite(true);
@@ -91,7 +95,6 @@ export const FavouritesContextProvider = ({ children }: any) => {
   // Pagination
   useEffect(() => {
     if (!authUser) return;
-
     getFavouritesWithPagination(
       setFavouritesWithPagination,
       setPaginationData,

@@ -2,7 +2,7 @@ import React from "react";
 import { Text, Box, Button, Skeleton } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
-export const NoPageFound = ({ isLoading }: any) => {
+export const NoPageFound = ({ isLoading }: { isLoading?: boolean }) => {
   const navigate = useNavigate();
   return (
     <Box

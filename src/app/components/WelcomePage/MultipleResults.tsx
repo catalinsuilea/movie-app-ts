@@ -3,8 +3,9 @@ import { Box, Text, VStack, Image, Flex } from "@chakra-ui/react";
 import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
 import { useNavigate } from "react-router-dom";
 import { getCardRoute, getMediaType } from "../../../utils/searchBard.utils";
+import { MediaSearchTypes } from "../../../types-modules/HomepageTypes/HomepageTypes";
 
-export const MultipleResults = ({ movieSearch }: any) => {
+export const MultipleResults = ({ movieSearch }: MediaSearchTypes) => {
   const [isVisible, setIsVisible] = useState(true);
   const { isMobile } = useDeviceTypeContext();
   const boxRef = useRef<HTMLDivElement>(null);
@@ -26,7 +27,7 @@ export const MultipleResults = ({ movieSearch }: any) => {
     };
   }, []);
 
-  const onCardClick = (route: any) => {
+  const onCardClick = (route: string) => {
     navigate(route);
   };
 
@@ -48,7 +49,7 @@ export const MultipleResults = ({ movieSearch }: any) => {
       pb="1rem"
     >
       <VStack spacing="4" mt="4" align="stretch" px="4px">
-        {movieSearch.map((movie: any) => (
+        {movieSearch.map((movie) => (
           <Box
             key={movie.id}
             p="0.5rem"
@@ -102,7 +103,7 @@ export const MultipleResults = ({ movieSearch }: any) => {
               {movie.known_for && (
                 <Flex gap="4px">
                   Known for:
-                  {movie.known_for.map((knownMovie: any, index: number) => (
+                  {movie.known_for.map((knownMovie, index: number) => (
                     <Text key={knownMovie.id} fontWeight={600}>
                       {knownMovie.original_title || knownMovie.original_name}
                       {index < movie.known_for.length - 1 ? ", " : ""}
@@ -123,7 +124,6 @@ export const MultipleResults = ({ movieSearch }: any) => {
                     (movie.popularity / 10).toFixed(1)}
                 </Text>
               </Flex>
-              {/* <Text fontSize="md">{movie?.overview}</Text> */}
             </Flex>
           </Box>
         ))}

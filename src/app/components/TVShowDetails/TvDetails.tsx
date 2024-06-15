@@ -2,16 +2,25 @@ import React, { useEffect, useState } from "react";
 import { Box, Image, Text, Flex, Divider } from "@chakra-ui/react";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { Card, CardBody, CardHeader } from "@chakra-ui/card";
-import { SeasonData } from "../../../types-modules/TvTypes";
+import { SeasonData, TVShowTypes } from "../../../types-modules/TvTypes";
 import { MovieDetailsTheme } from "../../../styles/theme";
 import { useNavigate } from "react-router-dom";
 
-export const TVShowDetails = ({ data, seriesId }: any) => {
+export const TVShowDetails = ({
+  data,
+  seriesId,
+}: {
+  data: TVShowTypes;
+  seriesId: string | undefined;
+}) => {
   const API_KEY = "380f962505ebde6dee08b0b646fe05f1";
   const [seasonData, setSeasonData] = useState<SeasonData>({});
   const [seasonNumber, setSeasonNumber] = useState(1);
   const navigate = useNavigate();
-  const getSeasonEpisodes = async (series_id: number, season_number: any) => {
+  const getSeasonEpisodes = async (
+    series_id: string | undefined,
+    season_number: number
+  ) => {
     const URL = `https://api.themoviedb.org/3/tv/${series_id}/season/${season_number}?api_key=${API_KEY}`;
     try {
       const response = await fetch(URL, {
@@ -21,7 +30,7 @@ export const TVShowDetails = ({ data, seriesId }: any) => {
         throw new Error(`${response.statusText} ${response.status}`);
       }
       const data = await response.json();
-      setSeasonData((prev: any) => ({
+      setSeasonData((prev) => ({
         ...prev,
         [season_number]: { episodes: data.episodes },
       }));
@@ -38,7 +47,7 @@ export const TVShowDetails = ({ data, seriesId }: any) => {
     seriesName: string,
     seriesSeason: number,
     seriesEpisode: number,
-    id: number
+    id?: string
   ) => {
     navigate(`/tv/${seriesName}/${seriesSeason}/${seriesEpisode}/${id}`);
   };
@@ -58,8 +67,8 @@ export const TVShowDetails = ({ data, seriesId }: any) => {
             css={{ ...MovieDetailsTheme.customScrollBar }}
           >
             {data.seasons
-              .filter((season: any) => season.name !== "Specials")
-              .map((season: any, index: any) => (
+              .filter((season) => season.name !== "Specials")
+              .map((season, index) => (
                 <Tab
                   m="0.75rem 0"
                   borderWidth="1.5px"
@@ -76,8 +85,8 @@ export const TVShowDetails = ({ data, seriesId }: any) => {
           </TabList>
           <TabPanels>
             {data.seasons
-              .filter((season: any) => season.name !== "Specials")
-              .map((season: any, index: any) => (
+              .filter((season) => season.name !== "Specials")
+              .map((season, index) => (
                 <TabPanel key={season.id}>
                   <Text mb="3" fontSize="2xl" fontWeight="bold">
                     Plot
@@ -96,7 +105,7 @@ export const TVShowDetails = ({ data, seriesId }: any) => {
                     overflowX="auto"
                   >
                     {seasonData[`${index + 1}`]?.episodes?.map(
-                      (episode: any, episodeIndex: number) => (
+                      (episode, episodeIndex) => (
                         <Card
                           onClick={() =>
                             handleClick(

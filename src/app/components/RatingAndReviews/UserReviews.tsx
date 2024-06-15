@@ -5,6 +5,7 @@ import { ReviewCard } from "./ReviewCard";
 import { AddReviewCard } from "./AddReviewModal";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
 import { SignInModal } from "../Modal/SignInModal";
+import { ReviewData, UserReviewsTypes } from "../../../types-modules/Reviews";
 
 export const UserReviews = ({
   mediaData,
@@ -12,10 +13,10 @@ export const UserReviews = ({
   mediaId,
   season,
   episode,
-}: any) => {
+}: UserReviewsTypes) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isReviewsModalOpen, setIsReviewsModalOpen] = useState(false);
-  const [reviewData, setReviewData] = useState([]);
+  const [reviewData, setReviewData] = useState<ReviewData[]>([]);
   const [reviewAlreadyAdded, setReviewAlreadyAdded] = useState(false);
   const [isEditing, setIsEditing] = useState({
     editing: false,
@@ -140,7 +141,7 @@ export const UserReviews = ({
             position="relative"
           >
             {reviewData.length > 0 ? (
-              reviewData.map((review: any, index: number) => (
+              reviewData.map((review, index) => (
                 <ReviewCard
                   reviewData={review}
                   key={review?.userId?._id}

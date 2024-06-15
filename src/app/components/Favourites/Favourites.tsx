@@ -13,8 +13,8 @@ export const FavouritesPage = () => {
   const { currentPage, totalPages } = paginationData || {};
 
   useEffect(() => {
-    if (+currentPage > 1 && favouritesWithPagination.length === 0) {
-      const newPage = +currentPage - 1;
+    if (Number(currentPage) > 1 && favouritesWithPagination.length === 0) {
+      const newPage = Number(currentPage) - 1;
       navigate(`/favourites?page=${newPage}`);
       setCurrentPage(newPage);
     }
@@ -42,7 +42,7 @@ export const FavouritesPage = () => {
             </Flex>
           ) : (
             <Box>
-              {favouritesWithPagination?.map((movie: any) => (
+              {favouritesWithPagination?.map((movie) => (
                 <MovieCard
                   favouritesWithPagination={favouritesWithPagination}
                   key={movie.id}

@@ -5,10 +5,8 @@ import {
   Box,
   Button,
   Checkbox,
-  CheckboxGroup,
   Collapse,
   Flex,
-  Radio,
   Select,
   Stack,
   Text,
@@ -17,6 +15,12 @@ import { useParams } from "react-router-dom";
 import MovieCard from "../../MovieCard/MovieCard";
 import { useAuthenticationContext } from "../../../contexts/AuthenticationContext";
 import { SignInModal } from "../../Modal/SignInModal";
+import {
+  MovieData,
+  PersonCardDetailsTypes,
+} from "../../../../types-modules/HomepageTypes/HomepageTypes";
+import { TVShowTypes } from "../../../../types-modules/TvTypes";
+import { MovieCardProps } from "../../../../types-modules/MovieCardProps";
 
 export const MediaPage = () => {
   const { mediaType } = useParams();
@@ -82,7 +86,6 @@ export const MediaPage = () => {
       }
     });
   };
-  const sortOptionsdsds = selectedSortOptions.join("&");
   const API_KEY = "380f962505ebde6dee08b0b646fe05f1";
 
   // Get genres
@@ -194,7 +197,7 @@ export const MediaPage = () => {
               <Box>
                 <Text mb="4">Sort by genre</Text>
                 <Select
-                  onChange={(e: any) => setGenreId(e.target.value)}
+                  onChange={(e) => setGenreId(e.target.value)}
                   placeholder="Action"
                 >
                   {genres.map((genre: { id: number; name: string }) => (
@@ -207,7 +210,7 @@ export const MediaPage = () => {
 
           <Box width="100%">
             {headerData[mediaType as keyof typeof headerData]?.map(
-              (item: any) => (
+              (item: MovieCardProps) => (
                 <MovieCard
                   key={item.id}
                   {...item}

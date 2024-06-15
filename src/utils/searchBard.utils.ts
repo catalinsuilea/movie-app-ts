@@ -15,7 +15,11 @@ export const getMediaType = (type: string, gender?: number) => {
   }
 };
 
-export const getCardRoute = (name: string, id: number, mediaType: string) => {
+export const getCardRoute = (
+  name: string | undefined,
+  id: number,
+  mediaType: string
+) => {
   switch (mediaType) {
     case "person":
       return `/person/${name}/${id}`;

@@ -45,13 +45,11 @@ const MovieDetails = () => {
   } = useFavourites();
 
   const { isMobile, isTablet, isDesktop } = useDeviceTypeContext();
-  const { cast, crew } = castInfo;
+  const { cast } = castInfo;
 
   useEffect(() => {
     setIsFavourite(
-      Boolean(
-        favouritesMoviesFromDB?.find((movie: any) => movie.id === Number(id))
-      )
+      Boolean(favouritesMoviesFromDB?.find((movie) => movie.id === Number(id)))
     );
   }, [favouritesMoviesFromDB, id]);
 
@@ -115,7 +113,7 @@ const MovieDetails = () => {
         console.error("Error fetching trailers:", error);
       }
     };
-    fetchTrailers();
+    // fetchTrailers();
   }, [id, mediaType]);
 
   useEffect(() => {
@@ -143,7 +141,7 @@ const MovieDetails = () => {
   return (
     movieInfo && (
       <Box>
-        {isDesktop && (
+        {(isDesktop || isTablet) && (
           <MediaTypeDetailsDesktop
             data={movieInfo}
             isDesktop={isDesktop}

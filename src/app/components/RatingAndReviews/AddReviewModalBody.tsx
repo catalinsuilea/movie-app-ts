@@ -10,6 +10,10 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
+import {
+  AddReviewCardBodyTypes,
+  ReviewData,
+} from "../../../types-modules/Reviews";
 
 const ReviewBody = ({
   movie,
@@ -20,7 +24,7 @@ const ReviewBody = ({
   reviewTextAreaValue,
   setReviewTextAreaValue,
   isEditing,
-}: any) => {
+}: AddReviewCardBodyTypes) => {
   const [hoverRating, setHoverRating] = useState(0);
 
   const handleHeadlineChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,6 +35,21 @@ const ReviewBody = ({
     setReviewTextAreaValue(e.target.value);
   };
 
+  const { dataToEdit } = isEditing || {};
+
+  const isReviewData = (data: ReviewData | {}): data is ReviewData => {
+    return (data as ReviewData).reviewContent !== undefined;
+  };
+
+  let ratingValue: number, reviewHeadline, reviewContent;
+
+  if (isReviewData(dataToEdit)) {
+    ({ ratingValue, reviewHeadline, reviewContent } = dataToEdit);
+  } else {
+    ratingValue = 0;
+    reviewHeadline = "";
+    reviewContent = "";
+  }
   return (
     <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p="6">
       {/* Header */}
@@ -80,8 +99,7 @@ const ReviewBody = ({
               key={index}
               icon={<StarIcon />}
               colorScheme={
-                index <
-                (hoverRating || rating || isEditing.dataToEdit.ratingValue)
+                index < (hoverRating || rating || ratingValue)
                   ? "yellow"
                   : "gray.200"
               }
@@ -92,7 +110,7 @@ const ReviewBody = ({
               aria-label={`Rate ${index + 1} stars`}
             />
           ))}
-        <Text ml="3">{rating || isEditing.dataToEdit.ratingValue}/10</Text>
+        <Text ml="3">{rating || ratingValue}/10</Text>
       </Box>
 
       <Box
@@ -106,7 +124,7 @@ const ReviewBody = ({
       </Box>
 
       <Input
-        value={reviewHeadlineValue || isEditing.dataToEdit.reviewHeadline}
+        value={reviewHeadlineValue || reviewHeadline}
         onChange={handleHeadlineChange}
         placeholder="Write a headline for your review here"
         mt="4"
@@ -116,7 +134,7 @@ const ReviewBody = ({
         placeholder="Write your review here, max 500 characters"
         mt="4"
         maxLength={500}
-        value={reviewTextAreaValue || isEditing.dataToEdit.reviewContent}
+        value={reviewTextAreaValue || reviewContent}
         onChange={handleTextAreaChange}
       />
     </Box>

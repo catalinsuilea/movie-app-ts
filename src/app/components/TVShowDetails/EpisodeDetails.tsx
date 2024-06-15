@@ -1,29 +1,14 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Image,
-  Text,
-  Flex,
-  Heading,
-  VStack,
-  HStack,
-  Avatar,
-  Divider,
-} from "@chakra-ui/react";
+import { Box, Image, Text, Flex, Heading } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
-
-import {
-  GuestStar,
-  CrewMember,
-  Episode,
-} from "../../../types-modules/TvEpisodeDetails";
+import { GuestStar, Episode } from "../../../types-modules/TvEpisodeDetails";
 import { MovieDetailsTheme } from "../../../styles/theme";
 import { UserReviews } from "../RatingAndReviews/UserReviews";
 import { useDeviceTypeContext } from "../../contexts/useDeviceTypeContext";
 import { EpisodeDetailsHeaderDesktop } from "./EpisodeDetailsHeaderDesktop";
 import { EpisodeDetailsHeaderMobile } from "./EpisodeDetailsHeaderMobile";
 
-export const EpisodeDetails = ({}: any) => {
+export const EpisodeDetails = () => {
   const API_KEY = "380f962505ebde6dee08b0b646fe05f1";
   const { seriesSeason, seriesEpisode, id } = useParams();
   const [episodeData, setEpisodeData] = useState<Episode | null>(null);
@@ -106,7 +91,7 @@ export const EpisodeDetails = ({}: any) => {
           </Box>
         </Box>
         <UserReviews
-          mediaData={episodeData}
+          mediaData={episodeData as Episode}
           mediaId={id}
           mediaType="episode"
           season={seriesSeason}
