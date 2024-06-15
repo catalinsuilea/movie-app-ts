@@ -9,21 +9,35 @@ import {
 
 interface PopularityStatusTypes {
   popularityValue: number;
+  rating?: number | string;
   isMovieTVList?: boolean;
 }
 
 export const PopularityStatus = ({
   popularityValue,
   isMovieTVList = false,
+  rating,
 }: PopularityStatusTypes) => {
-  const normalizeValue = Math.min(100, Math.round((popularityValue / 5) * 100));
+  let value: number;
+  let ratingNumber: number | undefined;
+  if (rating !== undefined) {
+    ratingNumber = typeof rating === "string" ? parseFloat(rating) : rating;
+  }
+
+  if (popularityValue !== undefined) {
+    value = Math.min(100, Math.round(popularityValue / 10));
+  } else if (ratingNumber !== undefined) {
+    value = parseFloat(ratingNumber.toFixed(1)) * 10;
+  } else {
+    value = 0;
+  }
 
   return (
     <Flex alignItems="center" gap="8px" zIndex="4">
       <CircularProgress
         position="relative"
         size={isMovieTVList ? "45px" : "75px"}
-        value={normalizeValue}
+        value={value}
         color="green.400 !important"
       >
         <CircularProgressLabel>
@@ -50,7 +64,7 @@ export const PopularityStatus = ({
                 fontSize={isMovieTVList ? "11px" : "19px"}
                 fontWeight="bold"
               >
-                {normalizeValue}
+                {value}
               </Text>
               <Text mb="4px" fontSize="10px">
                 %

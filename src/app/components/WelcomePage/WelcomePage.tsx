@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react";
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, Link, Text } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
 import CarouselComponent from "../Carousel/carousel";
 import axios from "axios";
@@ -252,7 +252,12 @@ const WelcomePage = () => {
                     gap="4px"
                     cursor="pointer"
                   >
-                    <Text>View the winners of 2024</Text>
+                    <Link
+                      href="https://www.imdb.com/news/ni64480341/"
+                      target="_blank"
+                    >
+                      View the winners on IMDB
+                    </Link>
                     <Text>
                       <FaChevronRight />
                     </Text>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { FaArrowCircleUp, FaArrowCircleDown } from "react-icons/fa";
-
 import {
   Box,
   Button,
@@ -15,11 +14,6 @@ import { useParams } from "react-router-dom";
 import MovieCard from "../../MovieCard/MovieCard";
 import { useAuthenticationContext } from "../../../contexts/AuthenticationContext";
 import { SignInModal } from "../../Modal/SignInModal";
-import {
-  MovieData,
-  PersonCardDetailsTypes,
-} from "../../../../types-modules/HomepageTypes/HomepageTypes";
-import { TVShowTypes } from "../../../../types-modules/TvTypes";
 import { MovieCardProps } from "../../../../types-modules/MovieCardProps";
 
 export const MediaPage = () => {

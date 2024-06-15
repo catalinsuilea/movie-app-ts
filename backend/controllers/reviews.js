@@ -17,44 +17,61 @@ exports.postReviews = async (req, res, next) => {
     imgSrc,
   } = payload || {};
 
-  const user = await User.findById(req.userId);
-  if (!user) {
-    return res.status(404).json({ message: "User not found" });
-  }
-
-  const isNotUniqueReview =
-    user._id.toString() === req.userId &&
-    user.reviews.find(
-      (review) => review.mediaId === mediaId && review.mediaType === mediaType
-    );
-  if (isNotUniqueReview) {
-    return res
-      .status(403)
-      .json({ message: `You already added a review for this ${mediaType}` });
-  } else {
-    const review = new Review({
-      userId: req.userId,
-      ratingValue: rating,
-      reviewHeadline: reviewHeadlineValue,
-      reviewContent: reviewTextAreaValue,
-      mediaType: mediaType,
-      mediaId: mediaId,
-      mediaName: mediaName,
-      imgSrc: imgSrc,
-    });
-    if (season !== undefined) {
-      review.season = season;
+  try {
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
-    if (episode !== undefined) {
-      review.episode = episode;
-    }
-    await review.save();
-    user.reviews.push(review);
-    await user.save();
 
-    return res.status(201).json({
-      message: "Review added successfully",
-      reviewData: review,
+    const isNotUniqueReview =
+      user._id.toString() === req.userId &&
+      user.reviews.find(
+        (review) => review.mediaId === mediaId && review.mediaType === mediaType
+      );
+    if (isNotUniqueReview) {
+      return res
+        .status(403)
+        .json({ message: `You already added a review for this ${mediaType}` });
+    } else {
+      if (
+        rating === "" ||
+        reviewHeadlineValue === "" ||
+        reviewTextAreaValue === ""
+      ) {
+        return res.status(422).json({
+          message: `Please make sure you rated, added a headline and wrote a review for this ${mediaType}`,
+        });
+      }
+
+      const review = new Review({
+        userId: req.userId,
+        ratingValue: rating,
+        reviewHeadline: reviewHeadlineValue,
+        reviewContent: reviewTextAreaValue,
+        mediaType: mediaType,
+        mediaId: mediaId,
+        mediaName: mediaName,
+        imgSrc: imgSrc,
+      });
+      if (season !== undefined) {
+        review.season = season;
+      }
+      if (episode !== undefined) {
+        review.episode = episode;
+      }
+      await review.save();
+      user.reviews.push(review);
+      await user.save();
+
+      return res.status(201).json({
+        message: "Review added successfully",
+        reviewData: review,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      message: "Error while creating a review. Please try again later",
     });
   }
 };

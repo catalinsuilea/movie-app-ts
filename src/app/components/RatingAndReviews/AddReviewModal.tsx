@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -8,6 +8,7 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
+  Text,
 } from "@chakra-ui/react";
 import ReviewBody from "./AddReviewModalBody";
 import { AddReviewCardTypes, ReviewData } from "../../../types-modules/Reviews";
@@ -28,6 +29,8 @@ export const AddReviewCard = ({
   const [reviewHeadlineValue, setReviewHeadLineValue] = useState("");
   const [reviewTextAreaValue, setReviewTextAreaValue] = useState("");
   const [rating, setRating] = useState(0);
+
+  const [errorMessage, setErrorMessage] = useState("");
 
   const { id, title, name, poster_path, still_path } = data || {};
   const { dataToEdit } = isEditing || {};
@@ -76,7 +79,8 @@ export const AddReviewCard = ({
         credentials: "include",
       });
       if (!response.ok) {
-        throw new Error(response.statusText);
+        const error = await response.json();
+        throw new Error(error.message);
       }
       const data = await response.json();
       if (isEditing.editing) {
@@ -93,8 +97,9 @@ export const AddReviewCard = ({
       setReviewHeadLineValue("");
       setReviewTextAreaValue("");
       setRating(0);
-    } catch (err) {
-      console.error(err);
+      setErrorMessage("");
+    } catch (err: any) {
+      setErrorMessage(err.message);
     }
   };
 
@@ -109,17 +114,21 @@ export const AddReviewCard = ({
         <ModalHeader>Write a review</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <ReviewBody
-            reviewHeadlineValue={reviewHeadlineValue}
-            setReviewHeadLineValue={setReviewHeadLineValue}
-            rating={rating}
-            setRating={setRating}
-            reviewTextAreaValue={reviewTextAreaValue}
-            setReviewTextAreaValue={setReviewTextAreaValue}
-            movie={data}
-            isEditing={isEditing}
-          />
+          <>
+            <ReviewBody
+              reviewHeadlineValue={reviewHeadlineValue}
+              setReviewHeadLineValue={setReviewHeadLineValue}
+              rating={rating}
+              setRating={setRating}
+              reviewTextAreaValue={reviewTextAreaValue}
+              setReviewTextAreaValue={setReviewTextAreaValue}
+              movie={data}
+              isEditing={isEditing}
+            />
+            {errorMessage && <Text color="red.500">{errorMessage}</Text>}
+          </>
         </ModalBody>
+
         <ModalFooter>
           <Button variant="ghost" onClick={onCloseModal}>
             Close
