@@ -9,7 +9,7 @@ import { EpisodeDetailsHeaderDesktop } from "./EpisodeDetailsHeaderDesktop";
 import { EpisodeDetailsHeaderMobile } from "./EpisodeDetailsHeaderMobile";
 
 export const EpisodeDetails = () => {
-  const API_KEY = "380f962505ebde6dee08b0b646fe05f1";
+  const API_KEY = process.env.REACT_APP_MOVIEDB_KEY;
   const { seriesSeason, seriesEpisode, id } = useParams();
   const [episodeData, setEpisodeData] = useState<Episode | null>(null);
   const navigate = useNavigate();

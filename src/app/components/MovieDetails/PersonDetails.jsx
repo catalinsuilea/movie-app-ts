@@ -12,7 +12,7 @@ export const PersonDetails = ({}) => {
   const [movieCredits, setMovieCredits] = useState([]);
   const [tvCredits, setTvCredits] = useState([]);
   const { isMobile } = useDeviceTypeContext();
-  const API_KEY = "380f962505ebde6dee08b0b646fe05f1";
+  const API_KEY = process.env.REACT_APP_MOVIEDB_KEY;
 
   useEffect(() => {
     const getPersonData = async () => {

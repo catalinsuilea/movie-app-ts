@@ -13,7 +13,7 @@ export const SuccessPage = () => {
     const checkPaymentStatus = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/user/check-payment-status/${premiumToken}`,
+          `${process.env.REACT_APP_BACKEND_URL}/user/check-payment-status/${premiumToken}`,
           {
             method: "GET",
             credentials: "include",

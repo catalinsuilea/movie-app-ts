@@ -59,7 +59,7 @@ export const ResetPasswordForm = () => {
               userId: userId,
             };
         const response = await fetch(
-          "http://localhost:5000/auth/reset/reset-password",
+          `${process.env.REACT_APP_BACKEND_URL}/auth/reset/reset-password`,
           {
             method: "POST",
             headers: { "Content-type": "application/json" },
@@ -97,7 +97,7 @@ export const ResetPasswordForm = () => {
       if (!token) return;
       try {
         const response = await fetch(
-          `http://localhost:5000/auth/reset/${token}`,
+          `${process.env.REACT_APP_BACKEND_URL}/auth/reset/${token}`,
           {
             method: "GET",
           }
@@ -123,7 +123,7 @@ export const ResetPasswordForm = () => {
       if (!userId) return;
       try {
         const response = await fetch(
-          `http://localhost:5000/auth/reset/auth/${userId}`,
+          `${process.env.REACT_APP_BACKEND_URL}/auth/reset/auth/${userId}`,
           {
             method: "GET",
             credentials: "include",

@@ -46,14 +46,15 @@ const WelcomePage = () => {
 
   const { username, isPremiumUser } = authUser || {};
 
-  const API_KEY = "380f962505ebde6dee08b0b646fe05f1";
+  const API_KEY = process.env.REACT_APP_MOVIEDB_KEY;
+
   //Get lates movies
   useEffect(() => {
     setIsLoading(true);
     const fetchLatestMovies = async () => {
       try {
         const res = await axios.get(
-          "https://api.themoviedb.org/3/movie/upcoming?api_key=380f962505ebde6dee08b0b646fe05f1&language=en-US&page=1"
+          `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1`
         );
         const data = res.data;
         setLatestMovies(data);
