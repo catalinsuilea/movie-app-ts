@@ -17,13 +17,14 @@ const SearchBar = () => {
   };
 
   const debounceValue = useDebounce(onTypingInput, 500);
+  const API_KEY = process.env.REACT_APP_MOVIEDB_KEY;
 
   useEffect(() => {
     const fetchMovies = async () => {
       if (debounceValue) {
         try {
           const res = await axios.get(
-            `https://api.themoviedb.org/3/search/multi?api_key=380f962505ebde6dee08b0b646fe05f1&query=${debounceValue}&page=1&include_adult=false`
+            `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&query=${debounceValue}&page=1&include_adult=false`
           );
           setMovieSearch(res.data.results);
         } catch (error) {

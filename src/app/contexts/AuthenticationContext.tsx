@@ -45,10 +45,13 @@ export const AuthProvider = ({ children }: any) => {
   // Logout user
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:5000/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/auth/logout`,
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
       if (!response.ok) {
         throw new Error(`${response.status} ${response.statusText}`);
       }
@@ -65,10 +68,13 @@ export const AuthProvider = ({ children }: any) => {
 
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch("http://localhost:5000/auth/user-info", {
-        method: "GET",
-        credentials: "include",
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/auth/user-info`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch user info");

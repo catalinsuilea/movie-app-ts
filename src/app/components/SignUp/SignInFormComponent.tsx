@@ -48,7 +48,7 @@ export const SignInFormComponent = ({}) => {
 
   const onSignInClick = async () => {
     if (Object.keys(checkInputs(signInFormValues)).length === 0) {
-      const URL = "http://localhost:5000/auth/login";
+      const URL = `${process.env.REACT_APP_BACKEND_URL}/auth/login`;
       try {
         setIsLoggingUser(true);
         const response = await fetch(URL, {

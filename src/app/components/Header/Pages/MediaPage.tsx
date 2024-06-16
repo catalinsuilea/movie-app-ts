@@ -17,6 +17,7 @@ import { SignInModal } from "../../Modal/SignInModal";
 import { MovieCardProps } from "../../../../types-modules/MovieCardProps";
 
 export const MediaPage = () => {
+  const API_KEY = process.env.REACT_APP_MOVIEDB_KEY;
   const { mediaType } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { authUser } = useAuthenticationContext();
@@ -25,6 +26,7 @@ export const MediaPage = () => {
     tv: [],
     person: [],
   });
+
   const [genres, setGenres] = useState([]);
   const [genreId, setGenreId] = useState("");
   const [selectedSortOptions, setSelectedSortOptions] = useState<string[]>([]);
@@ -80,7 +82,6 @@ export const MediaPage = () => {
       }
     });
   };
-  const API_KEY = "380f962505ebde6dee08b0b646fe05f1";
 
   // Get genres
 
@@ -103,6 +104,8 @@ export const MediaPage = () => {
   }, [mediaType]);
 
   useEffect(() => {
+    if (!API_KEY) return;
+
     const params = {
       include_adult: "false",
       include_video: "false",

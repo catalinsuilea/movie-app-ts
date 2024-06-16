@@ -39,7 +39,7 @@ export const FavouritesContextProvider = ({ children }: any) => {
   ) => {
     if (!authUser) return;
     try {
-      const URL = "http://localhost:5000/favourites/post-favourites";
+      const URL = `${process.env.REACT_APP_BACKEND_URL}/favourites/post-favourites`;
       const response = await fetch(URL, {
         method: "POST",
         headers: {

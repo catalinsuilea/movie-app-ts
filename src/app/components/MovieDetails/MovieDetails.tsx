@@ -24,7 +24,7 @@ interface CastInfo {
   crew?: Crew[];
 }
 const MovieDetails = () => {
-  const API_KEY = "380f962505ebde6dee08b0b646fe05f1";
+  const API_KEY = process.env.REACT_APP_MOVIEDB_KEY;
   const { id, mediaType } = useParams();
 
   const [isModalOpen, setIsModalOpen] = useState(false);

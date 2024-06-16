@@ -13,7 +13,7 @@ export const TVShowDetails = ({
   data: TVShowTypes;
   seriesId: string | undefined;
 }) => {
-  const API_KEY = "380f962505ebde6dee08b0b646fe05f1";
+  const API_KEY = process.env.REACT_APP_MOVIEDB_KEY;
   const [seasonData, setSeasonData] = useState<SeasonData>({});
   const [seasonNumber, setSeasonNumber] = useState(1);
   const navigate = useNavigate();
