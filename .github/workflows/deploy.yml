@@ -13,6 +13,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Decode GCP Service Account Key
+        run: |
+          echo "${{ secrets.GCP_SA_KEY }}" > /tmp/gcp-sa-key.json
+
+      - name: Authenticate with Google Cloud
+        run: |
+          gcloud auth activate-service-account --key-file=/tmp/gcp-sa-key.json
+          gcloud config set project ${{ secrets.GOOGLE_PROJECT_ID }}
+          gcloud container clusters get-credentials autopilot-cluster-1 --zone us-central1 --project ${{ secrets.GOOGLE_PROJECT_ID }}
+        env:
+          GOOGLE_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
@@ -31,23 +43,6 @@ jobs:
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/backend:latest -f backend/Dockerfile backend
           docker push ${{ secrets.DOCKER_USERNAME }}/backend:latest
-
-      - name: Decode GCP Service Account Key
-        run: |
-          echo "${{ secrets.GCP_SA_KEY }}" | base64 --decode > /tmp/gcp-sa-key.json
-
-      - name: Authenticate with Google Cloud
-        run: |
-          gcloud auth activate-service-account --key-file=/tmp/gcp-sa-key.json
-          gcloud config set project ${{ secrets.GOOGLE_PROJECT_ID }}
-        env:
-          GOOGLE_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
-
-      - name: Configure kubectl
-        run: |
-          gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER_NAME }} --zone ${{ secrets.GKE_CLUSTER_ZONE }} --project ${{ secrets.GOOGLE_PROJECT_ID }}
-        env:
-          GOOGLE_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
 
       - name: Deploy to Kubernetes
         run: |
