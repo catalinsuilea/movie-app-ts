@@ -173,7 +173,7 @@ const AccountPage = ({}) => {
       }
       const data = await response.json();
       handleLogout();
-      navigate("/movie-app-ts");
+      navigate("/");
     } catch (error) {
       console.error(error);
     }

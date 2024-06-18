@@ -57,7 +57,7 @@ function DrawerExample({ headerLinks }: HeaderTypes) {
             {headerLinks.map((link) => (
               <Link
                 onClick={() => {
-                  navigate(`/movie-app-ts/${link.mediaType}`);
+                  navigate(`/${link.mediaType}`);
                   onClose();
                 }}
                 key={link.mediaType}

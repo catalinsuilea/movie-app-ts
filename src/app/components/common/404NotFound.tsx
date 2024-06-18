@@ -33,7 +33,7 @@ export const NoPageFound = ({ isLoading }: { isLoading?: boolean }) => {
         <Button
           marginTop="1.5rem"
           colorScheme="blue"
-          onClick={() => navigate("/movie-app-ts")}
+          onClick={() => navigate("/")}
           size="lg"
         >
           Go to Homepage

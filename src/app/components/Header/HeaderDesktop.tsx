@@ -35,7 +35,7 @@ export const HeaderDesktop = ({ headerLinks }: HeaderTypes) => {
         <Image
           cursor="pointer"
           onClick={() => {
-            navigate("/movie-app-ts");
+            navigate("/");
           }}
           mr="20px"
           width="100px"
@@ -44,7 +44,7 @@ export const HeaderDesktop = ({ headerLinks }: HeaderTypes) => {
         <Box>
           {headerLinks.map((link) => (
             <Link
-              onClick={() => navigate(`/movie-app-ts/${link.mediaType}`)}
+              onClick={() => navigate(`/${link.mediaType}`)}
               key={link.mediaType}
               {...HeaderTheme.link}
               borderBottom={

@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import MovieDetails from "../MovieDetails/MovieDetails";
 import WelcomePage from "../WelcomePage/WelcomePage";
@@ -26,93 +26,92 @@ import { CancelPage } from "../account/CancelPaymentPage";
 function App() {
   return (
     <ChakraProvider theme={myNewTheme}>
-      <DeviceTypeProvider>
-        <AuthProvider>
-          <FavouritesContextProvider>
-            <div className="app-container">
-              <Header />
-              <main className="main-content">
-                <Routes>
-                  <Route path="/movie-app-ts" element={<WelcomePage />}>
+      <Router>
+        <DeviceTypeProvider>
+          <AuthProvider>
+            <FavouritesContextProvider>
+              <div className="app-container">
+                <Header />
+                <main className="main-content">
+                  <Routes>
+                    <Route path="/" element={<WelcomePage />}>
+                      <Route
+                        path="/search/:searchValue"
+                        element={<SearchMovie />}
+                      ></Route>
+                      <Route
+                        path="/search/:searchValue"
+                        element={<SearchMovie />}
+                      ></Route>
+                    </Route>
+
+                    <Route path="/:mediaType" element={<MediaPage />} />
+
                     <Route
-                      path="/movie-app-ts/search/:searchValue"
-                      element={<SearchMovie />}
+                      path="/:mediaType/:name/:id"
+                      element={<MovieDetails />}
                     ></Route>
                     <Route
-                      path="/movie-app-ts/search/:searchValue"
-                      element={<SearchMovie />}
+                      path="/person/:personName/:id"
+                      element={<PersonDetails />}
                     ></Route>
-                  </Route>
-
-                  <Route
-                    path="/movie-app-ts/:mediaType"
-                    element={<MediaPage />}
-                  />
-
-                  <Route
-                    path="/:mediaType/:name/:id"
-                    element={<MovieDetails />}
-                  ></Route>
-                  <Route
-                    path="/person/:personName/:id"
-                    element={<PersonDetails />}
-                  ></Route>
-                  <Route
-                    path="/tv/:seriesName/:seriesSeason/:seriesEpisode/:id"
-                    element={<EpisodeDetails />}
-                  ></Route>
-                  <Route
-                    path="/signIn"
-                    element={<SignInFormComponent />}
-                  ></Route>
-                  <Route path="/signUp" element={<SignUp />}></Route>
-                  <Route
-                    path="/favourites"
-                    element={
-                      <PrivateRoute>
-                        <FavouritesPage />
-                      </PrivateRoute>
-                    }
-                  ></Route>
-                  <Route
-                    path="/user-account/:userId"
-                    element={
-                      <PrivateRoute>
-                        <AccountPage />
-                      </PrivateRoute>
-                    }
-                  ></Route>
-                  <Route
-                    path="/checkout/success/:premiumToken"
-                    element={
-                      <PrivateRoute>
-                        <SuccessPage />
-                      </PrivateRoute>
-                    }
-                  ></Route>
-                  <Route
-                    path="/checkout/cancel"
-                    element={<CancelPage />}
-                  ></Route>
-                  <Route
-                    path="/reset-password/sendMail"
-                    element={<ResetPasswordEmailForm />}
-                  ></Route>
-                  <Route
-                    path="/reset/:token"
-                    element={<ResetPasswordForm />}
-                  ></Route>
-                  <Route
-                    path="/reset/auth/:userId"
-                    element={<ResetPasswordForm />}
-                  ></Route>
-                </Routes>
-              </main>
-              <Footer />
-            </div>
-          </FavouritesContextProvider>
-        </AuthProvider>
-      </DeviceTypeProvider>
+                    <Route
+                      path="/tv/:seriesName/:seriesSeason/:seriesEpisode/:id"
+                      element={<EpisodeDetails />}
+                    ></Route>
+                    <Route
+                      path="/signIn"
+                      element={<SignInFormComponent />}
+                    ></Route>
+                    <Route path="/signUp" element={<SignUp />}></Route>
+                    <Route
+                      path="/favourites"
+                      element={
+                        <PrivateRoute>
+                          <FavouritesPage />
+                        </PrivateRoute>
+                      }
+                    ></Route>
+                    <Route
+                      path="/user-account/:userId"
+                      element={
+                        <PrivateRoute>
+                          <AccountPage />
+                        </PrivateRoute>
+                      }
+                    ></Route>
+                    <Route
+                      path="/checkout/success/:premiumToken"
+                      element={
+                        <PrivateRoute>
+                          <SuccessPage />
+                        </PrivateRoute>
+                      }
+                    ></Route>
+                    <Route
+                      path="/checkout/cancel"
+                      element={<CancelPage />}
+                    ></Route>
+                    <Route
+                      path="/reset-password/sendMail"
+                      element={<ResetPasswordEmailForm />}
+                    ></Route>
+                    <Route
+                      path="/reset/:token"
+                      element={<ResetPasswordForm />}
+                    ></Route>
+                    <Route
+                      path="/reset/auth/:userId"
+                      element={<ResetPasswordForm />}
+                    ></Route>
+                  </Routes>
+                </main>
+                <Footer />
+              </div>
+            </FavouritesContextProvider>
+          </AuthProvider>
+        </DeviceTypeProvider>
+      </Router>
     </ChakraProvider>
   );
 }

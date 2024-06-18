@@ -9,8 +9,9 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const multer = require("multer");
 
-const MONGO_DB_URI = process.env.MONGO_DB_URI;
-const allowedOrigin = "http://localhost:3000";
+const MONGO_DB_URI =
+  process.env.MONGO_DB_URI || "mongodb://mongo:27017/movie-app-db";
+const allowedOrigin = process.env.FRONTEND_LOCAL_URL;
 
 const authRoutes = require("./routes/auth");
 const favouritesRoutes = require("./routes/favourites");
