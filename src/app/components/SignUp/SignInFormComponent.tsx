@@ -71,7 +71,7 @@ export const SignInFormComponent = ({}) => {
           fetchUserInfo();
           setSignInFormValues({ email: "", password: "" });
           setErrorMsg("");
-          navigate("/movie-app-ts");
+          navigate("/");
         }
       } catch (err: any) {
         setErrorMsg(err.message);

@@ -114,8 +114,8 @@ exports.postBuyPremium = async (req, res, next) => {
           quantity: 1,
         },
       ],
-      success_url: `http://localhost:3000/checkout/success/${premiumToken}`,
-      cancel_url: "http://localhost:3000/checkout/cancel",
+      success_url: `${process.env.FRONTEND_LOCAL_URL}/checkout/success/${premiumToken}`,
+      cancel_url: `${process.env.FRONTEND_LOCAL_URL}/checkout/cancel`,
     });
 
     res.status(200).json({ id: session.id });

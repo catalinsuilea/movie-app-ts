@@ -17,7 +17,7 @@ export const HeaderMobile = ({ headerLinks }: HeaderTypes) => {
         <Image
           cursor="pointer"
           onClick={() => {
-            navigate("/movie-app-ts");
+            navigate("/");
           }}
           mr="20px"
           width="100px"
@@ -39,7 +39,7 @@ export const HeaderMobile = ({ headerLinks }: HeaderTypes) => {
             {...HeaderTheme.link}
             onClick={() => {
               handleLogout();
-              navigate("/movie-app-ts");
+              navigate("/");
             }}
           >
             Logout

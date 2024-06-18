@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }: any) => {
       const data = await response.json();
       setAuthUser(null);
       setIsLoggedIn(false);
-      navigate("/movie-app-ts");
+      navigate("/");
     } catch (error) {
       console.error("Error:", error);
     } finally {

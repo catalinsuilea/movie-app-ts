@@ -25,7 +25,7 @@ export const CancelPage = () => {
         <Text fontSize="lg" color="gray.700">
           Your payment was canceled. If this was a mistake, please try again.
         </Text>
-        <Button colorScheme="red" as={Link} to="/movie-app-ts">
+        <Button colorScheme="red" as={Link} to="/">
           Go to Homepage
         </Button>
       </VStack>

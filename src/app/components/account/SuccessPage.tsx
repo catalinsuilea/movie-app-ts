@@ -67,7 +67,7 @@ export const SuccessPage = () => {
           Thank you for your purchase! Your transaction was completed
           successfully. You are now a premium user.
         </Text>
-        <Button colorScheme="green" as={Link} to="/movie-app-ts">
+        <Button colorScheme="green" as={Link} to="/">
           Go to Homepage
         </Button>
       </VStack>
