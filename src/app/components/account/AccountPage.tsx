@@ -85,7 +85,7 @@ const AccountPage = ({}) => {
     }
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/upload`,
+        `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/user/upload`,
         {
           method: "POST",
           body: formData,
@@ -110,7 +110,7 @@ const AccountPage = ({}) => {
 
   useEffect(() => {
     if (!authUser) return;
-    const URL = `${process.env.REACT_APP_BACKEND_URL}/user/reviews/fetchAll/${userId}`;
+    const URL = `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/user/reviews/fetchAll/${userId}`;
     const getUserReviews = async () => {
       try {
         const response = await fetch(URL, {
@@ -133,7 +133,7 @@ const AccountPage = ({}) => {
   }, [userId]);
 
   const getUserInformation = async (id: string | undefined) => {
-    const URL = `${process.env.REACT_APP_BACKEND_URL}/user/fetchUser/${id}`;
+    const URL = `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/user/fetchUser/${id}`;
     try {
       const response = await fetch(URL, {
         method: "GET",
@@ -158,7 +158,7 @@ const AccountPage = ({}) => {
   }, [userId]);
 
   const handleDeleteAccount = async (userId?: string) => {
-    const URL = `${process.env.REACT_APP_BACKEND_URL}/user/delete-user`;
+    const URL = `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/user/delete-user`;
     try {
       const response = await fetch(URL, {
         method: "POST",
@@ -179,7 +179,7 @@ const AccountPage = ({}) => {
     }
   };
   const handleBuyPremium = async (offer: string, price: number) => {
-    const URL = `${process.env.REACT_APP_BACKEND_URL}/user/buy-premium`;
+    const URL = `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/user/buy-premium`;
     try {
       const response = await fetch(URL, {
         method: "POST",
@@ -211,7 +211,7 @@ const AccountPage = ({}) => {
   const cancelPremium = async (id: string | undefined) => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/cancel-premium`,
+        `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/user/cancel-premium`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -252,7 +252,7 @@ const AccountPage = ({}) => {
                   boxSize="100px"
                   src={
                     userProfilePicture || userInformation?.profile_picture
-                      ? `${process.env.REACT_APP_BACKEND_URL}/${
+                      ? `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/${
                           userProfilePicture || userInformation?.profile_picture
                         }`
                       : "https://www.whitechapelgallery.org/wp-content/uploads/2020/07/blank-head-profile-pic-for-a-man-300x284.jpg"

@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }: any) => {
   const handleLogout = async () => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/auth/logout`,
+        `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/auth/logout`,
         {
           method: "POST",
           credentials: "include",
@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }: any) => {
   const fetchUserInfo = async () => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/auth/user-info`,
+        `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/auth/user-info`,
         {
           method: "GET",
           credentials: "include",

@@ -64,8 +64,8 @@ export const AddReviewCard = ({
   const sendReviewForm = async () => {
     if (!authUser) return;
     const URL = isEditing.editing
-      ? `${process.env.REACT_APP_BACKEND_URL}/reviews/edit-review`
-      : `${process.env.REACT_APP_BACKEND_URL}/reviews/add-review`;
+      ? `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/reviews/edit-review`
+      : `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/reviews/add-review`;
     const METHOD = isEditing.editing ? "PUT" : "POST";
     try {
       const response = await fetch(URL, {

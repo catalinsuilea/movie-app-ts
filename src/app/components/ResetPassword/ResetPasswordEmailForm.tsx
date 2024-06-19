@@ -33,7 +33,7 @@ export const ResetPasswordEmailForm = () => {
     if (regex.test(emailValue) || errorMessage) {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/auth/send-reset-email`,
+          `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/auth/send-reset-email`,
           {
             method: "POST",
             headers: { "Content-type": "application/json" },

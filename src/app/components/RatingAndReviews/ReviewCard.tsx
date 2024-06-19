@@ -37,8 +37,8 @@ export const ReviewCard = ({
   ) => {
     const URL =
       !season || !episode
-        ? `${process.env.REACT_APP_BACKEND_URL}/reviews/delete-review/${id}`
-        : `${process.env.REACT_APP_BACKEND_URL}/reviews/delete-review/${season}/${episode}/${id}`;
+        ? `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/reviews/delete-review/${id}`
+        : `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/reviews/delete-review/${season}/${episode}/${id}`;
     try {
       const response = await fetch(URL, {
         method: "DELETE",

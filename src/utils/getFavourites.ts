@@ -7,7 +7,7 @@ export const getFavourites = async (
   >
 ) => {
   try {
-    const URL = `${process.env.REACT_APP_BACKEND_URL}/favourites/get-favourites`;
+    const URL = `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/favourites/get-favourites`;
     const response = await fetch(URL, {
       method: "GET",
       credentials: "include",
@@ -32,7 +32,7 @@ export const getFavouritesWithPagination = async (
   currentPage: number | string
 ) => {
   try {
-    const URL = `${process.env.REACT_APP_BACKEND_URL}/favourites/get-favourites/pagination?page=${currentPage}`;
+    const URL = `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/favourites/get-favourites/pagination?page=${currentPage}`;
     const response = await fetch(URL, {
       method: "GET",
       credentials: "include",

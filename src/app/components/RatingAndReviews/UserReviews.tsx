@@ -29,8 +29,8 @@ export const UserReviews = ({
     const fetchReviews = async () => {
       const URL =
         mediaType !== "episode"
-          ? `${process.env.REACT_APP_BACKEND_URL}/reviews/get-reviews/${mediaType}/${mediaId}`
-          : `${process.env.REACT_APP_BACKEND_URL}/reviews/get-reviews-episode/${mediaId}/${mediaType}/${season}/${episode}`;
+          ? `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/reviews/get-reviews/${mediaType}/${mediaId}`
+          : `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/reviews/get-reviews-episode/${mediaId}/${mediaType}/${season}/${episode}`;
 
       try {
         const response = await fetch(URL, { method: "GET" });

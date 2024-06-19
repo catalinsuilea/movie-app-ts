@@ -42,7 +42,7 @@ export const SignUpFormComponent = ({}) => {
   const isRegisterForm = true;
 
   const onSignUpClick = async () => {
-    const URL = `${process.env.REACT_APP_BACKEND_URL}/auth/signup`;
+    const URL = `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/auth/signup`;
 
     if (
       Object.keys(checkInputs(formRegisterValue, isRegisterForm)).length === 0

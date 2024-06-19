@@ -32,7 +32,7 @@ export const LikeDislikeComponent = ({
   const handleLikeDislike = async (actionType: string) => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/reviews/${actionType}-review`,
+        `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/reviews/${actionType}-review`,
         {
           method: "POST",
           headers: {
