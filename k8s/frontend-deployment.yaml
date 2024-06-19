@@ -21,7 +21,7 @@ spec:
             - containerPort: 3000
           env:
             - name: BACKEND_URL
-              value: "http://backend-service:80"
+              value: "http://146.148.78.61"
             - name: FRONTEND_DEPLOYED_URL
               value: "http://35.192.108.202"
 ---
