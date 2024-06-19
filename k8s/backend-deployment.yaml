@@ -18,8 +18,7 @@ spec:
         - name: backend
           image: constantin21/backend:latest
           ports:
-            # - containerPort: 5000
-            - containerPort: 80
+            - containerPort: 5000
           env:
             - name: MONGO_DB_URI
               value: "mongodb://mongo:27017/movie-app-db"
@@ -34,4 +33,4 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80
+      targetPort: 5000
