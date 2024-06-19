@@ -19,32 +19,9 @@ spec:
           image: constantin21/backend:latest
           ports:
             - containerPort: 5000
-          env:
-            - name: JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: backend-secrets
-                  key: JWT_SECRET
-            - name: MONGO_DB_URI
-              valueFrom:
-                secretKeyRef:
-                  name: backend-secrets
-                  key: MONGO_DB_URI
-            - name: NODEMAILER_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: backend-secrets
-                  key: NODEMAILER_KEY
-            - name: EMAIL_SENDER
-              valueFrom:
-                secretKeyRef:
-                  name: backend-secrets
-                  key: EMAIL_SENDER
-            - name: STRIPE_WEB_HOOK_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: backend-secrets
-                  key: STRIPE_WEB_HOOK_SECRET
+          envFrom:
+            - configMapRef:
+                name: backend-config
 ---
 apiVersion: v1
 kind: Service
