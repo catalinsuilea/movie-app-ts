@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: constantin21/my-frontend-app:latest
+          image: constantin21/frontend:latest
           ports:
             - containerPort: 3000
 ---

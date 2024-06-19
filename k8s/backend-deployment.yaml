@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: constantin21/my-backend-app:latest
+          image: constantin21/backend:latest
           ports:
             - containerPort: 5000
           env:
