@@ -18,7 +18,8 @@ spec:
         - name: frontend
           image: constantin21/frontend:latest
           ports:
-            - containerPort: 3000
+            # - containerPort: 3000
+            - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
@@ -29,6 +30,6 @@ spec:
     app: frontend
   ports:
     - protocol: TCP
-      port: 3000
-      targetPort: 3000
+      port: 80
+      targetPort: 80
   type: LoadBalancer
