@@ -20,8 +20,8 @@ spec:
           ports:
             - containerPort: 3000
           env:
-            - name: REACT_APP_BACKEND_DEPLOYED_URL
-              value: "http://146.148.78.61"
+            - name: BACKEND_URL
+              value: "http://backend-service:80"
             - name: FRONTEND_DEPLOYED_URL
               value: "http://35.192.108.202"
 ---
