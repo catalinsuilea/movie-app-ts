@@ -20,10 +20,16 @@ spec:
           ports:
             - containerPort: 3000
           env:
-            - name: BACKEND_URL
-              value: "http://146.148.78.61"
-            - name: FRONTEND_DEPLOYED_URL
-              value: "http://35.192.108.202"
+            - name: REACT_APP_BACKEND_LOCAL_URL
+              valueFrom:
+                secretKeyRef:
+                  name: frontend-secrets
+                  key: REACT_APP_BACKEND_LOCAL_URL
+            - name: REACT_APP_BACKEND_DEPLOYED_URL
+              valueFrom:
+                secretKeyRef:
+                  name: frontend-secrets
+                  key: REACT_APP_BACKEND_DEPLOYED_URL
 ---
 apiVersion: v1
 kind: Service
