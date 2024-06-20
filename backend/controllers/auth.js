@@ -127,8 +127,9 @@ exports.postLogout = (req, res, next) => {
 
 exports.getUserInfo = async (req, res, next) => {
   const token = req.cookies.token;
+  console.log("hey", token);
   if (!token) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: "Unauthorized", token: token });
   }
 
   try {
@@ -138,7 +139,7 @@ exports.getUserInfo = async (req, res, next) => {
       .status(200)
       .json({ user: decoded, isPremiumUser: user.isPremiumUser });
   } catch (err) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: "Unauthorized", token: token });
   }
 };
 
