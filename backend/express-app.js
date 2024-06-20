@@ -13,6 +13,7 @@ const MONGO_DB_URI =
   process.env.MONGO_DB_URI || "mongodb://mongo:27017/movie-app-db";
 
 const allowedOrigin = process.env.FRONTEND_DEPLOYED_URL;
+console.log("hey", allowedOrigin, process.env.JWT_SECRET);
 
 const authRoutes = require("./routes/auth");
 const favouritesRoutes = require("./routes/favourites");
@@ -84,6 +85,7 @@ mongoose
   .connect(MONGO_DB_URI)
   .then(() => {
     console.log("Connected");
+    console.log("hey", allowedOrigin);
     app.listen(5000);
   })
   .catch((err) => {
