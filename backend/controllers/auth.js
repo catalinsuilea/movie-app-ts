@@ -99,7 +99,7 @@ exports.postLogin = async (req, res, next) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       maxAge: 3600 * 1000, // 1 hour
       sameSite: "Strict",
     });
