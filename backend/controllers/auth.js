@@ -101,21 +101,24 @@ exports.postLogin = async (req, res, next) => {
       httpOnly: true,
       secure: true,
       maxAge: 3600 * 1000, // 1 hour
-      sameSite: "Strict",
+      sameSite: "None",
     });
 
     res.status(200).json({
       message: "Logged In",
     });
-  } catch (err) {}
+  } catch (err) {
+    console.error("Error in postLogin:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 };
 
 exports.postLogout = (req, res, next) => {
   try {
     res.clearCookie("token", {
       httpOnly: true,
-      secure: false,
-      sameSite: "Strict",
+      secure: true,
+      sameSite: "None",
     });
     return res.status(200).json({ message: "Logout successful" });
   } catch (err) {
