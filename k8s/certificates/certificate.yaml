@@ -1,0 +1,16 @@
+# This file contains the configuration for the Certificate resource, which requests the SSL/TLS certificate for app's domain.
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: movie-pilot-app-cert
+  namespace: default
+spec:
+  secretName: movie-pilot-app-tls
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+  commonName: movie-pilot-app.xyz
+  dnsNames:
+    - api.movie-pilot-app.xyz
+    - www.movie-pilot-app.xyz
