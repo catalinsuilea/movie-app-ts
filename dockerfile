@@ -25,8 +25,8 @@ COPY --from=build /app/build /usr/share/nginx/html
 # Copy custom Nginx configuration file
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Expose port 3000
-EXPOSE 3000
+# Expose port 80
+EXPOSE 80
 
 # Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
