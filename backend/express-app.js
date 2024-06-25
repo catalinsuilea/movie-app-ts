@@ -46,7 +46,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 const corsOptions = {
-  origin: allowedOrigin,
+  origin: "https://www.movie-pilot-app.xyz",
   credentials: true,
 };
 
