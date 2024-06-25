@@ -18,7 +18,7 @@ spec:
         - name: frontend
           image: constantin21/frontend:latest
           ports:
-            - containerPort: 3000
+            - containerPort: 80
           envFrom:
             - configMapRef:
                 name: frontend-config
@@ -33,5 +33,5 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 3000
+      targetPort: 80
   type: LoadBalancer

@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: constantin21/frontend:latest
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+          volumeMounts:
+            - name: movie-pilot-app-cert
+              mountPath: /etc/nginx/ssl/movie-pilot-app
+              readOnly: true
+            - name: api-movie-pilot-app-cert
+              mountPath: /etc/nginx/ssl/api-movie-pilot-app
+              readOnly: true
+            - name: ssl-dhparams
+              mountPath: /etc/nginx/ssl/dhparams
+              readOnly: true
+      volumes:
+        - name: movie-pilot-app-cert
+          secret:
+            secretName: movie-pilot-app-cert
+        - name: api-movie-pilot-app-cert
+          secret:
+            secretName: api-movie-pilot-app-cert
+        - name: ssl-dhparams
+          secret:
+            secretName: ssl-dhparams
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+    - name: https
+      port: 443
+      targetPort: 443
+  selector:
+    app: nginx

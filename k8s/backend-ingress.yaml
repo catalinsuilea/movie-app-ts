@@ -6,7 +6,6 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/cluster-issuer: letsencrypt
-    acme.cert-manager.io/http01-edit-in-place: "true"
 spec:
   rules:
     - host: api.movie-pilot-app.xyz
@@ -22,4 +21,4 @@ spec:
   tls:
     - hosts:
         - api.movie-pilot-app.xyz
-      secretName: movie-pilot-app-tls
+      secretName: api-movie-pilot-app-tls

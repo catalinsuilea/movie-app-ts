@@ -6,20 +6,19 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/cluster-issuer: letsencrypt
-    acme.cert-manager.io/http01-edit-in-place: "true"
 spec:
-  tls:
-    - hosts:
-        - www.movie-pilot-app.xyz
-      secretName: movie-pilot-app-tls
   rules:
     - host: www.movie-pilot-app.xyz
       http:
         paths:
           - path: /
-            pathType: Prefix
+            pathType: ImplementationSpecific
             backend:
               service:
-                name: frontend-service
+                name: nginx-service
                 port:
                   number: 80
+  tls:
+    - hosts:
+        - www.movie-pilot-app.xyz
+      secretName: movie-pilot-app-tls
