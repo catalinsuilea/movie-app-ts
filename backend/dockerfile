@@ -1,4 +1,4 @@
-# Official Node.js image
+#Official Node.js image
 FROM node:16
 
 # Set working directory
