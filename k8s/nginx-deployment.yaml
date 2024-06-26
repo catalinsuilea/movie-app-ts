@@ -20,6 +20,11 @@ spec:
           ports:
             - containerPort: 80
             - containerPort: 443
+          envFrom:
+            - configMapRef:
+                name: frontend-config
+            - configMapRef:
+                name: backend-config
           volumeMounts:
             - name: movie-pilot-app-cert
               mountPath: /etc/nginx/ssl/movie-pilot-app
