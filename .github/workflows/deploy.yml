@@ -28,7 +28,13 @@ jobs:
 
       - name: Build and push frontend Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/frontend:latest -f Dockerfile .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/frontend:latest \
+            --build-arg SSL_CERT_MOVIE_FULLCHAIN="${{ secrets.SSL_CERT_MOVIE_FULLCHAIN }}" \
+            --build-arg SSL_CERT_MOVIE_PRIVKEY="${{ secrets.SSL_CERT_MOVIE_PRIVKEY }}" \
+            --build-arg SSL_CERT_API_FULLCHAIN="${{ secrets.SSL_CERT_API_FULLCHAIN }}" \
+            --build-arg SSL_CERT_API_PRIVKEY="${{ secrets.SSL_CERT_API_PRIVKEY }}" \
+            --build-arg SSL_DHPARAMS="${{ secrets.SSL_DHPARAMS }}" \
+            -f Dockerfile .
           docker push ${{ secrets.DOCKER_USERNAME }}/frontend:latest
 
       - name: Create backend .env.production file
