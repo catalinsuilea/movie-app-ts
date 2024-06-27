@@ -46,17 +46,14 @@ const fileFilter = (req, file, cb) => {
 };
 
 const corsOptions = {
-  origin: "https://www.movie-pilot-app.xyz",
+  origin: allowedOrigin,
   credentials: true,
 };
 
 app.use(cors(corsOptions));
 
 app.use((req, res, next) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://www.movie-pilot-app.xyz"
-  );
+  res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
   res.setHeader(
     "Access-Control-Allow-Methods",
     "OPTIONS, GET, POST, PUT, PATCH, DELETE"

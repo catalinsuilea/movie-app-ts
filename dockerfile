@@ -48,7 +48,7 @@ RUN echo "$SSL_DHPARAMS" > /etc/nginx/ssl/dhparams/ssl-dhparams.pem
 RUN chmod -R 600 /etc/nginx/ssl
 
 # Expose port 80 and 443
-EXPOSE 80
+EXPOSE 8080
 EXPOSE 443
 
 # Start Nginx
