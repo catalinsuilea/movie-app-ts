@@ -83,6 +83,7 @@ app.use((error, req, res, next) => {
 mongoose
   .connect(MONGO_DB_URI)
   .then(() => {
+    console.log("Connected", process.env.FRONTEND_DEPLOYED_URL);
     app.listen(5000);
   })
   .catch((err) => {
