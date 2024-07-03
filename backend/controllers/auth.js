@@ -46,6 +46,7 @@ exports.postSignUp = async (req, res, next) => {
       profile_picture: "",
       isPremiumUser: false,
       premiumToken: "",
+      premiumPriceValue: 0,
       createdAt: Date.now(),
       favourites: [],
       reviews: [],
@@ -130,7 +131,7 @@ exports.postLogout = (req, res, next) => {
 
 exports.getUserInfo = async (req, res, next) => {
   const token = req.cookies.token;
-  console.log("hey", token);
+
   if (!token) {
     return res.status(401).json({ message: "Unauthorized", token: token });
   }

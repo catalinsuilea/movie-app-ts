@@ -49,6 +49,9 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  premiumPriceValue: {
+    type: Number,
+  },
   favourites: [FavouriteSchema],
   reviews: [ReviewsSchema],
 });

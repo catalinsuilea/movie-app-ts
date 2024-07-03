@@ -24,4 +24,6 @@ route.get(
 
 route.post("/cancel-premium", isAuth, userController.cancelPremium);
 
+route.get("/get-invoice/:id", isAuth, userController.getInvoice);
+
 module.exports = route;
