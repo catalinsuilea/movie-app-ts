@@ -232,6 +232,27 @@ const AccountPage = ({}) => {
     }
   };
 
+  const getInvoice = async (id?: string) => {
+    try {
+      const URL = `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/user/get-invoice/${id}`;
+      const response = await fetch(URL, {
+        method: "GET",
+        headers: {
+          Accept: "application/pdf",
+        },
+        credentials: "include",
+      });
+      if (!response.ok) {
+        throw new Error(`${response.status} ${response.statusText}`);
+      }
+      const blob = await response.blob();
+      const pdfURL = window.URL.createObjectURL(blob);
+      window.open(pdfURL);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <>
       <Flex justify="center" p={4}>
@@ -506,6 +527,16 @@ const AccountPage = ({}) => {
                     <PremiumDetails handleBuyPremium={handleBuyPremium} />
                   )}
                 </Box>
+                {userInformation?.isPremiumUser && (
+                  <Box mt="16px">
+                    <Text fontSize="15px" mb="6px" fontWeight="600">
+                      Your invoices:
+                    </Text>
+                    <Link color="blue.400" onClick={() => getInvoice(userId)}>
+                      Premium invoice.pdf
+                    </Link>
+                  </Box>
+                )}
               </Box>
             )}
           </Flex>

@@ -45,11 +45,9 @@ export const SignInFormComponent = ({}) => {
         .value,
     });
   };
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_DEPLOYED_URL;
-  console.log("heyy", `${BACKEND_URL}/auth/login`);
   const onSignInClick = async () => {
     if (Object.keys(checkInputs(signInFormValues)).length === 0) {
-      const URL = `${BACKEND_URL}/auth/login`;
+      const URL = `${process.env.REACT_APP_BACKEND_DEPLOYED_URL}/auth/login`;
       try {
         setIsLoggingUser(true);
         const response = await fetch(URL, {

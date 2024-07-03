@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const fs = require("fs");
+const path = require("path");
 
 const STRIPE_KEY = process.env.STRIPE_KEY;
 const NODEMAILER_KEY = process.env.NODEMAILER_KEY;
@@ -9,6 +10,11 @@ const stripe = require("stripe")(STRIPE_KEY);
 const nodeMailer = require("nodemailer");
 const sendGridTransport = require("nodemailer-sendgrid-transport");
 const crypto = require("crypto");
+const PDFDocument = require("pdfkit");
+
+const logoPath = path.join(__dirname, "..", "logo", "movie-pilot.png");
+
+let premiumPrice = 0;
 
 const transporter = nodeMailer.createTransport(
   sendGridTransport({
@@ -88,6 +94,7 @@ exports.postDeleteUser = async (req, res, next) => {
 
 exports.postBuyPremium = async (req, res, next) => {
   const { offer, price } = req.body || {};
+  premiumPrice = price;
 
   try {
     const user = await User.findOne({ _id: req.userId.toString() });
@@ -148,6 +155,7 @@ exports.checkPaymentStatus = async (req, res, next) => {
     }
     user.isPremiumUser = true;
     user.premiumToken = "";
+    user.premiumPriceValue = premiumPrice;
     await user.save();
     await transporter.sendMail({
       from: EMAIL_SENDER,
@@ -159,7 +167,7 @@ exports.checkPaymentStatus = async (req, res, next) => {
 
     Next Steps:
     1.Explore Premium Features: Log in to your account and start exploring the premium features available to you.
-    2.Profile Customization: Update your IMDbPro profile to showcase your latest work and achievements.
+    2.Profile Customization: Update your MoviePilot App profile to showcase your latest work and achievements.
     3.Stay Updated: Keep an eye on industry insights and opportunities that can propel your career forward.
 
     Best regards,
@@ -194,4 +202,62 @@ exports.cancelPremium = async (req, res, next) => {
         "There was an error while canceling your premium. Please try again later.",
     });
   }
+};
+
+exports.getInvoice = async (req, res, next) => {
+  const { id } = req.params || {};
+
+  const user = await User.findById(id);
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  const invoiceName = `invoice-${id}${user.username}.pdf`;
+  const invoiceDir = path.join(__dirname, "..", "invoices");
+  const invoicePath = path.join(invoiceDir, invoiceName);
+
+  const pdfDoc = new PDFDocument();
+
+  res.setHeader("Content-type", "application/pdf");
+  res.setHeader(
+    "Content-Disposition",
+    'attachment; filename= "' + invoiceName + '"'
+  );
+
+  if (fs.existsSync(logoPath)) {
+    const logo = fs.readFileSync(logoPath);
+    pdfDoc.image(logo, {
+      fit: [100, 100],
+      align: "center",
+      valign: "top",
+    });
+  }
+
+  const writeStream = fs.createWriteStream(invoicePath);
+
+  pdfDoc.pipe(writeStream);
+  pdfDoc.pipe(res);
+
+  pdfDoc.fontSize(26).text("Invoice", { underline: true, align: "center" });
+
+  pdfDoc.moveDown();
+
+  pdfDoc
+    .fontSize(18)
+    .text(`You bought premium for $${user.premiumPriceValue}`, {
+      align: "center",
+    });
+
+  // Add a horizontal line
+  pdfDoc.moveDown();
+  pdfDoc.moveTo(50, pdfDoc.y).lineTo(550, pdfDoc.y).stroke();
+
+  pdfDoc.moveDown();
+
+  // Additional details can be added here
+  pdfDoc.fontSize(14).text(`Invoice ID: ${id}`, { align: "left" });
+  pdfDoc.fontSize(14).text(`User: ${user.username}`, { align: "left" });
+
+  pdfDoc.end();
 };
