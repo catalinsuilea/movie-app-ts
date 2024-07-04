@@ -205,59 +205,71 @@ exports.cancelPremium = async (req, res, next) => {
 };
 
 exports.getInvoice = async (req, res, next) => {
-  const { id } = req.params || {};
+  try {
+    const { id } = req.params || {};
 
-  const user = await User.findById(id);
+    const user = await User.findById(id);
 
-  if (!user) {
-    return res.status(404).json({ message: "User not found" });
-  }
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-  const invoiceName = `invoice-${id}${user.username}.pdf`;
-  const invoiceDir = path.join(__dirname, "..", "invoices");
-  const invoicePath = path.join(invoiceDir, invoiceName);
+    const invoiceName = `invoice-${id}${user.username}.pdf`;
+    const invoiceDir = path.join(__dirname, "..", "invoices");
+    const invoicePath = path.join(invoiceDir, invoiceName);
 
-  const pdfDoc = new PDFDocument();
+    if (!fs.existsSync(invoiceDir)) {
+      fs.mkdirSync(invoiceDir, { recursive: true });
+    }
 
-  res.setHeader("Content-type", "application/pdf");
-  res.setHeader(
-    "Content-Disposition",
-    'attachment; filename= "' + invoiceName + '"'
-  );
+    const pdfDoc = new PDFDocument();
 
-  if (fs.existsSync(logoPath)) {
-    const logo = fs.readFileSync(logoPath);
-    pdfDoc.image(logo, {
-      fit: [100, 100],
-      align: "center",
-      valign: "top",
-    });
-  }
+    res.setHeader("Content-type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      'attachment; filename= "' + invoiceName + '"'
+    );
 
-  const writeStream = fs.createWriteStream(invoicePath);
+    const logoPath = path.join(__dirname, "..", "path-to-logo", "logo.png");
+    if (fs.existsSync(logoPath)) {
+      const logo = fs.readFileSync(logoPath);
+      pdfDoc.image(logo, {
+        fit: [100, 100],
+        align: "center",
+        valign: "top",
+      });
+    }
 
-  pdfDoc.pipe(writeStream);
-  pdfDoc.pipe(res);
-
-  pdfDoc.fontSize(26).text("Invoice", { underline: true, align: "center" });
-
-  pdfDoc.moveDown();
-
-  pdfDoc
-    .fontSize(18)
-    .text(`You bought premium for $${user.premiumPriceValue}`, {
-      align: "center",
+    const writeStream = fs.createWriteStream(invoicePath);
+    writeStream.on("error", (err) => {
+      console.error(`Error writing to file: ${err.message}`);
+      return res.status(500).json({ message: "Internal Server Error" });
     });
 
-  // Add a horizontal line
-  pdfDoc.moveDown();
-  pdfDoc.moveTo(50, pdfDoc.y).lineTo(550, pdfDoc.y).stroke();
+    pdfDoc.pipe(writeStream);
+    pdfDoc.pipe(res);
 
-  pdfDoc.moveDown();
+    pdfDoc.fontSize(26).text("Invoice", { underline: true, align: "center" });
 
-  // Additional details can be added here
-  pdfDoc.fontSize(14).text(`Invoice ID: ${id}`, { align: "left" });
-  pdfDoc.fontSize(14).text(`User: ${user.username}`, { align: "left" });
+    pdfDoc.moveDown();
 
-  pdfDoc.end();
+    pdfDoc
+      .fontSize(18)
+      .text(`You bought premium for $${user.premiumPriceValue}`, {
+        align: "center",
+      });
+
+    pdfDoc.moveDown();
+    pdfDoc.moveTo(50, pdfDoc.y).lineTo(550, pdfDoc.y).stroke();
+
+    pdfDoc.moveDown();
+
+    pdfDoc.fontSize(14).text(`Invoice ID: ${id}`, { align: "left" });
+    pdfDoc.fontSize(14).text(`User: ${user.username}`, { align: "left" });
+
+    pdfDoc.end();
+  } catch (error) {
+    console.error(`Error generating invoice: ${error.message}`);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
 };
