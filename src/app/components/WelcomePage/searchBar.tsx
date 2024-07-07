@@ -57,7 +57,7 @@ const SearchBar = () => {
         maxWidth="1250px"
         width="100%"
       >
-        <Box>
+        <Box width="100%">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -72,12 +72,7 @@ const SearchBar = () => {
               borderBottomRightRadius="unset !important"
               type="search"
               backgroundColor="#fff"
-              width={{
-                base: "72vw",
-                sm: "62vw",
-                lg: "50vw",
-              }}
-              placeholder="Search movie..."
+              placeholder="Search movies, tv shows, people..."
               onChange={(e) => {
                 setOnTypingInput(e.target.value);
                 handleInput(e);

@@ -73,7 +73,7 @@ const CarouselComponent = ({
                 p={3}
                 background="none"
                 mr="5px"
-                mb={{ base: "8px", md: "none" }}
+                mb={{ base: "8px", md: "unset" }}
                 _hover={{ backgroundColor: "none" }}
               >
                 <ArrowRightIcon color="#fff" fontSize="23px" />

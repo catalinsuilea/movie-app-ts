@@ -204,7 +204,7 @@ const WelcomePage = () => {
                 justifyContent="flex-start"
                 width={{ base: "85%", md: "90%" }}
                 gap="4px"
-                pb={{ base: "0.5rem", md: "unset" }}
+                pb={{ base: "1.5rem", md: "unset" }}
               >
                 <Box
                   {...SearchBarTheme.welcomeText}

@@ -111,9 +111,6 @@ export const PersonDetails = ({}) => {
                 src={`https://www.themoviedb.org/t/p/w780/${personDetails?.profile_path}`}
                 alt={personDetails?.name}
                 borderRadius="md"
-                width="250px"
-                height="350px"
-                maxWidth="unset"
               />
               <Flex width="100%" flexDirection="column" gap="8px">
                 <Text mt="2" fontWeight="bold" fontSize="lg">
@@ -165,7 +162,11 @@ export const PersonDetails = ({}) => {
             </Flex>
 
             {/* Right Container for Details */}
-            <Box maxWidth="90%" ml="4" flex="1">
+            <Box
+              maxWidth={{ base: "95%", md: "50%", xl: "85%" }}
+              ml="4"
+              flex="1"
+            >
               <Text mt="2" fontWeight="bold" fontSize="3xl">
                 {personDetails.name}
               </Text>

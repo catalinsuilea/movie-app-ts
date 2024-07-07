@@ -10,8 +10,8 @@ export const MediaPhotos = ({
   index: number;
 }) => {
   return (
-    <Box p={5}>
-      <Box key={`${photos.file_path}-${index}`} mb={8}>
+    <Box p={4}>
+      <Box key={`${photos.file_path}-${index}`} mb={10}>
         <Image
           key={photos.file_path}
           src={`https://image.tmdb.org/t/p/original${photos.file_path}`}

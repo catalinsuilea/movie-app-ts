@@ -5,9 +5,9 @@ import { TrailersTypes } from "../../../types-modules/MovieInfo";
 export const Trailers = ({ trailer }: { trailer: TrailersTypes }) => {
   const [error, setError] = useState("");
   return (
-    <Box p={5}>
-      <Box key={trailer.id} mb={8}>
-        <Heading as="h3" size="md" mb={2}>
+    <Box p={4}>
+      <Box key={trailer.id} mb={10}>
+        <Heading noOfLines={1} as="h3" size="md" mb={2}>
           {trailer.name}
         </Heading>
         <Text mb={2}>

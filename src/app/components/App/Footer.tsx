@@ -41,10 +41,18 @@ export const Footer = () => {
             >
               <Icon as={FaGithub} boxSize={6} mx={2} />
             </Link>
-            <Link href="#" target="_blank" rel="noopener noreferrer">
+            <Link
+              href="https://x.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Icon as={FaTwitter} boxSize={6} mx={2} />
             </Link>
-            <Link href="#" target="_blank" rel="noopener noreferrer">
+            <Link
+              href="https://www.linkedin.com/in/catalin-șuilea"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Icon as={FaLinkedin} boxSize={6} mx={2} />
             </Link>
           </Box>

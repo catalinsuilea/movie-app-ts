@@ -14,6 +14,7 @@ export const PersonCardDetails = ({
   isMovieTVList = false,
   tabType = "",
   isMyAccount = false,
+  isHomePage = false,
 }: PersonCardDetailsTypes) => {
   const { authUser } = useAuthenticationContext();
   const { favouritesMoviesFromDB } = useFavourites();
@@ -71,11 +72,16 @@ export const PersonCardDetails = ({
         }}
         position="relative"
         pb="1rem"
+        _first={{ ml: `${isMyAccount || isHomePage ? "unset" : "1.4rem"}` }}
       >
         <Image
-          src={`https://www.themoviedb.org/t/p/w200/${
+          src={
             data.poster_path || data.profile_path || data.imgSrc
-          }`}
+              ? `https://www.themoviedb.org/t/p/w200/${
+                  data.poster_path || data.profile_path || data.imgSrc
+                }`
+              : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWz9tftw9qculFH1gxieWkxL6rbRk_hrXTSg&s"
+          }
           alt={data.name}
           height={isMyAccount ? "140px" : "unset"}
           width={isMyAccount ? "100%" : "unset"}

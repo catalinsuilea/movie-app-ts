@@ -72,6 +72,7 @@ export interface PersonCardDetailsTypes {
   isMovieTVList?: boolean;
   tabType?: string;
   isMyAccount?: boolean;
+  isHomePage?: boolean;
 }
 
 // Search bar types

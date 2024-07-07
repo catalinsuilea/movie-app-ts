@@ -124,6 +124,7 @@ const MovieTVList = ({
                           index={index}
                           isMovieTVList
                           tabType={tabType}
+                          isHomePage
                         />
                       ))}
                 </Flex>
