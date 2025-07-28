@@ -11,31 +11,38 @@ User Authentication: Users can register and log in to personalize their experien
 Favorites: Users can maintain a list of their favorite movies.
 Movie Details: Dive deeper into any movie by accessing its detailed information.
 Mobile Responsiveness: The app is optimized for mobile devices, providing a smooth experience on smartphones and tablets.
+JWT-based authentication (register, login, logout)
+- Browse movies, actors, TV series from TheMovieDB API
+- User reviews and ratings
+- Payment integration for premium features
+- Change password & reset password with email notifications
+- User profile page with editable details
+- Multiple sort & filter options
+  
+ ## 🛠 **Tech Stack**
+- Frontend: React, React Router, Context API, CSS/SCSS
+- Backend: Node.js, Express.js
+- Database: MongoDB
+- External API: TheMovieDB
+- Auth: JWT (access & refresh tokens)
+- Emails: Nodemailer
+- Payments: Stripe / PayPal (mock or live)
+- Cloud: Google Kubernetes Engine (GKE)
+- CI/CD: GitHub Actions
 
-# Data Sources
-Movie Data: Movie information is sourced from The Movie Database, accessed via endpoints provided by the database.
-User Authentication: Firebase Authentication is used for user registration and login.
-Favorites Management: Firebase is used as a database to handle users' favorite movies.
+## ⚙ **Architecture**
+- React frontend → communicates with Node.js backend (REST API)
+- Backend handles business logic, payments, emails, user management
+- MongoDB stores users, reviews, favourites, payments
+- TheMovieDB API provides live movie & actor data
+- Dockerized services, deployed on GKE
 
-# Technical Implementation
-Frontend Framework: The app is built using React with TypeScript, ensuring type safety throughout the codebase.
-Contexts: Contexts, such as AuthenticationContext and useFavouritesContext, are created to manage user authentication and favorites. Also, useDeviceTypeContext was created to handle the responsiveness of the app.
-Responsiveness: The app is designed to be responsive and adaptable to various screen sizes.
-
-# User Journey
-Initial Arrival: Users land on the app's homepage.
-User Authentication: Users have the option to log in to their account to access additional features like adding movies to their favorites. After creating an account or logging in, they are redirected to the homepage, where their username appears near the welcome message above the search bar.
-Favourites Page: Logged-in users can visit the "Your Favorites" page by clicking the "Your Account" link from the top right corner.
-Mobile Navigation: On mobile devices, users can access the "Favorites" page by clicking the hamburger menu and selecting "Your Favorites."
-
-
-# Coming soon
-
-This app will keep be updating. The next features to come are: 
-Search suggestions when typing on the search bar, view trailers, new endpoints from The movie database to show more movies, for example: most viewed, most watched this month etc.
-Actors/actress details page
-TV Shows page
-Reviews
+## 📦 Project structure
+- `/backend`: Node.js + Express.js backend, JWT auth, payments, emails
+- `/src`: React frontend (TS), pages, components, context
+- `/k8s`: Kubernetes manifests (deployments, services)
+- `/public`: static assets and icons
+- `docker-compose.yml`: local development setup
 
 # Contributors
 Catalin Șuilea - developer
@@ -52,13 +59,18 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
-### `npm start`
+## 🧪 **How to run locally**
+1. Clone the repo
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+git clone https://github.com/yourusername/movie-app-ts.git
+cd movie-app-ts
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+cd frontend
+npm install
+cd ../backend
+npm install
+
+Add .env files for backend (Mongo URI, JWT secrets, TMDB API key, email creds, payment keys)
 
 ### `npm test`
 
